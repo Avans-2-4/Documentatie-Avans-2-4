@@ -75,7 +75,7 @@ jobs:
             type=raw,value=sha-${{ env.GITHUB_SHA_SHORT }}
           labels: |
             maintainer=${{ github.repository_owner }}
-            org.opencontainers.image.source="https://github.com/${{ github.repository_owner }}/quartz"
+            org.opencontainers.image.source="https://github.com/${{ github.repository_owner }}/Documentatie-Avans-2-4"
 
       - name: Build and push Docker image
         id: build-and-push
