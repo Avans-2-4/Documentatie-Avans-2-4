@@ -36,7 +36,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/documentation:latest
-            ${{ env.REGISTRY }}/${{ env.OWNER }}/documentation:${{ github.sha }}
+            ${{ env.REGISTRY }}/avans-2-4/documentation:latest
+            ${{ env.REGISTRY }}/avans-2-4/documentation:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
