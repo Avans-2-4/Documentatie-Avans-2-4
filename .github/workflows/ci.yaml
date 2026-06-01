@@ -3,15 +3,16 @@ name: Build and Test
 on:
   pull_request:
     branches:
-      - v4
+      - main
+      - develop
   push:
     branches:
-      - v4
+      - main
+      - develop
   workflow_dispatch:
 
 jobs:
   build-and-test:
-    if: ${{ github.repository == 'jackyzha0/quartz' }}
     strategy:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
@@ -48,7 +49,6 @@ jobs:
         run: npx quartz build --bundleInfo -d docs
 
   publish-tag:
-    if: ${{ github.repository == 'jackyzha0/quartz' && github.ref == 'refs/heads/v4' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
