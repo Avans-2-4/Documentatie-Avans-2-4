@@ -7,6 +7,12 @@ teamleden:
   - Liam
 ondertekenden:
   - Martijn
+tags:
+  - user/martijn
+  - user/christian
+  - user/angel
+  - user/jasper
+  - user/liam
 ---
 
 # Samenwerkingscontract

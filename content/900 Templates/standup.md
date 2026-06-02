@@ -9,6 +9,6 @@ created: "{{date:YYYY-MM-DD}}T{{time:HH:mm}}:00"
 
 ## Aanwezigen
 
-- Naam1
+- #user 
 
 ## Notities
