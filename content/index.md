@@ -9,6 +9,6 @@ Verder zijn hier een paar aanraders:
 - 404
 
 Hieronder zie je linkjes naar belangrijke plekken:
-- Jira
-- Github
+- [Kanban board](https://github.com/orgs/Avans-2-4/projects/1)
+- [Github Org](https://github.com/Avans-2-4)
 

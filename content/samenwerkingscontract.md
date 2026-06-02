@@ -26,11 +26,10 @@ ondertekenden:
             - Dit gebeurt ook in `#afmeldingen`.
 - **Samenwerking**
     - We werken met Kanban & SCRUM in Github Projects
-        - [link](https://github.com/orgs/Avans-2-4/projects/1) naar SCRUM bord in Github Projects. `moet nog aangepast worden`
+        - [link](https://github.com/orgs/Avans-2-4/projects/1) naar SCRUM bord in Github Projects.
     - We werken met Github
-        - [link]() naar Github repo `moet nog aangepast worden`
-    - Voor documentatie gebruiken we deze Github repo. Voor actuele samenwerkings momenten wordt de Google docs gebruikt en wordt daarna omgezet naar een Github notitie.
-        - [link]() naar google docs `moet nog aangepast worden`
+        - [link](https://github.com/Avans-2-4) naar Github organization.
+    - Voor documentatie gebruiken we deze Github repo.
 - **Aanwezigheid**
     - Een schooldag is van 10:00 tot 17:00
         - Buiten deze uren om wordt niemand verplicht om te werken, maar kunnen er wel besprekingen gepland worden.

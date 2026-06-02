@@ -1,0 +1,1 @@
+We moesten kiezen uit de opties in [deze lijst](https://brightspace.avans.nl/d2l/le/lessons/251419/lessons/2042641) en hebben de keuze gemaakt voor de [appointmentsceduling](https://brightspace.avans.nl/d2l/le/lessons/251419/topics/2034254).
