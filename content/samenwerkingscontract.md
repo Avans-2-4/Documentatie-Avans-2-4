@@ -25,8 +25,8 @@ ondertekenden:
         - Onverwachte situaties zoals ziekte of een familieprobleem dienen zo snel mogelijk aangegeven te worden en horen gerespecteerd te worden.
             - Dit gebeurt ook in `#afmeldingen`.
 - **Samenwerking**
-    - We werken met Jira & SCRUM
-        - [link]() naar SCRUM bord in Jira. `moet nog aangepast worden`
+    - We werken met Kanban & SCRUM in Github Projects
+        - [link](https://github.com/orgs/Avans-2-4/projects/1) naar SCRUM bord in Github Projects. `moet nog aangepast worden`
     - We werken met Github
         - [link]() naar Github repo `moet nog aangepast worden`
     - Voor documentatie gebruiken we deze Github repo. Voor actuele samenwerkings momenten wordt de Google docs gebruikt en wordt daarna omgezet naar een Github notitie.
