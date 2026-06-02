@@ -4,6 +4,7 @@ teamleden:
   - Christian
   - Martijn
   - Jasper
+  - Liam
 ondertekenden:
   - Martijn
 ---
