@@ -20,14 +20,22 @@ Analysis done by:
 - The "[softwaredesign-en-kwaliteit](https://github.com/Avans-2-4/Softwaredesign-en-kwaliteit-Avans2-4LU2)" Repositorystarting on 
 - The [Quartz framework](https://github.com/jackyzha0/quartz) (the way we host our markdown on a website)
 
+## Relevante eisen
+
+
 ## Analysis
 
+**Methodes / stappen:**
+- Organization:
+	- Ik lees door de instellingen om te onderzoeken hoe het momenteel is ingesteld.
+	- Ik onderzoek wat de beste instellingenzijn voor onze eisen.
+- Repository:
 
 ## Findings
 
 
 
-### New Issues
+### Improvements
 
 | Name | Issue Description | Requirements | Issue Link |
 | ---- | ----------------- | ------------ | ---------- |

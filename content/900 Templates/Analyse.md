@@ -16,14 +16,20 @@ Analysis done by:
 **Not Included:**
 - 
 
+## Relevante eisen
+
+
 ## Analysis
 
+**Methodes / stappen:**
+- 
 
 ## Findings
 
 
 
-### New Issues
+
+### Improvements
 
 | Name | Issue Description | Requirements | Issue Link |
 | ---- | ----------------- | ------------ | ---------- |
