@@ -11,6 +11,10 @@ Analysis done by:
 
 ## Scope
 
+**Included:**
+- 
+**Not Included:**
+- 
 
 ## Analysis
 
