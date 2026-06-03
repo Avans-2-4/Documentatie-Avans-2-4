@@ -37,6 +37,6 @@ Analysis done by:
 
 ### Improvements
 
-| Name | Issue Description | Requirements | Issue Link |
-| ---- | ----------------- | ------------ | ---------- |
-|      |                   |              |            |
+| Name | Issue Description | Requirements | Importance Ranking | Issue Link |
+| ---- | ----------------- | ------------ | ------------------ | ---------- |
+|      |                   |              |                    |            |

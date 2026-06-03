@@ -3,7 +3,7 @@ tags:
   - standup
 created: "{{date:YYYY-MM-DD}}T{{time:HH:mm}}:00"
 ---
-# Daily Standup
+# Daily Standup - {{title}}
 
 - Datum: `{{date:YYYY-MM-DD}}`
 
