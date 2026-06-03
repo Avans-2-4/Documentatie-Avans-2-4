@@ -31,6 +31,8 @@ Analysis done by:
 
 ### Improvements
 
-| Name | Issue Description | Requirements | Importance Ranking | Issue Link |
-| ---- | ----------------- | ------------ | ------------------ | ---------- |
-|      |                   |              |                    |            |
+| Name | Issue Description | Requirements | Importance Ranking | Issue Link | Feedback klasgenoot |
+| ---- | ----------------- | ------------ | ------------------ | ---------- | ------------------- |
+|      |                   |              |                    |            |                     |
+
+### Algemene feedback klasgenoot
