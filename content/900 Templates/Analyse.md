@@ -31,8 +31,9 @@ Analysis done by:
 
 ### Improvements
 
-| Name | Issue Description | Requirements | Importance Ranking | Issue Link | Feedback klasgenoot |
-| ---- | ----------------- | ------------ | ------------------ | ---------- | ------------------- |
-|      |                   |              |                    |            |                     |
+| Name | Issue Description | Requirements | Importance / Accepted | Issue Link | Feedback klasgenoot |
+| ---- | ----------------- | ------------ | --------------------- | ---------- | ------------------- |
+|      |                   |              |                       |            |                     |
+*Accepted betekent dat we erkennen dat het verbeterd zou moeten worden, maar dat we er niet aan toe gaan komen omdat het geen prioriteit is. Wanneer we dit doen geven we hiervoor een rede. Ook open we hiervoor nogsteeds een issue op github, die we direct weer sluiten.*
 
 ### Algemene feedback klasgenoot
