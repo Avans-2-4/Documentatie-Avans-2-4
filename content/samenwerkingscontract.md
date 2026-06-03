@@ -9,6 +9,7 @@ ondertekenden:
   - Martijn
   - Liam
   - Christian
+  - Angel
 tags:
   - user/martijn
   - user/christian
