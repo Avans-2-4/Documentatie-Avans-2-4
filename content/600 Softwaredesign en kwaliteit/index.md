@@ -1,3 +1,0 @@
-cricket noises...
-
-![[opdracht-2-graaf.svg]]
