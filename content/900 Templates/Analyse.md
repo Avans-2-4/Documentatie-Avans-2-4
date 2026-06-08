@@ -2,6 +2,7 @@
 tags:
   - analyse
 created: "{{date:YYYY-MM-DD}}T{{time:HH:mm}}:00"
+analysis-version: v0.1
 ---
 # {{title}}
 
@@ -9,7 +10,7 @@ created: "{{date:YYYY-MM-DD}}T{{time:HH:mm}}:00"
 Analysis done by:
 - 
 This analysis is related to these NEN7510 sub-items:
-- 
+
 
 ## Scope
 
