@@ -19,7 +19,7 @@ This analysis is related to these NEN7510 sub-items:
 - The [project repository](https://github.com/Avans-2-4/Appointment-Scheduling-Audit).
 - The [obsidian repository](https://github.com/Avans-2-4/Documentatie-Avans-2-4).
 **Not Included:**
-- The "[softwaredesign-en-kwaliteit](https://github.com/Avans-2-4/Softwaredesign-en-kwaliteit-Avans2-4LU2)" Repositorystarting on 
+- The "[softwaredesign-en-kwaliteit](https://github.com/Avans-2-4/Softwaredesign-en-kwaliteit-Avans2-4LU2)" Repository
 - The [Quartz framework](https://github.com/jackyzha0/quartz) (the way we host our markdown on a website)
 
 ## Relevante eisen
