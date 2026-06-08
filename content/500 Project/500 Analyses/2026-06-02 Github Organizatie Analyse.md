@@ -1,7 +1,8 @@
 ---
 tags:
   - analyse
-created: "2026-06-02T14:01:00"
+created: 2026-06-02T14:01:00
+analysis-version: v0.1
 ---
 # 2026-06-02 Github Organizatie Analyse
 
