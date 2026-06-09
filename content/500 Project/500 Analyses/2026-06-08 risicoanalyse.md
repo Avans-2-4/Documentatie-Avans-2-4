@@ -51,50 +51,84 @@ The focus is on security, privacy, and code-level risks affecting availability, 
 4. Hoogste risico uitwerken met een bow-tie.  
 
 De analyse richt zich op de module’s omgang met authenticatie, autorisatie en patiëntgegevens.  
-De code wordt pas geraadpleegd nadat de bedreigingen conceptueel in kaart zijn gebracht — we gaan dus **gericht** zoeken naar kwetsbaarheden in de broncode, zoals ontbrekende privilege checks, data-exposure of onveilige configuratie.
+De code wordt pas geraadpleegd nadat de bedreigingen conceptueel in kaart zijn gebracht en we gaan dus **gericht** zoeken naar kwetsbaarheden in de broncode, zoals ontbrekende privilege checks, data-exposure of onveilige configuratie.
 
 ---
 
 ### 1) Asset-identificatie
 
-| Asset / kroonjuweel                       | Type           | Eigenaar          | Waarom kritisch?                                                                                                                                           |
-| ----------------------------------------- | -------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Credentials (API keys, tokens, passwords) | Informatie     | Team / Beheerders | Credentials geven directe toegang tot interne systemen, database, of productie-omgeving. Compromis betekent groot dataverlies of ongeautoriseerde toegang. |
-| GitHub repository                         | Systeem        | Team / Beheerders | Bevat broncode en infrastructuur, mogelijk inclusief gevoelige configuraties.                                                                              |
-| Patient data                              | Informatie     | Functioneel beheer | Medische persoonsgegevens; verlies of ongeautoriseerde toegang schendt NEN7510 en AVG.                                                                     |
-| Admin accounts                            | Access Control | Functioneel beheer | Ongeautoriseerde login geeft toegang tot patiëntgegevens of het manipuleren van afspraken.                                                                 |
-| Appointment database tables               | Informatie     | Applicatiebeheer | Integriteit en vertrouwelijkheid cruciaal voor juiste patient flow en rapportage.                                                                          |
-| Application server / hosting env          | Systeem        | DevOps / ICT       | Attack surface: open poorten of onveilige configuratie kan tot volledige compromittering leiden.                                                           |
-| Appointment Scheduling frontend (UI)      | Systeem         | Ontwikkelteam     | Input validatie en toegangscontrole essentieel om injectie-aanvallen of datalekken te voorkomen.                                                           |
+| Asset / kroonjuweel                       | Type           | Eigenaar           | Waarom kritisch?                                                                                                                                                                                       |
+| ----------------------------------------- | -------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Credentials (API keys, tokens, passwords) | Informatie     | Team / Beheerders  | Credentials geven directe toegang tot interne systemen, database, of productie-omgeving. Compromis betekent groot dataverlies of ongeautoriseerde toegang.                                             |
+| GitHub repository                         | Systeem        | Team / Beheerders  | Als de github repository in de verkeerde handen beland kan een kwaadwillende gvaarlijke dingen aanpassen in de code of CI/CD                                                                           |
+| Patient data (integrity)                  | Informatie     | Functioneel beheer | Medische persoonsgegevens; verlies of ongeautoriseerde toegang schendt NEN7510 en AVG.<br>Ook moet dit correct blijven om te zorgen dat een patient niet verkeerde medicijnen en behandelingen krijgt. |
+| Admin accounts                            | Access Control | Functioneel beheer | Ongeautoriseerde login geeft toegang tot patiëntgegevens of het manipuleren van afspraken.                                                                                                             |
+| Appointment database tables               | Informatie     | Applicatiebeheer   | Integriteit en vertrouwelijkheid cruciaal voor juiste patient flow en rapportage.                                                                                                                      |
+| Availability                              | Systeem        | Team / Beheerders  | De availability van het systeem is belangrijk voor de patienten en doctoren.                                                                                                                           |
+
+
+---
+### 2) Threat Modelling
+
+![[dataflow diagram.svg]]
+
+**Threat Actors:**
+- **TA01:** HTML / incoming request Tampering (to gain unauthorized access)
+- **TA02:** SQL Injection
+- **TA03:** XSS
+- **TA04:** Request Tampering (sending impossible data to the server / invalid)
+- **TA05:** Exposed (supposed to be hidden) Private Data
+- **TA06:** Request Tampering (brute-forcing in order to get access to data that is not supposed to get accessed / break the system)
+- **TA07:** DDoS attack
+- **TA08:** Stolen credentials to gain access
+- **TA09:** Misconfiguration of plugin allows unexpected attack surface
+- **TA10:** Exposed credentials in the system (either via api, or some other tampering)
+- **TA11:** Using test credentials in production (and possibly even having the test credentials in the git)
+
+**Controls:**
+- **C01:** Only send information the user is supposed to have access to, don't hide things behind "display: none"
+- **C02:** Validate input fields serverside (checking with user access)
+- **C03:** use prepared SQL statements
+- **C04:** Strip HTML from user inputs
+- **C05:** Using a firewall
+- **C06:** Using ratelimits on invalid API requests
+- **C07:** Multi Factor Authentication
+- **C08:** An extensive guide on how to setup the system correctly
+- **C09:** Credential scanning in sourcecode
+- **C10:** Automatic tests on production to check for possible deployed test configurations
 
 ---
 
-### 2) Risicomatrix
+### 3) Risicomatrix
 
-**Scoring:**
-- Kans: 1 (laag) t/m 5 (hoog)
-- Impact: 1 (laag) t/m 5 (hoog)
-- Risicoscore = Kans × Impact
-
-| Risico-id | Asset                                    | Dreiging                                                                    | Kwetsbaarheid                                                                              | Kans (1-5) | Impact (1-5) | Score | Prioriteit (L/M/H) | NEN7510 control                                                         |
-| --------: | ---------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ---------- | ------------ | ----- | ------------------ | ----------------------------------------------------------------------- |
-|      R-01 | Credentials                              | Ongeautoriseerde toegang tot systemen door credential leak in GitHub        | Gebrek aan geheimhouding / geen secret scanning of gitignore misconfiguratie               | 2          | 5            | 10    | M                  | 9.2.4 Geheimhouding authenticatie-informatie                            |
-|      R-02 | Credentials                              | Credentials gedeeld in Discord en onderschept of misbruikt                  | Credentials gedeeld via onbeveiligd kanaal (menselijke fout)                               | 4          | 5            | 20    | H                  | 13.2.1 Netwerkbeveiliging, 9.2.4 Geheimhouding authenticatie-informatie |
-|      R-03 | Patient data                             | Patiëntgegevens zichtbaar via ongeautoriseerde API-call                     | REST-endpoints ontbreken privilege-checks                                                  | 4          | 5            | 20    | H                  | 9.4.1 Toegangscontrole, 10.1.1 Beveiliging persoonsgegevens             |
-|      R-04 | Appointment DB                           | Ongeautoriseerde wijziging of verwijdering van afspraken                    | Gebrekkige autorisatiecontrole of SQL-injectie via zoekfunctie                             | 3          | 5            | 15    | M                  | 9.4.1 Toegangscontrole                                                  |
-|      R-05 | Application server                       | Serverconfiguratie laat logging van gevoelige data toe                      | Onvoldoende logmasking / debugmodus actief in productie                                    | 3          | 4            | 12    | M                  | 12.4.1 Logging en monitoring                                            |
-|      R-06 | GitHub repo                              | Kwetsbaarheden door verouderde dependencies                                 | Geen Dependabot / OWASP check actief                                                       | 2          | 3            | 6     | L                  | 12.6.1 Technische kwetsbaarhedenbeheer                                  |
-|      R-07 | Appointment Scheduling API               | Ongeautoriseerde gebruiker bekijkt of wijzigt afspraken van anderen         | Privilege checks ontbreken of capabilities niet correct toegepast                          | 4          | 5            | 20    | H                  | 9.4.1 Toegangscontrole                                                  |
-|      R-08 | Appointment Scheduling frontend / search | SQL-injectie of onveilige zoekfunctionaliteit                               | Geen inputvalidatie, dynamische queries zonder parameterbinding                            | 3          | 5            | 15    | M                  | 12.6.1 Technische kwetsbaarhedenbeheer                                  |
-|      R-09 | REST endpoints                           | Ongeauthenticeerde of onvoldoende afgeschermde API’s                        | API-endpoints vereisen geen token / sessiecontrole, CORS of rate limiting ontbreekt        | 3          | 5            | 15    | M                  | 9.4.1 Toegangscontrole                                                  |
-|      R-10 | Logs en API responses                    | Gevoelige data (patiënt-ID's, namen) zichtbaar in logs of API responses     | Geen masking of filtering van gevoelige velden bij foutmeldingen of debug-informatie       | 3          | 4            | 12    | M                  | 12.4.1 Logging en monitoring                                            |
-|      R-11 | Gebruikersaccounts / authenticatie       | Social engineering of credential leak via Discord, e-mail of GitHub         | Menselijke fout, geen beleid voor credential-sharing                                       | 4          | 5            | 20    | H                  | 9.2.4 Geheimhouding authenticatie-informatie                            |
-|      R-12 | Patient filtering / data access          | Privacybreuk door verkeerde locatie- of user-filtering                      | Applicatie valideert niet of gebruiker gemachtigd is voor bepaalde locatie                 | 3          | 5            | 15    | M                  | 10.1.1 Beveiliging persoonsgegevens                                     |
-|      R-13 | Role-based capability management         | Foutieve configuratie van capabilities (te veel rechten)                    | Gebruikers krijgen “Schedules Appointments” of “Sees Appointment Schedule” zonder noodzaak | 3          | 4            | 12    | M                  | 9.4.1 Toegangscontrole                                                  |
-|      R-14 | Webserver / hostingomgeving              | Onveilige productieconfiguratie (test data, demo accounts actief)           | Default admin accounts of debug features niet uitgeschakeld                                | 2          | 5            | 10    | M                  | 12.6.1 Technische kwetsbaarhedenbeheer                                  |
-|      R-15 | Dependency chain (OpenMRS modules)       | Kwetsbare of verouderde submodules (OpenMRS core of Appointment Scheduling) | Geen regelmatige patching of dependency-checks                                             | 2          | 4            | 8     | L                  | 12.6.1 Technische kwetsbaarhedenbeheer                                  |
-|      R-16 | Client-side caching                      | Gevoelige data blijft zichtbaar in browser of via back-button               | Geen no-cache headers of onvoldoende sessiebeheer                                          | 3          | 3            | 9     | M                  | 10.1.1 Beveiliging persoonsgegevens                                     |
-|      R-17 | Appointment requests workflow            | Race conditions of inconsistent data door gelijktijdige wijzigingen         | Geen concurrency control bij gelijktijdige “accept” acties                                 | 2          | 3            | 6     | L                  | 12.1.1 Foutpreventie in applicatieontwikkeling                          |
+| Risico-id | Asset                                                                 | Dreiging                                                                                                             | Kwetsbaarheid                                                                                                             | Kans (1-5) | Impact (1-5) | Score | Prioriteit (L/M/H) | NEN7510 control |
+| --------: | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------ | ----- | ------------------ | --------------- |
+|      R-01 | Credentials                                                           | Ongeautoriseerde toegang tot systemen door credential leak in GitHub                                                 | Gebrek aan geheimhouding / geen secret scanning of gitignore misconfiguratie                                              |            |              |       |                    |                 |
+|      R-02 | Credentials                                                           | Credentials gedeeld in Discord en onderschept of misbruikt                                                           | Credentials gedeeld via onbeveiligd kanaal (menselijke fout)                                                              |            |              |       |                    |                 |
+|      R-03 | Patient data                                                          | Patiëntgegevens zichtbaar via ongeautoriseerde API-call                                                              | REST-endpoints ontbreken privilege-checks                                                                                 |            |              |       |                    |                 |
+|      R-04 | Appointment DB, Patient data                                          | Ongeautoriseerde wijziging of verwijdering van afspraken                                                             | Gebrekkige autorisatiecontrole of SQL-injectie via zoekfunctie                                                            |            |              |       |                    |                 |
+|      R-05 | Patient data                                                          | Serverconfiguratie laat logging van gevoelige data toe                                                               | Onvoldoende logmasking / debugmodus actief in productie                                                                   |            |              |       |                    |                 |
+|      R-06 | Patient data integrity, Availability                                  | Kwetsbaarheden door verouderde dependencies                                                                          | Geen Dependabot / OWASP check actief                                                                                      |            |              |       |                    |                 |
+|      R-07 | Patient data integrity                                                | Ongeautoriseerde gebruiker bekijkt of wijzigt afspraken van anderen                                                  | Privilege checks ontbreken of capabilities niet correct toegepast                                                         |            |              |       |                    |                 |
+|      R-08 | Patient data                                                          | SQL-injectie of onveilige zoekfunctionaliteit                                                                        | Geen inputvalidatie, dynamische queries zonder parameterbinding                                                           |            |              |       |                    |                 |
+|      R-09 | Application server / hosting env                                      | Ongeauthenticeerde of onvoldoende afgeschermde API’s                                                                 | API-endpoints vereisen geen token / sessiecontrole, CORS of rate limiting ontbreekt                                       |            |              |       |                    |                 |
+|      R-10 | Patient data                                                          | Gevoelige data (patiënt-ID's, namen) zichtbaar in logs of API responses                                              | Geen masking of filtering van gevoelige velden bij foutmeldingen of debug-informatie                                      |            |              |       |                    |                 |
+|      R-11 | Admin accounts                                                        | Social engineering of credential leak via Discord, e-mail of GitHub                                                  | Menselijke fout, geen beleid voor credential-sharing                                                                      |            |              |       |                    |                 |
+|      R-12 | Patient data                                                          | Privacybreuk door verkeerde locatie- of user-filtering                                                               | Applicatie valideert niet of gebruiker gemachtigd is voor bepaalde locatie                                                |            |              |       |                    |                 |
+|      R-13 | Admin accounts                                                        | Foutieve configuratie van capabilities (te veel rechten)                                                             | Gebruikers krijgen “Schedules Appointments” of “Sees Appointment Schedule” zonder noodzaak                                |            |              |       |                    |                 |
+|      R-14 | Admin accounts                                                        | Onveilige productieconfiguratie (test data, demo accounts actief)                                                    | Default admin accounts of debug features niet uitgeschakeld                                                               |            |              |       |                    |                 |
+|      R-15 | \* (kan alles zijn)                                                   | Kwetsbare of verouderde submodules (OpenMRS core of Appointment Scheduling)                                          | Geen regelmatige patching of dependency-checks                                                                            |            |              |       |                    |                 |
+|      R-16 | Patient data                                                          | Gevoelige data blijft zichtbaar in browser of via back-button                                                        | Geen no-cache headers of onvoldoende sessiebeheer                                                                         |            |              |       |                    |                 |
+|      R-17 | Patient data integrity, Appointment database tables                   | Race conditions of inconsistent data door gelijktijdige wijzigingen                                                  | Geen concurrency control bij gelijktijdige “accept” acties                                                                |            |              |       |                    |                 |
+|      R-18 | Patient data, Admin accounts                                          | XSS-aanval (invoeging van scripts die patiëntdata lekken of login stelen)                                            | lekken of login stelen)	Geen input‑/output‑sanitization in formulieren of zoekvelden (JavaScript injectie mogelijk in UI) |            |              |       |                    |                 |
+|      R-19 | Availability                                                          | DDoS aanval legt dienst plat                                                                                         | geen rate limiting of firewall                                                                                            |            |              |       |                    |                 |
+|      R-20 | Patient data (integrity), Admin accounts, Appointment database tables | Tampering / logische manipulatie van requests (bijvoorbeeld enumeration, negatieve waardes, onmogelijke tijdstippen) | Server valideert niet of data mogelijk/zinvol is; geen sanity checks                                                      |            |              |       |                    |                 |
+|      R-21 | Admin accounts, Credentials                                           | Brute‑force poging                                                                                                   | Geen rate‑limiting, geen lockout‑mechanisme, slechte audit logging                                                        |            |              |       |                    |                 |
+|      R-22 | \* (kan alles zijn)                                                   | Onverwachte blootstelling door plugin‑ of CI misconfiguratie                                                         | CI/CD plugins of GitHub actions met te ruime rechten of ongepatchte 3rd‑party actions                                     |            |              |       |                    |                 |
+|      R-23 | Credentials, Admin accounts                                           | API‑sleutels of wachtwoorden hardcoded of in logs zichtbaar                                                          | Slechte secret‑handling in code of config; geen environment isolation                                                     |            |              |       |                    |                 |
+|      R-24 | Admin accounts                                                        | Gebruik van testcredentials in productie                                                                             | Misconfiguratie                                                                                                           |            |              |       |                    |                 |
+|      R-25 | Patient data                                                          | Gebruik van echte data in de testomgeving waar iedere developer zomaar bij kan                                       | Geen datamasking / toegangscontrole                                                                                       |            |              |       |                    |                 |
+|      R-26 | Availability                                                          | Het niet mogen gebruiken van patientgegevens van de wet                                                              | Niet compliant zijn met de NEN7510                                                                                        |            |              |       |                    |                 |
 
 
 **Toelichting per risico:**
@@ -108,19 +142,24 @@ De code wordt pas geraadpleegd nadat de bedreigingen conceptueel in kaart zijn g
 - **R-11** reemphasizes _social engineering_ and _credential hygiene_, already identified as high-priority (jointly with R‑02).
 - **R-14–R-15** broaden the scope from code-level to deployment-level risks, supporting complete NEN7510 coverage.
 
-| Impact \ Kans | 1   | 2          | 3                | 4          | 5          |
-| ------------- | --- | ---------- | ---------------- | ---------- | ---------- |
-| 5             |     | R‑14       | R‑08, R‑12       | R‑07, R‑03 | R‑02, R‑11 |
-| 4             |     |            | R‑05, R‑10, R‑13 |            | R‑01       |
-| 3             |     | R‑06, R‑15 | R‑16, R‑17       |            |            |
-| 2             |     |            |                  |            |            |
-| 1             |     |            |                  |            |            |
+| Impact \ Kans | 1   | 2   | 3   | 4   | 5   |
+| ------------- | --- | --- | --- | --- | --- |
+| 1             |     |     |     |     |     |
+| 2             |     |     |     |     |     |
+| 3             |     |     |     |     |     |
+| 4             |     |     |     |     |     |
+| 5             |     |     |     |     |     |
 
-*(Kleuren toegevoegd in de eindversie: rood = hoog, oranje = midden, groen = laag.)*
+| Kleur  | Range | Risico         |
+| ------ | ----- | -------------- |
+| Groen  | 1-3   | Laag           |
+| Geel   | 4-7   | Acceptabel     |
+| Oranje | 8-14  | Hoog           |
+| Rood   | 15-25 | Onaanvaardbaar |
 
 ---
 
-### 3) Bow-tie
+### 4) Bow-tie
 
 
 ```
@@ -148,11 +187,11 @@ De code wordt pas geraadpleegd nadat de bedreigingen conceptueel in kaart zijn g
 
 ### Improvements
 
-| Name                                    | Issue Description                                                                                                            | Requirements | Importance / Accepted | Justification                                          | NEN7510 Related                 | Issue Link | Feedback klasgenoot |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------------- | ------------------------------------------------------ | ------------------------------- | ---------- | ------------------- |
-| Secret Scanning and Dependabot          | Implementation of NF-02. Enable GitHub Secret Scanning and Dependabot alerts to automatically detect exposed credentials.    |              | Medium                | Prevents future leaks and dependency risks.            | 12.4.1 Logging en monitoring    |            |                     |
-| Static code review for privilege checks | Verify that all REST endpoints have correct `@Authorized` or `@RequiresPrivilege` annotations. (or however it looks in Java) |              | High                  | Prevent unauthorized access to patient data.           | 9.4.1 Toegangscontrole          |            |                     |
-| OWASP dependency scanning               | Implement plugin (e.g. OWASP Dependency Check or Snyk) in CI pipeline.                                                       |              | Medium                | Detects known CVEs in dependencies used by the module. | 12.6.1 Technische kwetsbaarheid |            |                     |
+| Name                                    | Issue Description                                                                                                            | Requirements | Importance / Accepted | Justification                                          | NEN7510 Related | Issue Link | Feedback klasgenoot |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------------- | ------------------------------------------------------ | --------------- | ---------- | ------------------- |
+| Secret Scanning and Dependabot          | Implementation of NF-02. Enable GitHub Secret Scanning and Dependabot alerts to automatically detect exposed credentials.    |              | Medium                | Prevents future leaks and dependency risks.            |                 |            |                     |
+| Static code review for privilege checks | Verify that all REST endpoints have correct `@Authorized` or `@RequiresPrivilege` annotations. (or however it looks in Java) |              | High                  | Prevent unauthorized access to patient data.           |                 |            |                     |
+| OWASP dependency scanning               | Implement plugin (e.g. OWASP Dependency Check or Snyk) in CI pipeline.                                                       |              | Medium                | Detects known CVEs in dependencies used by the module. |                 |            |                     |
 
 ---
 
