@@ -9,12 +9,6 @@ analysis-version: v0.2
 **Analysis completed by:**  
 - #user/martijn
 
-**Related NEN7510:2024 sub-items:**  
-- 9.2.4 Confidentiality of authentication information  
-- 9.4.1 Access control  
-- 10.1.1 Protection of personal data  
-- 12.4.1 Logging and monitoring  
-
 ---
 
 ## Scope
@@ -101,35 +95,35 @@ Code is only reviewed **after** mapping conceptual threats — focusing on targe
 
 ### 3) Risk Matrix
 
-| Risk ID | Asset                                 | Threat                                                     | Vulnerability                                          | Likelihood (1–5) | Impact (1–5) | Score | Priority | NEN7510 Control |
-| ------: | ------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------ | ---------------- | ------------ | ----- | -------- | --------------- |
-|    R-01 | Credentials                           | Unauthorized system access due to GitHub credential leak   | No secret scanning / gitignore misconfig               | 3                | 5            | 15    | H        |                 |
-|    R-02 | Credentials                           | Credentials shared via Discord, intercepted or misused     | Human error, use of insecure channels                  | 3                | 4            | 12    | M        |                 |
-|    R-03 | Patient data                          | Unauthorized API data access                               | Missing privilege checks on REST endpoints             | 3                | 5            | 15    | H        |                 |
-|    R-04 | Appointment DB, Patient data          | Unauthorized modification or deletion of appointments      | Insufficient authorization or SQL injection in search  | 3                | 4            | 12    | M        |                 |
-|    R-05 | Patient data                          | Logs contain sensitive data                                | Debug mode or no log masking                           | 2                | 3            | 6     | L        |                 |
-|    R-06 | Patient data integrity, Availability  | Vulnerable/outdated dependencies                           | No Dependabot or OWASP checks                          | 4                | 4            | 16    | H        |                 |
-|    R-07 | Patient data integrity                | Unauthorized user views or edits others’ appointments      | Missing or incorrectly enforced privilege checks       | 3                | 5            | 15    | H        |                 |
-|    R-08 | Patient data                          | SQL injection via unsafe search                            | No input validation, dynamic queries                   | 3                | 5            | 15    | H        |                 |
-|    R-09 | Application server / hosting          | Insufficiently protected API                               | Endpoints lack tokens, CORS, or rate limiting          | 4                | 5            | 20    | H        |                 |
-|    R-10 | Patient data                          | Sensitive data exposed in logs or responses                | Missing masking or filtering in debug messages         | 3                | 4            | 12    | M        |                 |
-|    R-11 | Admin accounts                        | Social engineering or leaked credentials                   | Human error, lack of policy for credential handling    | 4                | 5            | 20    | H        |                 |
-|    R-12 | Patient data                          | Privacy breach from improper filtering                     | No validation for user access to specific locations    | 3                | 4            | 12    | M        |                 |
-|    R-13 | Admin accounts                        | Capability misconfiguration                                | Users granted unnecessary rights                       | 3                | 3            | 9     | M        |                 |
-|    R-14 | Admin accounts                        | Unsafe production configuration (test data, demo accounts) | Default admin/debug features not disabled              | 2                | 3            | 6     | L        |                 |
-|    R-15 | All                                   | Outdated or vulnerable submodules                          | No patching or dependency checking                     | 4                | 4            | 16    | H        |                 |
-|    R-16 | Patient data                          | Data remains visible in browser/back-button cache          | Missing cache-control headers or weak session handling | 3                | 3            | 9     | M        |                 |
-|    R-17 | Data integrity, Appointment DB tables | Race conditions or inconsistent data                       | No concurrency control                                 | 2                | 3            | 6     | L        |                 |
-|    R-18 | Patient data, Admin accounts          | XSS attack leaking credentials or data                     | Missing input/output sanitization                      | 3                | 4            | 12    | M        |                 |
-|    R-19 | Availability                          | DDoS attack                                                | No rate limiting or firewall                           | 3                | 4            | 12    | M        |                 |
-|    R-20 | Patient data, Admin, DB tables        | Tampering with illogical request values                    | Missing server-side sanity checks                      | 3                | 4            | 12    | M        |                 |
-|    R-21 | Admins, Credentials                   | Brute force login attempt                                  | No rate limiting, lockout, or audit logging            | 4                | 4            | 16    | H        |                 |
-|    R-22 | All                                   | Plugin or CI misconfiguration                              | Third-party actions with excessive rights              | 3                | 3            | 9     | M        |                 |
-|    R-23 | Credentials, Admins                   | Hardcoded secrets or exposed passwords                     | Poor secret management, no isolation                   | 3                | 5            | 15    | H        |                 |
-|    R-24 | Admin accounts                        | Test credentials used in production                        | Misconfiguration                                       | 2                | 3            | 6     | L        |                 |
-|    R-25 | Patient data                          | Real data used in test environments                        | No masking or access control                           | 3                | 5            | 15    | H        |                 |
-|    R-26 | Availability                          | Legal compliance risk (unauthorized use of patient data)   | Non-compliance with NEN7510                            | 2                | 4            | 8     | M        | NEN7510 overall |
-|    R-27 | All                                   | System errors due to inadequate testing                    | Missing or incomplete (unit) tests                     | 3                | 3            | 9     | M        |                 |
+| Risk ID | Asset                                 | Threat                                                     | Vulnerability                                          | Likelihood (1–5) | Impact (1–5) | Score | Priority | NEN7510 Control  |
+| ------: | ------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------ | ---------------- | ------------ | ----- | -------- | ---------------- |
+|    R-01 | Credentials                           | Unauthorized system access due to GitHub credential leak   | No secret scanning / gitignore misconfig               | 3                | 5            | 15    | H        | 8.3, 6.7         |
+|    R-02 | Credentials                           | Credentials shared via Discord, intercepted or misused     | Human error, use of insecure channels                  | 3                | 4            | 12    | M        | 8.3, 7.3         |
+|    R-03 | Patient data                          | Unauthorized API data access                               | Missing privilege checks on REST endpoints             | 3                | 5            | 15    | H        | 8.3, 8.25        |
+|    R-04 | Appointment DB, Patient data          | Unauthorized modification or deletion of appointments      | Insufficient authorization or SQL injection in search  | 3                | 4            | 12    | M        | 8.3, 8.15, 8.28  |
+|    R-05 | Patient data                          | Logs contain sensitive data                                | Debug mode or no log masking                           | 2                | 3            | 6     | L        | 8.15, 8.25       |
+|    R-06 | Patient data integrity, Availability  | Vulnerable/outdated dependencies                           | No Dependabot or OWASP checks                          | 4                | 4            | 16    | H        | 8.28, 8.29       |
+|    R-07 | Patient data integrity                | Unauthorized user views or edits others’ appointments      | Missing or incorrectly enforced privilege checks       | 3                | 5            | 15    | H        | 8.9, 8.3. 8.15   |
+|    R-08 | Patient data                          | SQL injection via unsafe search                            | No input validation, dynamic queries                   | 3                | 5            | 15    | H        | 8.9, 8.3, 8.15   |
+|    R-09 | Application server / hosting          | Insufficiently protected API                               | Endpoints lack tokens, CORS, or rate limiting          | 4                | 5            | 20    | H        | 8.3, 8.6         |
+|    R-10 | Patient data                          | Sensitive data exposed in logs or responses                | Missing masking or filtering in debug messages         | 3                | 4            | 12    | M        | 8.15, 8.25, 8.28 |
+|    R-11 | Admin accounts                        | Social engineering or leaked credentials                   | Human error, lack of policy for credential handling    | 4                | 5            | 20    | H        | 8.3, 8.7         |
+|    R-12 | Patient data                          | Privacy breach from improper filtering                     | No validation for user access to specific locations    | 3                | 4            | 12    | M        | 8.3, 8.25        |
+|    R-13 | Admin accounts                        | Capability misconfiguration                                | Users granted unnecessary rights                       | 3                | 3            | 9     | M        | 8.3, 8.9         |
+|    R-14 | Admin accounts                        | Unsafe production configuration (test data, demo accounts) | Default admin/debug features not disabled              | 2                | 3            | 6     | L        | 8.9, 8.3         |
+|    R-15 | All                                   | Outdated or vulnerable submodules                          | No patching or dependency checking                     | 4                | 4            | 16    | H        | 8.28, 8.29       |
+|    R-16 | Patient data                          | Data remains visible in browser/back-button cache          | Missing cache-control headers or weak session handling | 3                | 3            | 9     | M        | 8.3, 8.25        |
+|    R-17 | Data integrity, Appointment DB tables | Race conditions or inconsistent data                       | No concurrency control                                 | 2                | 3            | 6     | L        | 8.25, 8.29       |
+|    R-18 | Patient data, Admin accounts          | XSS attack leaking credentials or data                     | Missing input/output sanitization                      | 3                | 4            | 12    | M        | 8.28, 8.3        |
+|    R-19 | Availability                          | DDoS attack                                                | No rate limiting or firewall                           | 3                | 4            | 12    | M        | 8.6, 8.3         |
+|    R-20 | Patient data, Admin, DB tables        | Tampering with illogical request values                    | Missing server-side sanity checks                      | 3                | 4            | 12    | M        | 8.28, 8.3        |
+|    R-21 | Admins, Credentials                   | Brute force login attempt                                  | No rate limiting, lockout, or audit logging            | 4                | 4            | 16    | H        | 8.3, 8.15        |
+|    R-22 | All                                   | Plugin or CI misconfiguration                              | Third-party actions with excessive rights              | 3                | 3            | 9     | M        | 8.9, 8.3         |
+|    R-23 | Credentials, Admins                   | Hardcoded secrets or exposed passwords                     | Poor secret management, no isolation                   | 3                | 5            | 15    | H        | 8.28, 8.3        |
+|    R-24 | Admin accounts                        | Test credentials used in production                        | Misconfiguration                                       | 2                | 3            | 6     | L        | 8.9, 8.3         |
+|    R-25 | Patient data                          | Real data used in test environments                        | No masking or access control                           | 3                | 5            | 15    | H        | 8.3, 8.25        |
+|    R-26 | Availability                          | Legal compliance risk (unauthorized use of patient data)   | Non-compliance with NEN7510                            | 2                | 4            | 8     | M        | NEN7510 overall  |
+|    R-27 | All                                   | System errors due to inadequate testing                    | Missing or incomplete (unit) tests                     | 3                | 3            | 9     | M        | 8.29, 8.28       |
 
 **Explanation of key risks:**
 - **R-03 / R-04:** Directly tied to OpenMRS module logic; require privilege validation.  
@@ -139,13 +133,13 @@ Code is only reviewed **after** mapping conceptual threats — focusing on targe
 - **R-11:** Emphasizes credential hygiene and social engineering awareness.  
 - **R-14–R-15:** Address deployment-level security and patch management.
 
-| Impact \ Likelihood | 1 | 2 | 3 | 4 | 5 |
-| -------------------- | - | - | - | - | - |
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+| Impact \ Likelihood | 1   | 2                                  | 3                            | 4          | 5   |
+| ------------------- | --- | ---------------------------------- | ---------------------------- | ---------- | --- |
+| 1                   |     |                                    |                              |            |     |
+| 2                   |     |                                    | R-26                         |            |     |
+| 3                   |     | R-05, R-14, R-17, R-24             | R-13, R-16, R-22, R-27       | R-06, R-15 |     |
+| 4                   |     | R-02, R-04, R-10, R-12, R-18, R-20 | R-21                         | R-15, R-21 |     |
+| 5                   |     |                                    | R-01, R-03, R-08, R-23, R-25 | R-09, R-11 |     |
 
 | Color | Range | Risk Level |
 | ------ | ------ | --------- |
@@ -170,28 +164,14 @@ Code is only reviewed **after** mapping conceptual threats — focusing on targe
 
 ## Findings
 
-### Non-Functional Requirements
-
-| ID | Description | Specifics |
-|----|--------------|-----------|
-| NF-01 | Credentials must be stored securely | Sensitive data such as API keys or passwords must not be hardcoded. Use environment variables or secret managers (GitHub Secrets). |
-| NF-02 | Enforce repository secret scanning | Enable GitHub Secret Scanning and Dependabot alerts to detect leaks automatically. |
-| NF-03 | Apply least privilege access control | Only authorized maintainers should have admin/write access to sensitive repos. |
-| NF-04 | Prohibit sharing credentials via unencrypted channels | Do not share credentials through Discord, email, etc. Use password managers like 1Password or Bitwarden. |
-| NF-05 | Logging and auditing of sensitive access | All access to production secrets must be logged and periodically reviewed. |
-| NF-06 | Credential leak incident response procedure | On leaks, immediately rotate affected secrets, revoke sessions, and document the incident. |
-| NF-07 | Role-based access verification | Check that privileges like “Schedules Appointments” and “Sees Appointment Schedule” are correctly enforced. |
-| NF-08 | Privacy by design | Minimize exposure of patient identifiers in UI or API. Use pseudonymization where possible. |
-
----
-
 ### Proposed Improvements
 
-| Name | Issue Description | Requirements | Importance / Acceptance | Justification | NEN7510 Related | Issue Link | Peer Feedback |
-|------|------------------|--------------|--------------------------|----------------|-----------------|-------------|---------------|
-| Secret Scanning and Dependabot | Implements NF-02. Enable GitHub Secret Scanning and Dependabot alerts. |  | Medium | Prevents leakage and dependency risks. |  |  |  |
-| Static code review for privilege checks | Ensure all REST endpoints have appropriate `@Authorized` / `@RequiresPrivilege` annotations. |  | High | Prevents unauthorized API access. |  |  |  |
-| OWASP dependency scanning | Integrate OWASP Dependency Check or Snyk in CI pipeline. |  | Medium | Detects vulnerabilities (CVEs) in modules. |  |  |  |
+| Name                                    | Issue Description                                                                            | Requirements | Importance / Acceptance | Justification                              | NEN7510 Related | Issue Link | Peer Feedback |
+| --------------------------------------- | -------------------------------------------------------------------------------------------- | ------------ | ----------------------- | ------------------------------------------ | --------------- | ---------- | ------------- |
+| Secret Scanning and Dependabot          | Implements NF-02. Enable GitHub Secret Scanning and Dependabot alerts.                       |              | Medium                  | Prevents leakage and dependency risks.     |                 |            |               |
+| Static code review for privilege checks | Ensure all REST endpoints have appropriate `@Authorized` / `@RequiresPrivilege` annotations. |              | High                    | Prevents unauthorized API access.          |                 |            |               |
+| OWASP dependency scanning               | Integrate OWASP Dependency Check or Snyk in CI pipeline.                                     |              | Medium                  | Detects vulnerabilities (CVEs) in modules. |                 |            |               |
+|                                         |                                                                                              |              |                         |                                            |                 |            |               |
 
 ---
 
