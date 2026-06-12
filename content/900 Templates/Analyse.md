@@ -2,12 +2,15 @@
 tags:
   - analyse
 created: "{{date:YYYY-MM-DD}}T{{time:HH:mm}}:00"
+analysis-version: v0.1
 ---
 # {{title}}
 
 
 Analysis done by:
 - 
+This analysis is related to these NEN7510 sub-items:
+
 
 ## Scope
 
@@ -31,9 +34,9 @@ Analysis done by:
 
 ### Improvements
 
-| Name | Issue Description | Requirements | Importance / Accepted | Issue Link | Feedback klasgenoot |
-| ---- | ----------------- | ------------ | --------------------- | ---------- | ------------------- |
-|      |                   |              |                       |            |                     |
+| Name | Issue Description | Requirements | Importance / Accepted | NEN7510 Related | Issue Link | Feedback klasgenoot |
+| ---- | ----------------- | ------------ | --------------------- | --------------- | ---------- | ------------------- |
+|      |                   |              |                       |                 |            |                     |
 *Accepted betekent dat we erkennen dat het verbeterd zou moeten worden, maar dat we er niet aan toe gaan komen omdat het geen prioriteit is. Wanneer we dit doen geven we hiervoor een rede. Ook open we hiervoor nogsteeds een issue op github, die we direct weer sluiten.*
 
 ### Algemene feedback klasgenoot
