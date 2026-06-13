@@ -9,7 +9,6 @@ analysis-version: v0.1
 
 Analysis done by:
 - 
-This analysis is related to these NEN7510 sub-items:
 
 
 ## Scope

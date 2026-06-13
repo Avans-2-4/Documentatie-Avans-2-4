@@ -2,7 +2,7 @@
 tags:
   - analyse
 created: 2026-06-08T14:32:00
-analysis-version: v0.2
+analysis-version: v0.3
 ---
 # 2026-06-08 Risk Analysis
 
@@ -51,7 +51,11 @@ Code is only reviewed **after** mapping conceptual threats — focusing on targe
 
 ---
 
-### 1) Asset Identification
+### 1) C4 Diagrams
+
+
+
+### 2) Asset Identification
 
 | Asset / Crown Jewel                     | Type           | Owner              | Why It’s Critical                                                                                                                                                                                     |
 | --------------------------------------- | -------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -64,7 +68,7 @@ Code is only reviewed **after** mapping conceptual threats — focusing on targe
 
 ---
 
-### 2) Threat Modelling
+### 3) Threat Modelling
 
 **Threat Actors:**
 - **TA01:** HTML or request tampering (unauthorized access)
@@ -93,7 +97,7 @@ Code is only reviewed **after** mapping conceptual threats — focusing on targe
 
 ---
 
-### 3) Risk Matrix
+### 4) Risk Matrix
 
 | Risk ID | Asset                                 | Threat                                                     | Vulnerability                                          | Likelihood (1–5) | Impact (1–5) | Score | Priority | NEN7510 Control  |
 | ------: | ------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------ | ---------------- | ------------ | ----- | -------- | ---------------- |
@@ -149,7 +153,7 @@ Code is only reviewed **after** mapping conceptual threats — focusing on targe
 
 ---
 
-### 4) Bow-Tie
+### 5) Bow-Tie
 
 **Leaked credentials:**
 ![[bow-tie Leaked credentials.svg]]

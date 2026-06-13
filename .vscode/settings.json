@@ -1,0 +1,33 @@
+{
+    "githubIssues.queries": [
+        {
+            "label": "My Issues",
+            "query": "is:open assignee:${user} repo:${owner}/${repository}",
+            "groupBy": [
+                "milestone"
+            ]
+        },
+        {
+            "label": "Requirements",
+            "query": "is:open assignee:${user} repo:Avans-2-4/.github",
+            "groupBy": [
+                "milestone"
+            ]
+        },
+        {
+            "label": "Other-repo",
+            "query": "is:open assignee:${user} repo:Avans-2-4/Appointment-Scheduling-Audit",
+            "groupBy": [
+                "milestone"
+            ]
+        },
+        {
+            "label": "Created Issues",
+            "query": "author:${user} state:open repo:${owner}/${repository} sort:created-desc"
+        },
+        {
+            "label": "Recent Issues",
+            "query": "state:open repo:${owner}/${repository} sort:updated-desc"
+        }
+    ]
+}
