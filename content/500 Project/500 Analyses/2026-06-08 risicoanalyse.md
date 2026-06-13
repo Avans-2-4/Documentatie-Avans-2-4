@@ -2,7 +2,7 @@
 tags:
   - analyse
 created: 2026-06-08T14:32:00
-analysis-version: v0.2
+analysis-version: v0.3
 ---
 # 2026-06-08 Risk Analysis
 
@@ -51,20 +51,30 @@ Code is only reviewed **after** mapping conceptual threats — focusing on targe
 
 ---
 
-### 1) Asset Identification
+### 1) C4 Diagrams
 
-| Asset / Crown Jewel                     | Type           | Owner              | Why It’s Critical                                                                                                                                                                                     |
-| --------------------------------------- | -------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Credentials (API keys, tokens, passwords) | Information     | Team / Administrators | Provide direct access to internal systems, databases, and production environments. A compromise may cause major data loss or unauthorized access. |
-| GitHub repository                         | System          | Team / Administrators | A compromised repository could allow an attacker to modify code or the CI/CD pipeline. |
-| Patient data (integrity)                  | Information     | Functional Management | Medical data; unauthorized access violates NEN7510 and GDPR, while data corruption may affect patient treatment and safety. |
-| Admin accounts                            | Access Control  | Functional Management | Unauthorized access allows manipulation of patient or appointment data. |
-| Appointment database tables               | Information     | Application Management | Data confidentiality and integrity are essential for accurate scheduling and reporting. |
-| Availability                              | System          | Team / Administrators | Service uptime is critical for patients and medical staff. |
+![[c4 niveau 0.svg]]
+
+![[c4 niveau 1.svg]]
+
+### 2) Asset Identification
+
+When we look at the CIA Triad, there are 3 types of things that can define an Asset. Confidentiality, Integrity and Availability. We can use this to identify which processes / items are a risk to our CIA triad and thus an asset.
+
+| Asset / Crown Jewel                       | Type                                     | Owner                  | Why It’s Critical                                                                                                                                 |
+| ----------------------------------------- | ---------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Credentials (API keys, tokens, passwords) | Availability, Integrity, Confidentiality | Team / Administrators  | Provide direct access to internal systems, databases, and production environments. A compromise may cause major data loss or unauthorized access. |
+| GitHub repository                         | Availability, Integrity                  | Team / Administrators  | A compromised repository could allow an attacker to modify code or the CI/CD pipeline.                                                            |
+| Patient data (integrity)                  | Integrity, Confidentiality               | Functional Management  | Medical data; unauthorized access violates NEN7510 and GDPR, while data corruption may affect patient treatment and safety.                       |
+| Admin accounts                            | Confidentiality, Integrity               | Functional Management  | Unauthorized access allows manipulation of patient or appointment data.                                                                           |
+| Appointment database tables               | Integrity, Confidentiality               | Application Management | Data confidentiality and integrity are essential for accurate scheduling and reporting.                                                           |
+| Availability of the application           | Availability, Integrity                  | Team / Administrators  | Service uptime is critical for patients and medical staff.                                                                                        |
 
 ---
 
-### 2) Threat Modelling
+### 3) Threat Modelling
+
+![[dataflow diagram.svg]]
 
 **Threat Actors:**
 - **TA01:** HTML or request tampering (unauthorized access)
@@ -93,7 +103,7 @@ Code is only reviewed **after** mapping conceptual threats — focusing on targe
 
 ---
 
-### 3) Risk Matrix
+### 4) Risk Matrix
 
 | Risk ID | Asset                                 | Threat                                                     | Vulnerability                                          | Likelihood (1–5) | Impact (1–5) | Score | Priority | NEN7510 Control  |
 | ------: | ------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------ | ---------------- | ------------ | ----- | -------- | ---------------- |
@@ -149,7 +159,7 @@ Code is only reviewed **after** mapping conceptual threats — focusing on targe
 
 ---
 
-### 4) Bow-Tie
+### 5) Bow-Tie
 
 **Leaked credentials:**
 ![[bow-tie Leaked credentials.svg]]
