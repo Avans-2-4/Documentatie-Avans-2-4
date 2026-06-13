@@ -53,7 +53,9 @@ Code is only reviewed **after** mapping conceptual threats — focusing on targe
 
 ### 1) C4 Diagrams
 
+![[c4 niveau 0.svg]]
 
+![[c4 niveau 1.svg]]
 
 ### 2) Asset Identification
 
@@ -69,6 +71,8 @@ Code is only reviewed **after** mapping conceptual threats — focusing on targe
 ---
 
 ### 3) Threat Modelling
+
+![[dataflow diagram.svg]]
 
 **Threat Actors:**
 - **TA01:** HTML or request tampering (unauthorized access)
