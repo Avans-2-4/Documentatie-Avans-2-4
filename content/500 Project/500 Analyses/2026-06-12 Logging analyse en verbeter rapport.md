@@ -67,7 +67,31 @@ De OpenMRS module is van oudsher sterk XML-gedreven. Om het AOP-aspect te active
 - Er wordt een nieuwe bean gedefinieerd voor de `ReadAuditAspect` klasse.
 - Deze aspect-klasse definieert _Pointcuts_ (de exacte triggers) rondom alle Service-methodes die de term `get`, `search` of `read` bevatten en patiëntdata retourneren.
 
-## Improvements
+## 3. Implementatie en Validatie
+De theorie uit het architectuurontwerp is doorgevoerd in een concrete, gescheiden codestructuur. De bedrijfslogica blijft hierdoor zuiver gericht op afspraken, terwijl de auditverantwoordelijkheid onafhankelijk evalueerbaar is opgebouwd uit drie componenten:
+1. **Audit Logging Component:** Een loggerklasse die het daadwerkelijke audit bericht formatteert en centraliseert, los van de interceptie logica.
+2. **Aspect Component (`AppointmentReadAccessAspect`):** Definieert de pointcuts, extraheert de patiëntcontext uit argumenten of returnwaarden, en voorkomt duplicaten binnen één service-invocatie.
+3. **Spring Configuratie:** Declaratieve activatie via AspectJ autoproxy en component-scan.
 
+_Aspectklasse met annotaties en pointcuts voor read-methoden_
+![[Pasted image 20260616124937.png]]
+_Voorbeeld van unit tests_
+![[Pasted image 20260616125250.png]]
+_Terminal-output van geslaagde aspected tests_
+![[Pasted image 20260616125327.png]]
+**3.1 NEN-7510 Relevante Ontwerpkeuzes in de Code** 
+De implementatie bevat twee cruciale keuzes die direct bijdragen aan compliance en stabiliteit:
+- **Metadata-only logging (Geen PII):** In de berichten worden uitsluitend technische traceervelden opgenomen (event type, methode, patient UUID, user UUID, timestamp). Gevoelige patiëntinhoud (zoals eerder geconstateerd in het PII-risico) wordt expliciet weggelaten. Dit dwingt dataminimalisatie af op codeniveau.
+- **Fail-safe auditgedrag (Silent Failure):** Auditlogging mag de zorgfunctionaliteit niet blokkeren. De logging is defensief ingebed in een try/catch blok. Als de logging technisch faalt, loopt de primaire businessflow door. Faalt de onderliggende servicemethode zelf, dan wordt de exceptie regulier doorgegeven.
 
+_Around advice met auditflow_
+![[Pasted image 20260616125040.png]]
+**3.2 Technische Hardening** De stabiliteit van de implementatie is geborgd met gerichte unit tests op aspectgedrag en regressietests op de bestaande servicefunctionaliteit. Deze dekken:
+- Correcte UUID-extractie uit zowel methode-argumenten als returnwaarden.
+- Deduplicatie van patiënten bij collectie-resultaten.
+- Het voorkomen van logging zonder geauthenticeerde gebruiker.
+- Robuustheid bij logger-excepties (validatie van het fail-safe principe).
+
+_Metadata-only logger implementatie_
+![[Pasted image 20260616125138.png]]
 ### Algemene feedback klasgenoot
