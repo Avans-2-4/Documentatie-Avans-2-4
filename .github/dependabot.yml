@@ -4,6 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    target-branch: "develop"
     groups:
       production-dependencies:
         applies-to: "version-updates"
@@ -13,6 +14,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    target-branch: "develop"
     groups:
       ci-dependencies:
         applies-to: "version-updates"
