@@ -65,7 +65,8 @@ Several significant issues could not be resolved within the 3-week project windo
 | NEN-7510-2:2024 §8.15 | Logging — audit trail requirements for PHI access |
 | NEN-7510-2:2024 §5.15 | Access control — RBAC and Principle of Least Privilege |
 | NEN-7510-2:2024 §5.14 | Information transfer — PHI protection in transit |
-| NEN-7510-2:2024 §8.28/8.29 | Secure coding and security testing — CVE/SAST context |
+| NEN-7510-2:2024 §8.8 | Beheer van technische kwetsbaarheden — CVE/dependency vulnerability management |
+| NEN-7510-2:2024 §8.28/8.29 | Veilig coderen en testen van de beveiliging — SAST/code quality context |
 | AVG / GDPR | Patient PHI processing; data minimisation obligation |
 
 ---
@@ -211,7 +212,7 @@ Any authenticated user — regardless of assigned role — could access PHI and 
 | Field | Value |
 |-------|-------|
 | Risk IDs | RI-06, RI-15 |
-| NEN-7510-2 Controls | §8.28 — Secure coding; §8.29 — Security testing |
+| NEN-7510-2 Controls | §8.8 — Beheer van technische kwetsbaarheden; §8.28 — Veilig coderen; §8.29 — Testen van de beveiliging |
 | Severity | High |
 | Status | ✅ Accepted (documented decision) + ⚠️ 2 items open |
 
@@ -332,7 +333,7 @@ All GitHub Actions in the CI workflow are pinned to full-length SHA commit diges
 | RBAC: DWR layer Principle of Least Privilege enforcement | §5.15 Access Control | RBAC analyse (2026-06-17); `DWRAppointmentService.java`; DWRAppointmentServiceAuthorizationTest.java |
 | RBAC: Gatekeeper Pattern on REST controllers | §5.15 Access Control | RBAC analyse (2026-06-17); `AppointmentRequisitionController.java`; ControllerAuthorizationAnnotationTest.java |
 | Configuration drift corrected (privilege name typo) | §5.15 Access Control | RBAC analyse (2026-06-17); `AppointmentUtils.java` |
-| SAST/SCA CI pipeline (CodeQL, SonarQube, Snyk, Syft, Dependency Review) | §8.28, §8.29 | `.github/workflows/ci.yml`; `anchore-syft.yml`; SonarCloud results |
+| SAST/SCA CI pipeline (CodeQL, SonarQube, Snyk, Syft, Dependency Review) | §8.8, §8.28, §8.29 | `.github/workflows/ci.yml`; `anchore-syft.yml`; SonarCloud results |
 | GitHub org hardening (2FA, immutable releases, branch protection) | §8.32, §8.9 | GitHub Org Analyse (2026-06-02); GitHub org settings |
 | Dependabot + secret scanning enabled | §8.3, §8.28 | GitHub repository settings |
 | Branch protection: no direct push to main/develop, 1 reviewer required, force push blocked | §8.32 | GitHub Org Analyse (2026-06-02) |

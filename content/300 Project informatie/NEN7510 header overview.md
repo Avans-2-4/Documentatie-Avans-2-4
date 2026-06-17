@@ -21,14 +21,14 @@
 ### 5.17 Authenticatie-informatie
 ### 5.18 Toegangsrechten
 ### 5.19 Informatiebeveiliging in leveranciersrelaties
-### 5.20 Addresseren van informatiebeveiliging in leveranciersovereenkomsten
-### 5.21 Beheer van informatiebeveiliging in de ICT-toeleveringsketen
+### 5.20 Adresseren van informatiebeveiliging in leveranciersovereenkomsten
+### 5.21 Beheren van informatiebeveiliging in de ICT-toeleveringsketen
 ### 5.22 Monitoren, beoordelen en het beheren van wijzigingen van leveranciersdiensten
 ### 5.23 Informatiebeveiliging voor het gebruik van clouddiensten
-### 5.24 Plannen en voorbeiden van het beheer van informatiebeveiliging-incidenten
-### 5.25 Beoordelen van en besluiten over informatiebeveiliging-gebeurtenissen
-### 5.26 Reageren op informatiebeveiliging-incidenten
-### 5.27 Leren van informatiebeveiliging-incidenten
+### 5.24 Plannen en voorbereiden van het beheer van informatiebeveiligingsincidenten
+### 5.25 Beoordelen van en besluiten over informatiebeveiligingsgebeurtenissen
+### 5.26 Reageren op informatiebeveiligingsincidenten
+### 5.27 Leren van informatiebeveiligingsincidenten
 ### 5.28 Verzamelen van bewijsmateriaal
 ### 5.29 Informatiebeveiliging tijdens een verstoring
 ### 5.30 ICT-gerechtheid voor bedrijfscontinuïteit
@@ -41,7 +41,7 @@
 ### 5.37 Gedocumenteerde bedieningsprocedures
 ### 5.38 HLT – Analyse en specificatie van informatiebeveiliging-eisen
 ### 5.39 HLT – Zorgontvangers op unieke wijze identificeren
-### 5.40 HLT – Validatie van geoonde/geprinte gegevens
+### 5.40 HLT – Validatie van getoonde/geprinte gegevens
 ### 5.41 HLT – Openbaar beschikbare gezondheids-informatie
 ### 5.42 HLT – Communicatie in noodsituaties
 ### 5.43 HLT – Incidenten extern melden
@@ -55,7 +55,7 @@
 ### 6.5 Verantwoordelijkheden na beëindiging of wijziging van het dienstverband
 ### 6.6 Vertrouwelijkheids- of geheimhoudings-overeenkomsten
 ### 6.7 Werken op afstand
-### 6.8 Melden van informatiebeveiliging-gebeurtenissen
+### 6.8 Melden van informatiebeveiligingsgebeurtenissen
 ### 6.9 HLT – Managementtraining
 
 ## 7 Fysieke beheersmaatregelen (Physical Controls)
@@ -98,7 +98,7 @@
 ### 8.19 Installeren van software op operationele systemen
 ### 8.20 Beveiliging netwerkcomponenten
 ### 8.21 Beveiliging van netwerkdiensten
-### 8.22 Netwerksementation
+### 8.22 Netwerksegmentatie
 ### 8.23 Toepassen van webfilters
 ### 8.24 Gebruik van cryptografie
 ### 8.25 Beveiligen tijdens de ontwikkelcyclus
@@ -106,7 +106,7 @@
 ### 8.27 Veilige systeemarchitectuur en technische uitgangspunten
 ### 8.28 Veilig coderen
 ### 8.29 Testen van de beveiliging tijdens ontwikkeling en acceptatie
-### 8.30 Uitgestede systeemontwikkeling
+### 8.30 Uitbestede systeemontwikkeling
 ### 8.31 Scheiding van ontwikkel-, test- en productieomgevingen
 ### 8.32 Wijzigingsbeheer
 ### 8.33 Testgegevens
