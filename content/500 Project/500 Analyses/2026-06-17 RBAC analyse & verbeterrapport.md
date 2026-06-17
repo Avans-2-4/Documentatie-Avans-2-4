@@ -69,3 +69,17 @@ De stabiliteit van de rechtenstructuur is geborgd door de spelfouten in `Appoint
 
 _Correctie spelling in appointmentUtils_
 ![[Pasted image 20260617125009.png]]
+
+**3.4 Validatie en Kwaliteitsborging (Testresultaten)** Om aan te tonen dat de architectuurwijzigingen niet alleen in theorie kloppen, maar ook robuust en controleerbaar zijn geïmplementeerd, is de nieuwe RBAC-structuur afgedekt met geautomatiseerde tests op beide applicatielagen. Om verstoringen door de _legacy_ Spring-testcontext van de module te omzeilen, is gekozen voor een pragmatische en geïsoleerde teststrategie:
+- **Isolatietesten voor de DWR-laag (PoLP):** In de `DWRAppointmentServiceAuthorizationTest.java` zijn gerichte unit-tests geschreven die verifiëren of de aangepaste DWR-methodes daadwerkelijk de expliciete `Context.requirePrivilege(...)` restricties aanroepen. Door deze tests bewust 'context-free' te houden, wordt voorkomen dat de beveiligingstests falen op irrelevante Spring-bean configuratiefouten in de testomgeving. De test focust zich hierdoor uitsluitend op het valideren van de autorisatielogica.
+
+_Voorbeeld van DWR-laag test_
+![[Pasted image 20260617125953.png]]
+
+- **Reflectie-gebaseerde Validatie voor REST (Gatekeeper Pattern):** Voor de REST-controllers is de `ControllerAuthorizationAnnotationTest.java` toegevoegd. Deze test maakt gebruik van Java Reflection om statisch af te dwingen dat beide REST-controllers de verwachte `@Authorized` annotaties bevatten op zowel klasse- als methode-niveau. Dit levert direct en feilloos bewijs voor de implementatie van _Defense in Depth_, zonder dat de zware, volledige web-stack opgestart hoeft te worden.
+
+_Voorbeeld van REST-laag test_
+![[Pasted image 20260617130052.png]]
+
+_Resultaat van het runnen van de tests_
+![[Pasted image 20260617130218.png]]
