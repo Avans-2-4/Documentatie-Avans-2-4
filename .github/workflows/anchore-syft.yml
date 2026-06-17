@@ -1,3 +1,16 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow checks out code, builds an image, performs a container image
+# scan with Anchore's Syft tool, and uploads the results to the GitHub Dependency
+# submission API.
+
+# For more information on the Anchore sbom-action usage
+# and parameters, see https://github.com/anchore/sbom-action. For more
+# information about the Anchore SBOM tool, Syft, see
+# https://github.com/anchore/syft
 name: Anchore Syft SBOM scan
 
 on:
@@ -12,73 +25,15 @@ permissions:
 jobs:
   Anchore-Build-Scan:
     permissions:
-      contents: write
+      contents: write # required to upload to the Dependency submission API
     runs-on: ubuntu-latest
     steps:
     - name: Checkout the code
       uses: actions/checkout@v4
-    
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag localbuild/testimage:latest
-    
     - name: Scan the image and upload dependency results
       uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610
       with:
         image: "localbuild/testimage:latest"
         dependency-snapshot: true
-        output-file: current.spdx.json
-    
-    - name: Download previous SBOM
-      continue-on-error: true
-      run: |
-        mkdir -p sbom-history
-        # Try to download the previous SBOM artifact
-        gh run list --branch ${{ github.ref_name }} --limit 2 \
-          --json databaseId,conclusion \
-          --jq '.[1].databaseId' > /tmp/previous_run_id.txt
-        PREV_RUN_ID=$(cat /tmp/previous_run_id.txt)
-        if [ ! -z "$PREV_RUN_ID" ] && [ "$PREV_RUN_ID" != "null" ]; then
-          gh run download $PREV_RUN_ID -n sbom-artifact \
-            -D sbom-history || true
-        fi
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Compare SBOMs
-      continue-on-error: true
-      run: |
-        if [ -f "sbom-history/current.spdx.json" ]; then
-          echo "=== SBOM Comparison ===" > sbom-diff.txt
-          echo "Current packages:" >> sbom-diff.txt
-          jq '.packages | length' current.spdx.json >> sbom-diff.txt
-          echo "" >> sbom-diff.txt
-          echo "Previous packages:" >> sbom-diff.txt
-          jq '.packages | length' sbom-history/current.spdx.json >> sbom-diff.txt
-          echo "" >> sbom-diff.txt
-          echo "=== Package Differences ===" >> sbom-diff.txt
-          jq -r '.packages[].name' current.spdx.json | sort > /tmp/current-packages.txt
-          jq -r '.packages[].name' sbom-history/current.spdx.json | sort > /tmp/previous-packages.txt
-          echo "New packages:" >> sbom-diff.txt
-          comm -23 /tmp/current-packages.txt /tmp/previous-packages.txt >> sbom-diff.txt
-          echo "" >> sbom-diff.txt
-          echo "Removed packages:" >> sbom-diff.txt
-          comm -13 /tmp/current-packages.txt /tmp/previous-packages.txt >> sbom-diff.txt
-          cat sbom-diff.txt
-        else
-          echo "No previous SBOM found for comparison (first run?)"
-        fi
-    
-    - name: Upload SBOM for next comparison
-      uses: actions/upload-artifact@v4
-      with:
-        name: sbom-artifact
-        path: current.spdx.json
-        retention-days: 30
-    
-    - name: Upload comparison results
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: sbom-comparison
-        path: sbom-diff.txt
-        retention-days: 30
