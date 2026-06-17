@@ -28,7 +28,7 @@ The software must be fully audited on security vulnerabilities. Not everything n
 
 **Methodes / stappen:**
 - We use Snyk for scanning of the repository
-- We also use SonarQube for scanning the repository
+- We also use SonarQube for scanning the repository, this has been done after implementing some of the Snyk findings (1 day later) to avoid duplicates.
 
 ## Findings
 
@@ -116,6 +116,15 @@ Here is the list of accepted risks:
 | Incomplete Cleanup                                   | org.springframework:spring-web@3.0.5.RELEASE    | 355                 | pom.xml, omod.pom.xml, api.pom.xml | CWE-459   | 7.1  |
 
 ### SonarQube
+
+| Description                                                                          | SonarQube URL                                                                                            | Review                                          | Package / File                                                                                                           |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------- |
+| 'PASSWORD' detected in this expression, review this potentially hard-coded password. | https://sonarcloud.io/project/issues?open=AZ7QYwxAT0cOunanvHkg&id=Avans-2-4_Appointment-Scheduling-Audit |                                                 | api/src/main/java/org/openmrs/module/appointmentscheduling/AppointmentActivator.java                                     |
+| Make sure this database password gets changed and removed from the code.             | https://sonarcloud.io/project/issues?open=AZ7QYwxAT0cOunanvHkm&id=Avans-2-4_Appointment-Scheduling-Audit |                                                 | api/src/main/java/org/openmrs/module/appointmentscheduling/AppointmentActivator.java                                     |
+| 'password' detected in this expression, review this potentially hard-coded password. | https://sonarcloud.io/project/issues?open=AZ7QYwxAT0cOunanvHkh&id=Avans-2-4_Appointment-Scheduling-Audit | This will be fixed if the above issue is fixed. | api/src/main/java/org/openmrs/module/appointmentscheduling/AppointmentActivator.java                                     |
+| Change this code to not perform redirects based on user-controlled data.             | https://sonarcloud.io/project/issues?open=AZ7QYwhbT0cOunanvHeW&id=Avans-2-4_Appointment-Scheduling-Audit |                                                 | omod/src/main/java/org/openmrs/module/appointmentscheduling/web/controller/AppointmentBlockFormController.java           |
+| Explicitly specify the HTTP methods this endpoint accepts.                           | https://sonarcloud.io/project/issues?open=AZ7QYwgDT0cOunanvHdP&id=Avans-2-4_Appointment-Scheduling-Audit |                                                 | omod/src/main/java/org/openmrs/module/appointmentscheduling/web/controller/PatientDashboardAppointmentExtController.java |
+
 
 
 ### Improvements
