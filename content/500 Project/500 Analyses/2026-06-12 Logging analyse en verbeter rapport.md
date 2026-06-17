@@ -20,7 +20,7 @@ Analysis done by:
 - Analyse of updates aan een ander onderdeel dan logging
 
 ## Relevante eisen
-Het is van belang design patterns bewust mee te nemen in de gevonden oplossingen en dit goed te documenteren.
+Het is van belang design patterns bewust mee te nemen in de gevonden oplossingen en dit goed te documenteren. De aanpassingen van dit onderzoek moeten bijdragen aan NEN-7510-2 compliancy, specifiek control 8.15
 
 ## 1. Huidige Architectuur: Logging en Traceability
 Om een effectieve oplossing te ontwerpen voor de ontbrekende read-access audit trail, is eerst de huidige logging-architectuur van de OpenMRS appointments module in kaart gebracht. Uit de broncode-analyse komen de volgende patronen en tekortkomingen naar voren:
