@@ -1,7 +1,8 @@
 ---
 tags:
   - analyse
-created: "2026-06-12T10:25:00"
+created: 2026-06-12T10:25:00
+analysis-version: v0.3
 ---
 # Logging analyse en verbeter rapport
 
