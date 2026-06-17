@@ -4,7 +4,7 @@ tags:
 created: "2026-06-16T10:08:00"
 analysis-version: v0.1
 ---
-# 2026-06-16 SAST Analysis
+# 2026-06-16 SAST and SCA Analysis
 
 
 Analysis done by:
@@ -22,14 +22,17 @@ Analysis done by:
 
 ## Relevante eisen
 
-The software needs to not have any critical vulnerabilities.
+The software must be fully audited on security vulnerabilities. Not everything needs to be fixed, but everything needs to be written down.
 
 ## Analysis
 
 **Methodes / stappen:**
 - We use Snyk for scanning of the repository
+- We also use SonarQube for scanning the repository
 
 ## Findings
+
+### Snyk
 
 | Section       | Package                                                      | Priority Score | Issues |
 | ------------- | ------------------------------------------------------------ | -------------- | ------ |
@@ -111,6 +114,9 @@ Here is the list of accepted risks:
 | Expression Language Injection                        | org.springframework:spring-web@3.0.5.RELEASE    | 365                 | pom.xml, omod.pom.xml, api.pom.xml | CWE-16    | 7.3  |
 | XML External Entity (XXE) Injection                  | taglibs:standard@1.1.2                          | 365                 | pom.xml, omod.pom.xml, api.pom.xml | CWE-94    | 7.3  |
 | Incomplete Cleanup                                   | org.springframework:spring-web@3.0.5.RELEASE    | 355                 | pom.xml, omod.pom.xml, api.pom.xml | CWE-459   | 7.1  |
+
+### SonarQube
+
 
 ### Improvements
 
