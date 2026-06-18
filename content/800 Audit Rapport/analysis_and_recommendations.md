@@ -3,11 +3,13 @@ tags:
   - audit
   - analyse
 created: 2026-06-17
+updated: 2026-06-18
 ---
 
 # Audit Analysis and Recommendations
 
 > Based on review of: rubric.md, sprints.md, requirements.md, all 500 Project analyses, standups, and the audit repository's CI configuration and README.
+> **Updated 2026-06-18:** Incorporates secrets.md (confirms Acceptance + Production environments exist), implementatie.md (full issue list), audit-report.md (finalized report with Section 6 placeholder gap), and RBAC PR #97 merge.
 
 ---
 
@@ -35,12 +37,12 @@ created: 2026-06-17
 | Sub-requirement | Status | Notes |
 |----------------|--------|-------|
 | Pipeline is securely configured | ✅ Done | CI/CD with CodeQL, SonarQube, Dependency Review, Syft |
-| Environments separated (OTAP) | ⚠️ Partial | `environment: test` in ci.yml; production environment undocumented |
-| Separated configuration and secrets | ⚠️ Partial | GitHub Secrets used; explicit separation doc missing |
+| Environments separated (OTAP) | ✅ Done | Acceptance + Production GitHub Environments confirmed in secrets.md; separate VPS secrets per environment |
+| Separated configuration and secrets | ✅ Done | secrets.md confirms VPS_HOST, VPS_SSH_KEY, VPS_USER scoped per environment; SONAR_TOKEN + Discord webhooks as repo secrets |
 | Documentation justifies security choices | ⚠️ Partial | GitHub Org Analyse (2026-06-02) covers org settings; CI choices not narrated |
 | Non-traceable data per environment (for Goed) | ❌ Missing | No documented decision about test-data isolation |
 
-**Estimated score: 8–11 / 15**
+**Estimated score: 11–14 / 15** *(updated: environment segregation confirmed done)*
 
 ---
 
@@ -138,7 +140,7 @@ created: 2026-06-17
 | Deliverable | Requirement | Status |
 |-------------|------------|--------|
 | Gap analysis — 3 NEN-7510-2 controls | R-10 | ✅ Done (8.15, 5.15, 5.14) |
-| GitHub Environments (test + production) | R-11 | ⚠️ Partial (test env in CI; production undocumented) |
+| GitHub Environments (test + production) | R-11 | ✅ Done — Acceptance + Production environments confirmed in secrets.md |
 | Branch protection + approval gates | R-12 | ✅ Done (documented + implemented) |
 | Developer onboarding README.md | R-13 | ❌ Missing (original OpenMRS README unchanged) |
 
@@ -181,7 +183,7 @@ created: 2026-06-17
 | Final Audit Report — Audit Methodologie | R-23 | ✅ Written |
 | Final Audit Report — Risico-analyse (≥4 findings) | R-23 | ✅ Written (4 findings) |
 | Final Audit Report — SBOM en Supply Chain | R-23 | ✅ Written |
-| Final Audit Report — Conclusie en Advies | R-23 | ✅ Written |
+| Final Audit Report — Conclusie en Advies | R-23 | ❌ Placeholder — Section 6 has `[improvement]`/`[risk]`/`[action]` rows; must be filled |
 | Appendix: Traceability Matrix | R-24 | ❌ Missing |
 | Appendix: SBOM (CycloneDX JSON) | R-24 | ✅ Available (CI artefact) |
 | Appendix: SAST output | R-24 | ✅ Available (SonarQube, Snyk, CodeQL) |

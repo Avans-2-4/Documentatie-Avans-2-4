@@ -3,6 +3,7 @@ tags:
   - audit
   - checklist
 created: 2026-06-17
+updated: 2026-06-18
 ---
 
 # Missing Items Checklist — Quick Reference
@@ -24,10 +25,14 @@ created: 2026-06-17
   - All evidence already exists — this is assembly work, not new analysis
   - Required appendix for the final audit report
 
-- [ ] **Final Audit Report** (R-23)
-  - `audit_report_filled.md` in this folder is a starting point — review and complete it
-  - Must include: Executive Summary, Scope, Methodology, ≥4 Findings, SBOM section, Conclusion
-  - Peer-review the filled template before submission
+- [ ] **Final Audit Report — Section 6 (Conclusie en Advies)** (R-23)
+  - `content/500 Project/audit-report.md` exists and sections 1–5 are complete
+  - **Section 6.1, 6.2, 6.3 have placeholder rows** — must be filled before submission
+  - **Risk status column in Section 4.3 is entirely blank** — fill in all 27 rows
+  - **`[insert pentest findings]` placeholder** in Executive Summary must be replaced
+  - **`[make sure to actually export the SBOM.json]`** placeholder in Section 5.1 must be replaced
+  - **All appendix links are `[link / inline]`** — need actual links/references
+  - Drafts for all of the above are in `content/800 Audit Rapport/claude-can-do-this.md` and `audit-report-feedback.md`
 
 - [ ] **CRA-mapping** (R-24 appendix)
   - Map audit findings to Cyber Resilience Act obligations (vulnerability handling, SBOM, security updates)
@@ -67,10 +72,9 @@ created: 2026-06-17
   - Must include: risk criteria, CI/CD risk evaluation, prioritised security backlog, cost estimation
   - **Cost estimation is completely missing** — add effort/time estimates per improvement
 
-- [ ] **Production GitHub Environment documented**
-  - Only `environment: test` is visible in ci.yml
-  - Document whether a production environment exists; if not, create one with an approval gate
-  - Required for OTAP separation evidence (criterion 2 Secure Pipelines)
+- [x] **Production GitHub Environment** *(confirmed done 2026-06-18)*
+  - `secrets.md` confirms both Acceptance and Production environments exist with separate VPS credentials
+  - **Still needed:** Reference this explicitly in the audit report (Criterion 2 / Section 6.1)
 
 - [ ] **CodeQL findings discussed in SAST doc**
   - CodeQL runs in CI (ci.yml `codeql` job) but is not mentioned in the SAST analysis document
@@ -125,8 +129,8 @@ created: 2026-06-17
 - [x] Risk matrix (27 risks, RI-01–RI-27)
 - [x] Three bow-tie diagrams (leaked credentials, unauthorized access, API breach)
 - [x] AOP audit logging implementation + tests (AppointmentReadAccessAspect)
-- [x] RBAC: DWR layer PoLP enforcement + tests
-- [x] RBAC: Gatekeeper Pattern on REST controllers + tests
+- [x] RBAC: DWR layer PoLP enforcement + tests (PR #97 merged 2026-06-18)
+- [x] RBAC: Gatekeeper Pattern on REST controllers + tests (PR #97 merged 2026-06-18)
 - [x] RBAC: Configuration drift (typo) corrected
 - [x] Snyk SCA scan — full findings table with CVEs, CVSS, decisions
 - [x] SonarQube code analysis — security and reliability findings
@@ -134,6 +138,7 @@ created: 2026-06-17
 - [x] Anchore Syft SBOM pipeline
 - [x] GitHub Dependency Review Action (per PR)
 - [x] Dependabot alerts enabled
+- [x] Acceptance + Production GitHub Environments with separate secrets
 - [x] GitHub 2FA enforcement
 - [x] GitHub immutable releases
 - [x] Repository delete restrictions
