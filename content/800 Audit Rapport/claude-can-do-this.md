@@ -38,7 +38,7 @@ Claude has enough information from the implementations (RBAC, logging, GitHub or
 | RI-11 | 🚫 Accepted | Social engineering; 2FA enforced; credential policy outside module scope |
 | RI-12 | ❌ Open | PHI in URL params (§5.14); not implemented — see Finding 4 |
 | RI-13 | ✅ Mitigated | RBAC hardening reduces excessive rights; PoLP enforced on DWR layer |
-| RI-14 | ⚠️ Partially mitigated | Debug code still present in HibernateProviderScheduleDAO.java (issue #100 open) |
+| RI-14 | ✅ Mitigated | Debug code removed from HibernateProviderScheduleDAO.java (issue #100, commit ad5128c) |
 | RI-15 | 🚫 Accepted | Same root cause as RI-06; Dependabot monitoring; OpenMRS 2+ migration recommended |
 | RI-16 | ❌ Open | Cache-control headers not implemented |
 | RI-17 | 🚫 Accepted | Low score (6); concurrency control outside sprint scope; accepted |
@@ -47,7 +47,7 @@ Claude has enough information from the implementations (RBAC, logging, GitHub or
 | RI-20 | ❌ Open | Server-side sanity checks / input validation not implemented |
 | RI-21 | ⚠️ Partially mitigated | AOP audit logging captures access attempts; rate limiting and lockout not implemented |
 | RI-22 | ✅ Mitigated | All GitHub Actions pinned to full SHA digests; CI pipeline reviewed |
-| RI-23 | ⚠️ Partially mitigated | GitHub Secret Scanning active; hardcoded DB password in AppointmentActivator.java still open (#98) |
+| RI-23 | ✅ Mitigated | Hardcoded DB password removed from AppointmentActivator.java (issue #98, commit 8347679); GitHub Secret Scanning active; environment separation implemented |
 | RI-24 | ⚠️ Partially mitigated | Acceptance/Production environment separation implemented; debug code (#100) still present |
 | RI-25 | ⚠️ Partially mitigated | Acceptance/Production environments with separate secrets; data masking not implemented |
 | RI-26 | ⚠️ Partially mitigated | §8.15 and §5.15 controls partially implemented; §5.14 open |
@@ -234,12 +234,16 @@ These GitHub issues are marked "Open" in implementatie.md but the work is comple
 | #10 NEN-7510-2 Gap Analysis | Gap analysis document exists (2026-06-09) |
 | #14 C4 & Threat Modeling | C4 diagrams + bow-ties exist |
 | #15 Pipeline Scanning & SBOM | CI pipeline has CodeQL, Snyk, Syft, Dependency Review |
+| #18 Attack Surface Mapping | `2026-06-18 Attack Surface Mapping.md` created |
 | #19 Logging Compliance Implementation | AOP aspect implemented and tested |
 | #20 Automated Logging Verification | Tests pass (screenshot in logging analyse) |
-| #22 Traceability Matrix Verification | Will be done (see 1.2 above) |
-| #23 Final Audit Report Compilation | audit-report.md exists (once Section 6 is filled) |
-| #77 Integrate SAST with Snyk | SAST analysis document exists |
+| #21 Code Coverage Configuration | SonarQube reports coverage; justification paragraph in §6.3 |
+| #22 Traceability Matrix Verification | `traceability_matrix.md` created |
+| #23 Final Audit Report Compilation | `audit-report.md` complete (Section 6 filled) |
+| #24 Documentation Handover | All appendices have concrete references |
+| #30 Static code review for privilege checks | RBAC analysis complete; all controllers have @Authorized |
 | #31 OWASP dependency scanning | Snyk in CI covers this |
+| #77 Integrate SAST with Snyk | SAST analysis document exists |
 
 Closing these before submission makes the project board look complete rather than overloaded with open items.
 
@@ -277,10 +281,10 @@ If the Syft workflow hasn't run cleanly, verify this in CI and fix the workflow 
 
 | Task | Why |
 |------|-----|
-| Execute penetration test | Requires live module instance; module loading in OpenMRS 1.9.x not confirmed |
-| Fix hardcoded password (#98) | Requires code change + test in Appointment-Scheduling-Audit repo |
-| Fix open redirect (#99) | Requires code change + test; needs human judgment on allowlist |
-| Fix active debug code (#100) | Quick code change but needs human commit/PR |
+| Execute penetration test | Requires live module instance running in OpenMRS |
+| Fix open redirect (#99) | Requires code change + careful allowlist design; needs human judgment |
 | Verify SBOM workflow runs successfully | Requires checking GitHub Actions live |
 | Fill in peer feedback | Requires actual peer review input from Liam/Christian |
 | Confirm SonarQube coverage numbers | Requires checking SonarCloud dashboard |
+
+> **Note:** Issues #98 (hardcoded password) and #100 (debug code) were fixed by the team on 2026-06-18 (commits `8347679` and `ad5128c`). The Developer Onboarding README (issues #42, #13) was also completed (commit `0a4c108`).

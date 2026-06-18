@@ -9,7 +9,7 @@ updated: 2026-06-18
 # Audit Analysis and Recommendations
 
 > Based on review of: rubric.md, sprints.md, requirements.md, all 500 Project analyses, standups, and the audit repository's CI configuration and README.
-> **Updated 2026-06-18:** Incorporates secrets.md (confirms Acceptance + Production environments exist), implementatie.md (full issue list), audit-report.md (finalized report with Section 6 placeholder gap), and RBAC PR #97 merge.
+> **Updated 2026-06-18 (session 4):** Incorporates fix of #98 (hardcoded password, commit `8347679`), fix of #100 (debug code, commit `ad5128c`), and completion of Developer Onboarding README (issues #42/#13, commit `0a4c108`). RI-14 and RI-23 are now fully mitigated.
 
 ---
 
@@ -103,15 +103,15 @@ updated: 2026-06-18
 
 ### Security Rubric Score Estimate
 
-| Criterion | Estimated Score | Max | Notes (updated 2026-06-18) |
-|-----------|----------------|-----|---------------------------|
-| Security audit (NEN-7510) | 14–18 | 20 | Post-GAP re-evaluation added; sources improved |
-| Secure pipelines | 11–14 | 15 | OTAP separation confirmed + documented |
-| Advies updates (SBOM/CVE) | 11–13 | 15 | CRA-mapping + concrete recommendations added |
-| Security code review | 11–13 | 15 | Attack Surface Mapping + NEN refs in SAST |
+| Criterion | Estimated Score | Max | Notes (updated 2026-06-18 session 4) |
+|-----------|----------------|-----|--------------------------------------|
+| Security audit (NEN-7510) | 14–18 | 20 | Post-GAP re-evaluation added; #98 and #100 fixed improves audit completeness |
+| Secure pipelines | 11–14 | 15 | OTAP separation confirmed + documented; Developer README done |
+| Advies updates (SBOM/CVE) | 11–13 | 15 | CRA-mapping + concrete recommendations; #98 fix demonstrates follow-through |
+| Security code review | 11–13 | 15 | Attack Surface Mapping + NEN refs in SAST; RI-14 and RI-23 fully mitigated |
 | **Penetration tests** | **0–8** | **15** | 0 if no test; 4–8 if pentest plan written |
-| Mitigatie & validatie | 8–14 | 20 | Section 6 filled; post-GAP re-evaluation done |
-| **Total** | **55–80** | **100** | |
+| Mitigatie & validatie | 10–15 | 20 | Section 6 filled; #98/#100 fixed strengthens mitigation evidence |
+| **Total** | **57–81** | **100** | |
 
 > **Voldoende (55) is now secure even without a pentest. Goed (80+) requires the pentest.**
 
@@ -142,7 +142,7 @@ updated: 2026-06-18
 | Gap analysis — 3 NEN-7510-2 controls | R-10 | ✅ Done (8.15, 5.15, 5.14) |
 | GitHub Environments (test + production) | R-11 | ✅ Done — Acceptance + Production environments confirmed in secrets.md |
 | Branch protection + approval gates | R-12 | ✅ Done (documented + implemented) |
-| Developer onboarding README.md | R-13 | ❌ Missing (original OpenMRS README unchanged) |
+| Developer onboarding README.md | R-13 | ✅ Done — `content/500 Project/520 bewijslast/onboarding-README.md`; also added to project repo (commit `0a4c108`) |
 
 ### Sprint 2 Deliverables
 

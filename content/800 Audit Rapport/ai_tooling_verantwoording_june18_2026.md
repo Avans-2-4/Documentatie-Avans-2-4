@@ -14,13 +14,14 @@ created: 2026-06-18
 
 ---
 
-## Overzicht van de Drie Sessies
+## Overzicht van de Vier Sessies
 
 | Sessie | Datum | Doel | Output |
 |--------|-------|------|--------|
 | 1 | 2026-06-17 | Initiële structuuranalyse + gap-identificatie | `blank_audit_template.md`, `audit_report_filled.md`, `analysis_and_recommendations.md`, `missing_items_checklist.md` |
 | 2 | 2026-06-18 ochtend | Voortgangsreview + taakidentificatie voor resterende 2 dagen | `audit-report-feedback.md`, `claude-can-do-this.md`, `implementation_risk_decision.md`, `progress_update.md` |
 | 3 | 2026-06-18 middag | Implementatie van geïdentificeerde taken; auditrapport completeren | Zie §3 hieronder |
+| 4 | 2026-06-18 einde dag | Verwerking van teamimplementaties (#98, #100, Developer README); update van alle documentatiebestanden | Zie §4 hieronder |
 
 ---
 
@@ -121,11 +122,48 @@ created: 2026-06-18
 
 ---
 
+## Sessie 4 — Wat is er gedaan (einde dag 2026-06-18)
+
+### 4.1 Reden voor sessie 4
+
+Tussen sessie 3 (middag) en sessie 4 (einde dag) heeft het team drie significante code-wijzigingen doorgevoerd in de projectrepo die in de eerdere sessies nog als "open" stonden:
+
+| Commit | Omschrijving | Impact |
+|--------|-------------|--------|
+| `8347679` | Hardcoded password verwijderd uit `AppointmentActivator.java` — issue #98 gesloten | RI-23: ✅ Mitigated |
+| `ad5128c` | `System.out.println` verwijderd uit `HibernateProviderScheduleDAO.java` — issue #100 gesloten | RI-14: ✅ Mitigated |
+| `0a4c108` | Developer Onboarding README toegevoegd aan projectrepo — issues #42 en #13 gesloten | R-13: ✅ Done |
+
+Zonder sessie 4 zouden de documentatiebestanden (`audit-report.md`, `progress_update.md`, etc.) nog steeds de oude "open" status voor RI-14 en RI-23 tonen, wat inconsistent zou zijn met de werkelijkheid.
+
+### 4.2 Wat Claude deed in sessie 4
+
+1. **Voortgangsanalyse** — Git log van de projectrepo gelezen; commits `8347679`, `ad5128c`, `0a4c108` geïdentificeerd als significante updates.
+
+2. **audit-report.md bijgewerkt:**
+   - RI-14 status: `⚠️ Partially mitigated` → `✅ Mitigated`
+   - RI-23 status: `⚠️ Partially mitigated` → `✅ Mitigated`
+   - Finding 3 tekst: gecorrigeerd van "All three remain open" naar specifieke fix-informatie per issue
+   - Section 5.2: tekst gecorrigeerd — "All three remain open" → "Issues #98 and #100 were resolved..."
+   - Section 6.2 Remaining Risks: rijen voor #98 en #100 verwijderd (ze zijn niet langer "remaining risks")
+   - Section 6.3 Next Steps: #98 en #100 gemarkeerd als ✅ Completed
+
+3. **Alle hulpbestanden bijgewerkt:** `missing_items_checklist.md`, `claude-can-do-this.md`, `implementation_risk_decision.md`, `analysis_and_recommendations.md`, `progress_update.md`.
+
+### 4.3 Wat Claude niet deed (bewuste keuzes)
+
+| Item | Reden |
+|------|-------|
+| `audit_report_filled.md` bijwerken | Dit is een pre-filled template die al in sessie 3 verouderd was. Het definitieve rapport is `audit-report.md`. |
+| `blank_audit_template.md` bijwerken | Template heeft geen versieinformatie nodig — is een statisch startpunt. |
+| Veranderingen in Finding 2 (RBAC) status aanpassen | Finding 2 status is al correct ("priority items fixed, partial remains") — niet geraakt door heden's commits. |
+
+---
+
 ## Wat het team zelf nog moet doen
 
-1. **Review van Section 6** in audit-report.md — inhoud is correct maar teamleden moeten verifiëren dat de formulering hun eigen oordeel weerspiegelt.
-2. **Penetratietests uitvoeren** (Liam) — zodra de module laadt in OpenMRS 1.9.x.
-3. **Fixes voor #98, #99, #100** uitvoeren in de projectrepo.
-4. **GitHub-issues sluiten** die al gedaan zijn (zie `claude-can-do-this.md §3.3`).
-5. **Developer Onboarding README** toevoegen aan de projectrepo.
-6. **Peer feedback** invullen in alle analysebestanden.
+1. **Penetratietests uitvoeren** (Liam) — target: REST API endpoints (RI-09, RI-03, RI-07). Minimaal: pentest plan + 1–2 uitgevoerde tests.
+2. **GitHub-issues sluiten** die al gedaan zijn — zie `claude-can-do-this.md §3.3` voor de volledige lijst.
+3. **Peer feedback** invullen in alle analysebestanden (of documenteren dat PR-reviews deze functie vervullen).
+4. **Final read-through** van `audit-report.md` — het team moet verifiëren dat de formulering hun eigen oordeel weerspiegelt.
+5. **SBOM CI-artefact** bevestigen — exporteer het artefact van de meest recente `main` workflow run voor Appendix B.

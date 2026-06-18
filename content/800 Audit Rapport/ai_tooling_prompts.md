@@ -232,3 +232,105 @@ IMPORTANT:
 - The verantwoording should clearly show how Claude tools were used to improve project documentation
 - Be specific about which reviewer feedback influenced which changes
 ```
+
+```
+You are assisting with a school project audit document. This is a continuation from yesterday's work.
+
+CONTEXT SUMMARY FROM PREVIOUS SESSION:
+Yesterday, we created a comprehensive audit structure with:
+- blank_audit_template.md (empty template)
+- audit_report_filled.md (pre-filled audit report)
+- analysis_and_recommendations.md (requirements checklist and gaps)
+- missing_items_checklist.md (quick reference of missing items)
+
+The project focuses on analyzing a package, documenting improvements, and identifying issues within a 3-week timeline. School understands not everything can be fixed—thorough documentation is the priority.
+
+CURRENT SESSION (June 18, 2026):
+You have 2 days remaining. Your task is to:
+
+1. **Review Recent Progress**
+   - Read ai_tooling_verantwoording.md to get up to speed on project details
+   - Analyze all commits in the project repository to identify what's been completed
+   - Review all GitHub issues (organized in implementatie.md):
+     - "Closed" = completed tasks
+     - "Closed as not planned" = accepted for now, document as future work
+     - "Open" = still to be done
+
+2. **Audit the Finalized Report**
+   - Read audit-report.md (finalized audit report)
+   - Provide constructive feedback in audit-report-feedback.md
+   - **IMPORTANT**: With only 2 days left, focus on substantive issues only. Small nitpicks should go into claude-can-do-this.md instead
+
+3. **Identify What Claude Can Do**
+   - Review your entire documentation repo and project repo
+   - Create claude-can-do-this.md listing tasks Claude can assist with using available information
+   - Include: nitpicky improvements, documentation refinements, analysis tasks, automated checks, etc.
+   - Prioritize by impact and time needed
+
+4. **Risk Assessment & Implementation Strategy**
+   - Review open issues in implementatie.md
+   - Create a decision framework: which open issues should be:
+     - Completed before project end (realistic given 2 days)
+     - Accepted as future work / post-project (reframe as "accepted technical debt" or "scope for future phases" in documentation—avoid saying "after school project")
+   - Document this in a new file: implementation_risk_decision.md
+
+5. **NEN 7510 Compliance Check**
+   - For any NEN 7510 references needed in output:
+     - First check NEN7510_header_overview.md for correct header numbers
+     - Then reference NEN_7510-2_2024+A1_2026_nl.md for actual content requirements
+   - Update any outdated NEN references to match the 2024+A1_2026 version
+
+OUTPUT FILES (update previous + new):
+
+**File 1: blank_audit_template.md** (updated if needed)
+- Empty audit template with current timestamp
+
+**File 2: audit_report_filled.md** (updated if needed)
+- Pre-filled audit report with latest information
+
+**File 3: analysis_and_recommendations.md** (updated)
+- Checklist of rubric requirements with current completion status
+- Missing sections based on latest progress
+- Updated recommendations
+
+**File 4: missing_items_checklist.md** (updated if needed)
+- Markdown checklist of outstanding items
+
+**File 5: audit-report-feedback.md** (updated if needed)
+- Constructive feedback on finalized audit-report.md
+- Focus on substantive improvements only (2-day timeline constraint)
+- Small issues → claude-can-do-this.md instead
+
+**File 6: claude-can-do-this.md** (updated if needed)
+- Remove things that are completed
+- Tasks Claude can assist with given available documentation and code
+- Include: documentation improvements, nitpicks from audit feedback, analysis tasks, automated checks
+- Organized by priority and effort
+
+**File 7: implementation_risk_decision.md** (updated if needed)
+- Analysis of open GitHub issues
+- Decision framework: complete now vs. accept as future work
+- Reframe delayed work as "planned for future phases" or "accepted technical debt"
+- Realistic timeline given 2 days remaining
+
+**File 8: progress_update.md** (updated if needed)
+- Summary of commits since yesterday
+- What's been completed
+- Current project status
+- Confidence level in audit readiness
+
+FORMATTING:
+- All files in markdown
+- Clear sections and bullet points
+- Use tables where helpful for status tracking
+- Include current timestamp (June 18, 2026) where relevant
+- Professional but direct tone
+- Realistic about 2-day constraint
+
+SPECIAL NOTES:
+- When referencing NEN 7510, always verify against both header overview and 2024+A1_2026 version
+- Be honest about remaining risks and scope creep
+- Prioritize completing the audit over perfecting individual components
+- Flag any critical issues that must be addressed before submission
+- Assume that we are going to do the pentest on the API part of the module.
+```

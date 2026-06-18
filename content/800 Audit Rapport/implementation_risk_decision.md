@@ -50,14 +50,14 @@ These items are either documentation-only or small code changes that have clear 
 
 ### 1.2 Code Changes (Est. 2–3 hours total — only if bandwidth allows)
 
-| Task | Effort | Rubric Impact | Issue |
-|------|--------|--------------|-------|
-| Remove/guard debug code in `HibernateProviderScheduleDAO.java` | 30 min | Reduces RI-14; improves Finding 3 status | Issue #100 |
-| Remove hardcoded password from `AppointmentActivator.java` | 1 hour | Reduces RI-23; improves Finding 3 status | Issue #98 |
-
-**Note on #98 (Hardcoded Password):** This is a quick find-and-replace to move the credential to an environment variable or OpenMRS runtime property. However, it requires a PR, CI to pass, and a reviewer. Factor that overhead into the decision.
+| Task | Effort | Rubric Impact | Issue | Status |
+|------|--------|--------------|-------|--------|
+| Remove/guard debug code in `HibernateProviderScheduleDAO.java` | 30 min | Reduces RI-14; improves Finding 3 status | Issue #100 | ✅ Done (commit `ad5128c`) |
+| Remove hardcoded password from `AppointmentActivator.java` | 1 hour | Reduces RI-23; improves Finding 3 status | Issue #98 | ✅ Done (commit `8347679`) |
 
 **Note on #99 (Open Redirect):** Skip for now — requires careful thought about the allowlist implementation. Incorrect fix creates a false sense of security.
+
+> **Update 2026-06-18:** Both code changes were completed by the team. RI-14 and RI-23 are now fully mitigated. Finding 3 in audit-report.md has been updated accordingly.
 
 ---
 

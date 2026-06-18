@@ -44,11 +44,8 @@ updated: 2026-06-18
   - Full inventory: REST (5 endpoints), Spring MVC (5 controllers), DWR (16+ methods), 5 trust boundaries
   - High-risk entry points identified; dreigingsmodel update included
 
-- [ ] **Developer Onboarding README** (R-13)
-  - The current README.md in Appointment-Scheduling-Audit is the original OpenMRS README — unchanged
-  - Must add: environment architecture, how test data is prevented from reaching production, new developer setup steps
-  - Content outline available in `claude-can-do-this.md §2.3`
-  - **Requires edit in the project repo** — cannot be done from documentation repo alone
+- [x] **Developer Onboarding README** (R-13) *(completed 2026-06-18)*
+  - `content/500 Project/520 bewijslast/onboarding-README.md` — environment architecture, separation mechanism, new developer setup (commit `0a4c108`, docs updated `d0e0ebf`)
 
 - [ ] **Code Coverage target + justification** (R-21)
   - SonarQube shows coverage but no written target % exists
@@ -144,3 +141,6 @@ updated: 2026-06-18
 - [x] Proposed improvements table with justifications (risicoanalyse)
 - [x] Threat actors and controls documented
 - [x] Security backlog items with NEN references
+- [x] Hardcoded password removed from `AppointmentActivator.java` (issue #98, commit `8347679`)
+- [x] Active debug code removed from `HibernateProviderScheduleDAO.java` (issue #100, commit `ad5128c`)
+- [x] Developer Onboarding README written and merged (issues #42, #13; commit `0a4c108`)
