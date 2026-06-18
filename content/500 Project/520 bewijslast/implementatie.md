@@ -718,7 +718,7 @@ Directly addresses RI-05 (debug logs with sensitive data), RI-10 (logs contain P
 
 
 - title: # Developer readme
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/.github/issues/42
 
 **Body:**
@@ -727,7 +727,7 @@ Create comprehensive README.md with system architecture overview and installatio
 A measure to avoid RI-13, RI-14, RI-24, RI-25. Makes sure that developers will not misconfigure the plugin and will not accidentally expose wrong data.
 
 **Comments:**
-
+Implemented in Avans-2-4/Appointment-Scheduling-Audit#102
 
 ---
 
@@ -759,7 +759,7 @@ Configure the application to actively verify that all incoming API requests are 
 
 
 - title: # [SECURITY] SonarQube: Hardcoded Password
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/Appointment-Scheduling-Audit/issues/98
 
 **Body:**
@@ -779,7 +779,7 @@ api/src/main/java/org/openmrs/module/appointmentscheduling/AppointmentActivator.
 
 'PASSWORD' detected in this expression, review this potentially hard-coded password. Database password needs to be changed and removed from the code.
 **Comments:**
-
+implemented in #102
 
 ---
 
@@ -947,14 +947,14 @@ PR [#57](https://github.com/Avans-2-4/Documentatie-Avans-2-4/pull/57) is outdate
 ---
 
 - title: # Developer Onboarding Documentation
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/.github/issues/13
 
 **Body:**
 Write a `README.md` that explicitly details the environment architecture, the exact mechanisms preventing test data from leaking into production, and the step-by-step onboarding process for new developers by the end of week 6.
 
 **Comments:**
-
+fully implemented
 
 ---
 
