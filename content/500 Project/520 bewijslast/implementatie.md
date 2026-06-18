@@ -812,7 +812,7 @@ Change this code to not perform redirects based on user-controlled data.
 
 
 - title: # [SECURITY] SonarQube: Active Debug Code
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/Appointment-Scheduling-Audit/issues/100
 
 **Body:**
@@ -834,7 +834,7 @@ A debug statement that can print sensitive information to the console. Make sure
 
 **Comments:**
 
-
+fixed in #102
 ---
 
 
