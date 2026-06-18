@@ -243,6 +243,8 @@ These GitHub issues are marked "Open" in implementatie.md but the work is comple
 
 Closing these before submission makes the project board look complete rather than overloaded with open items.
 
+> Reviewer Update:I will do that, thanks. Remind me to do this ;)
+
 ---
 
 ### 3.4 Fill in Peer Feedback Sections
@@ -255,6 +257,8 @@ The following documents have empty `Algemene feedback klasgenoot` sections. Even
 
 Suggested minimal template: *"[Reviewer name] — [date]: [1–2 sentences on what is clear, 1 sentence on what could be improved]"*
 
+> Reviewer Update: we don't have time for this, note this down in the audit report. Oficially you'd want all editors to check eachoters work constantly. 1. we already do this in PR's. 2. we don't have time for this in this form.
+
 ---
 
 ### 3.5 Clarify SBOM Artifact Reference in Section 5.1
@@ -264,6 +268,8 @@ Replace `[make sure to actually export the SBOM.json]` with:
 > *The CycloneDX SBOM is generated on every push to `main` and `develop` via `anchore-syft.yml` and is downloadable as an artifact named `sbom` from the corresponding GitHub Actions run. The SBOM for the most recent main branch build is attached as Appendix B.*
 
 If the Syft workflow hasn't run cleanly, verify this in CI and fix the workflow before submission — a broken SBOM pipeline undermines Criterion 3.
+
+> Reviewer Update: It does export it correctly, just remind me to export it ;)
 
 ---
 

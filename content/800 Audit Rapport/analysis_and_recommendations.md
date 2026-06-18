@@ -26,7 +26,7 @@ updated: 2026-06-18
 | Non-compliance list prioritised by risk | ✅ Done | Linked to risk matrix scores |
 | Advice for improving compliancy included | ✅ Done | "Wat er moet gebeuren" section per control |
 | Analysis grounded in sources / norm text | ⚠️ Partial | References to norm controls exist; explicit norm text citations sparse |
-| Post-implementation re-evaluation of gaps | ❌ Missing | Gap analysis was written before improvements; not re-evaluated |
+| Post-implementation re-evaluation of gaps | ✅ Done | Added to GAP analyse (2026-06-18) — before/after table for §8.15, §5.15, §5.14 |
 
 **Estimated score: 11–16 / 20**
 
@@ -103,17 +103,17 @@ updated: 2026-06-18
 
 ### Security Rubric Score Estimate
 
-| Criterion | Estimated Score | Max |
-|-----------|----------------|-----|
-| Security audit (NEN-7510) | 11–16 | 20 |
-| Secure pipelines | 8–11 | 15 |
-| Advies updates (SBOM/CVE) | 8–12 | 15 |
-| Security code review | 9–12 | 15 |
-| **Penetration tests** | **0** | **15** |
-| Mitigatie & validatie | 5–14 | 20 |
-| **Total** | **41–65** | **100** |
+| Criterion | Estimated Score | Max | Notes (updated 2026-06-18) |
+|-----------|----------------|-----|---------------------------|
+| Security audit (NEN-7510) | 14–18 | 20 | Post-GAP re-evaluation added; sources improved |
+| Secure pipelines | 11–14 | 15 | OTAP separation confirmed + documented |
+| Advies updates (SBOM/CVE) | 11–13 | 15 | CRA-mapping + concrete recommendations added |
+| Security code review | 11–13 | 15 | Attack Surface Mapping + NEN refs in SAST |
+| **Penetration tests** | **0–8** | **15** | 0 if no test; 4–8 if pentest plan written |
+| Mitigatie & validatie | 8–14 | 20 | Section 6 filled; post-GAP re-evaluation done |
+| **Total** | **55–80** | **100** | |
 
-> **Without a pentest, the score sits near the Voldoende boundary (55). With even a basic pentest document, it moves comfortably into Voldoende and potentially into Goed territory for some criteria.**
+> **Voldoende (55) is now secure even without a pentest. Goed (80+) requires the pentest.**
 
 ---
 
@@ -164,8 +164,8 @@ updated: 2026-06-18
 
 | Deliverable | Requirement | Status |
 |-------------|------------|--------|
-| Attack Surface Mapping | R-18 | ❌ Missing |
-| Updated threat model (post-ASM) | R-18 | ❌ Missing |
+| Attack Surface Mapping | R-18 | ✅ Done — `2026-06-18 Attack Surface Mapping.md` (REST, MVC, DWR, trust boundaries) |
+| Updated threat model (post-ASM) | R-18 | ✅ Done — Dreigingsmodel update included in Attack Surface Mapping §5 |
 | Logging gap analysis | R-19 | ✅ Done (Logging analyse 2026-06-12) |
 | Logging implementation (NEN-7510 §8.15 compliant) | R-19 | ✅ Done (AOP aspect implemented) |
 | Logging tests (success, failure, no PHI) | R-20 | ✅ Done |
@@ -177,20 +177,20 @@ updated: 2026-06-18
 
 | Deliverable | Requirement | Status |
 |-------------|------------|--------|
-| Traceability Matrix (≥3 NEN controls) | R-22 | ❌ Missing |
+| Traceability Matrix (≥3 NEN controls) | R-22 | ✅ Done — `content/500 Project/520 bewijslast/traceability_matrix.md` (8 controls) |
 | Final Audit Report — Executive Summary | R-23 | ✅ Written (audit_report_filled.md) |
 | Final Audit Report — Scope en Context | R-23 | ✅ Written |
 | Final Audit Report — Audit Methodologie | R-23 | ✅ Written |
 | Final Audit Report — Risico-analyse (≥4 findings) | R-23 | ✅ Written (4 findings) |
 | Final Audit Report — SBOM en Supply Chain | R-23 | ✅ Written |
-| Final Audit Report — Conclusie en Advies | R-23 | ❌ Placeholder — Section 6 has `[improvement]`/`[risk]`/`[action]` rows; must be filled |
-| Appendix: Traceability Matrix | R-24 | ❌ Missing |
+| Final Audit Report — Conclusie en Advies | R-23 | ✅ Done — Section 6 filled (8 improvements, 8 remaining risks, short/medium/long-term steps) |
+| Appendix: Traceability Matrix | R-24 | ✅ Done — `traceability_matrix.md` (Appendix A) |
 | Appendix: SBOM (CycloneDX JSON) | R-24 | ✅ Available (CI artefact) |
 | Appendix: SAST output | R-24 | ✅ Available (SonarQube, Snyk, CodeQL) |
 | Appendix: Risicomatrix | R-24 | ✅ Available (risicoanalyse doc) |
 | Appendix: Bow-tie diagrams / threat models | R-24 | ✅ Available (SVG files) |
 | Appendix: Snyk rapport | R-24 | ✅ Available (SAST doc table) |
-| Appendix: CRA-mapping | R-24 | ❌ Missing |
+| Appendix: CRA-mapping | R-24 | ✅ Done — `cra_mapping.md` (Appendix G) |
 
 ---
 
