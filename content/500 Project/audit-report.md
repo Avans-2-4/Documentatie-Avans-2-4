@@ -25,7 +25,7 @@ Two significant improvements were implemented and validated with automated tests
 
 Several significant issues could not be resolved within the 3-week project window. The majority of the CVEs (CVSS 9.8) in the dependency stack are embedded in OpenMRS 1.9.x core libraries and cannot be patched without upgrading to OpenMRS 2+, which is outside scope. PHI exposure via URL query parameters (§5.14) would require broad architectural refactoring.
 
-`[insert pentest findings]`
+No formal penetration test was completed within the project window. The module loading issue (section 3.3) prevented structured testing against a live instance until 18 June 2026, leaving insufficient time for systematic exploitation testing. All risk assessments in this report are based on static code analysis, manual code review, and automated SAST/SCA scanning. A pentest plan and the specific vulnerabilities that would have been targeted are documented in the project backlog (§6.3).
 
 ---
 
@@ -95,7 +95,7 @@ The audit followed a risk-driven, norm-first approach. We began by identifying w
 - **Time:** 3 weeks (sprints 1–4) with a 2-person active implementation team.
 - **Frozen dependency baseline.** The module targets OpenMRS 1.9.x; most high-CVSS vulnerabilities live in platform-level transitive dependencies (spring-beans 3.x, commons-collections 3.x) that cannot be upgraded without a platform migration.
 - **Legacy Spring XML architecture.** Module uses heavy XML-driven Spring configuration, requiring careful AOP wiring to avoid disrupting the existing TransactionProxyFactoryBean setup.
-- **Module loading issues.** Loading the compiled module into a live OpenMRS instance was not fully resolved untill 18-06-2026, which limits end-to-end integration testing.
+- **Module loading issues.** Loading the compiled module into a live OpenMRS instance was not fully resolved until 18-06-2026, which limits end-to-end integration testing.
 
 ---
 
@@ -126,37 +126,35 @@ The audit followed a risk-driven, norm-first approach. We began by identifying w
 
 ### 4.3 Risk Matrix Summary
 
-`[Fill in the status collumn with the current status]`
-
 | Risk ID | Asset                                 | Threat                                                     | Vulnerability                                          | Score | Status | NEN7510 Control  |
 | ------: | ------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------ | ----- | ------ | ---------------- |
-|   RI-01 | Credentials                           | Unauthorized system access due to GitHub credential leak   | No secret scanning / gitignore misconfig               | 15    |        | 8.3, 6.7         |
-|   RI-02 | Credentials                           | Credentials shared via Discord, intercepted or misused     | Human error, use of insecure channels                  | 12    |        | 5.14, 6.3        |
-|   RI-03 | Patient data                          | Unauthorized API data access                               | Missing privilege checks on REST endpoints             | 15    |        | 8.3, 8.25        |
-|   RI-04 | Appointment DB, Patient data          | Unauthorized modification or deletion of appointments      | Insufficient authorization or SQL injection in search  | 12    |        | 8.3, 8.15, 8.28  |
-|   RI-05 | Patient data                          | Logs contain sensitive data                                | Debug mode or no log masking                           | 6     |        | 8.15, 8.25       |
-|   RI-06 | Patient data integrity, Availability  | Vulnerable/outdated dependencies                           | No Dependabot or OWASP checks                          | 16    |        | 8.8, 8.28, 8.29  |
-|   RI-07 | Patient data integrity                | Unauthorized user views or edits others’ appointments      | Missing or incorrectly enforced privilege checks       | 15    |        | 8.9, 8.3. 8.15   |
-|   RI-08 | Patient data                          | SQL injection via unsafe search                            | No input validation, dynamic queries                   | 15    |        | 8.9, 8.3, 8.15   |
-|   RI-09 | Application server / hosting          | Insufficiently protected API                               | Endpoints lack tokens, CORS, or rate limiting          | 20    |        | 8.3, 8.6         |
-|   RI-10 | Patient data                          | Sensitive data exposed in logs or responses                | Missing masking or filtering in debug messages         | 12    |        | 8.15, 8.25, 8.28 |
-|   RI-11 | Admin accounts                        | Social engineering or leaked credentials                   | Human error, lack of policy for credential handling    | 20    |        | 6.3, 5.17, 8.3   |
-|   RI-12 | Patient data                          | Privacy breach from improper filtering                     | No validation for user access to specific locations    | 12    |        | 8.3, 8.25        |
-|   RI-13 | Admin accounts                        | Capability misconfiguration                                | Users granted unnecessary rights                       | 9     |        | 8.3, 8.9         |
-|   RI-14 | Admin accounts                        | Unsafe production configuration (test data, demo accounts) | Default admin/debug features not disabled              | 6     |        | 8.9, 8.3         |
-|   RI-15 | All                                   | Outdated or vulnerable submodules                          | No patching or dependency checking                     | 16    |        | 8.8, 8.28, 8.29  |
-|   RI-16 | Patient data                          | Data remains visible in browser/back-button cache          | Missing cache-control headers or weak session handling | 9     |        | 8.3, 8.25        |
-|   RI-17 | Data integrity, Appointment DB tables | Race conditions or inconsistent data                       | No concurrency control                                 | 6     |        | 8.25, 8.29       |
-|   RI-18 | Patient data, Admin accounts          | XSS attack leaking credentials or data                     | Missing input/output sanitization                      | 12    |        | 8.28, 8.3        |
-|   RI-19 | Availability                          | DDoS attack                                                | No rate limiting or firewall                           | 12    |        | 8.6, 8.3         |
-|    R-20 | Patient data, Admin, DB tables        | Tampering with illogical request values                    | Missing server-side sanity checks                      | 12    |        | 8.28, 8.3        |
-|   RI-21 | Admins, Credentials                   | Brute force login attempt                                  | No rate limiting, lockout, or audit logging            | 16    |        | 8.3, 8.15        |
-|   RI-22 | All                                   | Plugin or CI misconfiguration                              | Third-party actions with excessive rights              | 9     |        | 8.9, 8.3         |
-|   RI-23 | Credentials, Admins                   | Hardcoded secrets or exposed passwords                     | Poor secret management, no isolation                   | 15    |        | 8.28, 8.3        |
-|   RI-24 | Admin accounts                        | Test credentials used in production                        | Misconfiguration                                       | 6     |        | 8.9, 8.3         |
-|   RI-25 | Patient data                          | Real data used in test environments                        | No masking or access control                           | 15    |        | 8.3, 8.25        |
-|   RI-26 | Availability                          | Legal compliance risk (unauthorized use of patient data)   | Non-compliance with NEN7510                            | 8     |        | NEN7510 overall  |
-|   RI-27 | All                                   | System errors due to inadequate testing                    | Missing or incomplete (unit) tests                     | 9     |        | 8.29, 8.28       |
+|   RI-01 | Credentials                           | Unauthorized system access due to GitHub credential leak   | No secret scanning / gitignore misconfig               | 15    | ✅ Mitigated | 8.3, 6.7         |
+|   RI-02 | Credentials                           | Credentials shared via Discord, intercepted or misused     | Human error, use of insecure channels                  | 12    | 🚫 Accepted | 5.14, 6.3        |
+|   RI-03 | Patient data                          | Unauthorized API data access                               | Missing privilege checks on REST endpoints             | 15    | ✅ Mitigated | 8.3, 8.25        |
+|   RI-04 | Appointment DB, Patient data          | Unauthorized modification or deletion of appointments      | Insufficient authorization or SQL injection in search  | 12    | ⚠️ Partially mitigated | 8.3, 8.15, 8.28  |
+|   RI-05 | Patient data                          | Logs contain sensitive data                                | Debug mode or no log masking                           | 6     | ✅ Mitigated | 8.15, 8.25       |
+|   RI-06 | Patient data integrity, Availability  | Vulnerable/outdated dependencies                           | No Dependabot or OWASP checks                          | 16    | 🚫 Accepted | 8.8, 8.28, 8.29  |
+|   RI-07 | Patient data integrity                | Unauthorized user views or edits others’ appointments      | Missing or incorrectly enforced privilege checks       | 15    | ✅ Mitigated | 8.9, 8.3, 8.15   |
+|   RI-08 | Patient data                          | SQL injection via unsafe search                            | No input validation, dynamic queries                   | 15    | ❌ Open | 8.9, 8.3, 8.15   |
+|   RI-09 | Application server / hosting          | Insufficiently protected API                               | Endpoints lack tokens, CORS, or rate limiting          | 20    | ⚠️ Partially mitigated | 8.3, 8.6         |
+|   RI-10 | Patient data                          | Sensitive data exposed in logs or responses                | Missing masking or filtering in debug messages         | 12    | ✅ Mitigated | 8.15, 8.25, 8.28 |
+|   RI-11 | Admin accounts                        | Social engineering or leaked credentials                   | Human error, lack of policy for credential handling    | 20    | 🚫 Accepted | 6.3, 5.17, 8.3   |
+|   RI-12 | Patient data                          | Privacy breach from improper filtering                     | No validation for user access to specific locations    | 12    | ❌ Open | 8.3, 8.25        |
+|   RI-13 | Admin accounts                        | Capability misconfiguration                                | Users granted unnecessary rights                       | 9     | ✅ Mitigated | 8.3, 8.9         |
+|   RI-14 | Admin accounts                        | Unsafe production configuration (test data, demo accounts) | Default admin/debug features not disabled              | 6     | ⚠️ Partially mitigated | 8.9, 8.3         |
+|   RI-15 | All                                   | Outdated or vulnerable submodules                          | No patching or dependency checking                     | 16    | 🚫 Accepted | 8.8, 8.28, 8.29  |
+|   RI-16 | Patient data                          | Data remains visible in browser/back-button cache          | Missing cache-control headers or weak session handling | 9     | ❌ Open | 8.3, 8.25        |
+|   RI-17 | Data integrity, Appointment DB tables | Race conditions or inconsistent data                       | No concurrency control                                 | 6     | 🚫 Accepted | 8.25, 8.29       |
+|   RI-18 | Patient data, Admin accounts          | XSS attack leaking credentials or data                     | Missing input/output sanitization                      | 12    | 🚫 Accepted | 8.28, 8.3        |
+|   RI-19 | Availability                          | DDoS attack                                                | No rate limiting or firewall                           | 12    | ❌ Open | 8.6, 8.3         |
+|   RI-20 | Patient data, Admin, DB tables        | Tampering with illogical request values                    | Missing server-side sanity checks                      | 12    | ❌ Open | 8.28, 8.3        |
+|   RI-21 | Admins, Credentials                   | Brute force login attempt                                  | No rate limiting, lockout, or audit logging            | 16    | ⚠️ Partially mitigated | 8.3, 8.15        |
+|   RI-22 | All                                   | Plugin or CI misconfiguration                              | Third-party actions with excessive rights              | 9     | ✅ Mitigated | 8.9, 8.3         |
+|   RI-23 | Credentials, Admins                   | Hardcoded secrets or exposed passwords                     | Poor secret management, no isolation                   | 15    | ⚠️ Partially mitigated | 8.28, 8.3        |
+|   RI-24 | Admin accounts                        | Test credentials used in production                        | Misconfiguration                                       | 6     | ⚠️ Partially mitigated | 8.9, 8.3         |
+|   RI-25 | Patient data                          | Real data used in test environments                        | No masking or access control                           | 15    | ⚠️ Partially mitigated | 8.3, 8.25        |
+|   RI-26 | Availability                          | Legal compliance risk (unauthorized use of patient data)   | Non-compliance with NEN7510                            | 8     | ⚠️ Partially mitigated | NEN7510 overall  |
+|   RI-27 | All                                   | System errors due to inadequate testing                    | Missing or incomplete (unit) tests                     | 9     | ⚠️ Partially mitigated | 8.29, 8.28       |
 
 ### 4.4 Key Findings
 
@@ -308,7 +306,7 @@ GET query parameters are logged in plaintext by virtually all network infrastruc
 | Additional SCA | Snyk (manual + CI); GitHub Dependency Review Action (per PR); Dependabot (automated alerts) |
 | SAST           | CodeQL (`github/codeql-action`, Java); SonarQube Cloud (Maven CI step)                      |
 
-`[make sure to actually export the SBOM.json]`
+The CycloneDX SBOM is generated on every push to `main` and `develop` via `anchore-syft.yml` and is downloadable as an artifact from the corresponding GitHub Actions workflow run. The SBOM for the most recent main branch build is available as a CI artifact under the `sbom` artifact name (see Appendix B).
 
 ### 5.2 SAST and SCA analysis
 
@@ -352,28 +350,50 @@ All GitHub Actions in the CI workflow are pinned to full-length SHA commit diges
 
 | Improvement | NEN-7510 Control | Evidence |
 |-------------|-----------------|---------|
-| [improvement] | [X.XX] | [link / artefact] |
-| [improvement] | [X.XX] | [link / artefact] |
+| AOP-based audit logging (`AppointmentReadAccessAspect`) — intercepts all service-layer PHI read operations across REST, MVC and DWR layers; log entries contain event type, method name, patient UUID, authenticated user UUID, and ISO-8601 timestamp with no PII | §8.15 Logging | Logging analyse en verbeter rapport (2026-06-12); `AppointmentReadAccessAspect.java`; `AppointmentReadAuditLogger.java`; `moduleApplicationContext.xml`; screenshot Pasted image 20260616125327.png |
+| DWR layer Principle of Least Privilege hardening — all `isAuthenticated()` guards replaced with explicit `Context.requirePrivilege()` calls; deny-all-by-default model | §5.15 Toegangsbeveiliging | RBAC analyse & verbeterrapport (2026-06-17); `DWRAppointmentService.java`; `DWRAppointmentServiceAuthorizationTest.java` |
+| REST controller Gatekeeper Pattern — independent `@Authorized` annotations added at class and method level to `AppointmentRequisitionController` and `AppointmentDailyCountController`; controllers now enforce access rules independently of the service layer | §5.15 Toegangsbeveiliging | RBAC analyse & verbeterrapport (2026-06-17); `AppointmentRequisitionController.java`; `AppointmentDailyCountController.java`; `ControllerAuthorizationAnnotationTest.java`; screenshot Pasted image 20260617130218.png |
+| RBAC configuration drift correction — typo `"View Provider Scedules"` corrected to `"View Provider Schedules"` in `AppointmentUtils.java`, fixing runtime `@Authorized` validation failures caused by a privilege string mismatch between code and `config.xml` | §5.15 Toegangsbeveiliging | RBAC analyse & verbeterrapport (2026-06-17); `AppointmentUtils.java` diff |
+| GitHub organisation security hardening — 2FA enforced for all members; immutable releases; repository delete/transfer restrictions; branch protection (no direct push to main/develop, 1 required reviewer, force push blocked); develop-only merge path to main | §8.9 Configuratiebeheer; §8.3 Beperking toegang | GitHub Organisatie Analyse (2026-06-02); organisation settings |
+| OTAP environment separation — Acceptance and Production GitHub Environments configured with separate VPS credentials (`VPS_HOST`, `VPS_SSH_KEY`, `VPS_USER`) scoped per environment; prevents production secrets from being accessible in test runs | §8.31 Scheiding van ontwikkel-, test- en productieomgevingen | `secrets.md`; GitHub Environments configuration |
+| CI/CD security pipeline — CodeQL, SonarQube Cloud, Snyk, Anchore Syft SBOM, and GitHub Dependency Review Action integrated into every PR and push to main/develop; all GitHub Actions pinned to full SHA digests to prevent supply chain substitution attacks | §8.8 Beheer van technische kwetsbaarheden; §8.29 Testen van de beveiliging; §5.21 Beheren ICT-toeleveringsketen | `.github/workflows/ci.yml`; `anchore-syft.yml`; SAST and SCA Analysis (2026-06-16) |
+| Discord CI/CD change notifications — workflow monitors changes to `.github/workflows/` folder across all repositories and sends a Discord alert; mitigates insider threat via unauthorized pipeline modification | §8.16 Monitoren van activiteiten | `workflow-monitor.yml` |
 
 ### 6.2 Remaining Risks
 
 | Risk | Why Not Fixed | Recommended Action | Priority |
 |------|--------------|-------------------|----------|
-| [risk] | [constraint] | [action] | [H/M/L] |
-| [risk] | [constraint] | [action] | [H/M/L] |
+| CVE stack: CVSS 9.8 vulnerabilities in `commons-collections:3.2`, `spring-beans:3.0.5.RELEASE`, `log4j:1.2.15`, `c3p0:0.9.1`, `jackson-mapper-asl:1.5.0`, `commons-fileupload:1.2.1` (RI-06, RI-15) | Embedded in OpenMRS 1.9.x transitive dependency graph; individual upgrades break the platform API contract; a full platform migration to OpenMRS 2+ is required | Migrate to OpenMRS 2+; continue active monitoring via Dependabot and Snyk in the interim | High |
+| PHI exposure in URL query parameters — patient UUIDs passed as plaintext GET query parameters (RI-12, RI-16; §5.14) | Modifying REST API contract affects all API consumers; estimated 3–5 development days; deprioritised in favour of access control and logging | Migrate PHI search operations from `GET + query parameters` to `POST + JSON body`; inject `Cache-Control: no-store` and `Strict-Transport-Security` headers | Medium–High |
+| Hardcoded database password in `AppointmentActivator.java` (RI-23; issue #98) | Flagged by SonarQube; not yet addressed within sprint window | Move credential to an OpenMRS runtime property or environment variable; remove hardcoded value from source | High |
+| Open redirect in `AppointmentBlockFormController.java` (issue #99) | Flagged by SonarQube; fix requires careful allowlist implementation to avoid regression | Validate redirect target against an explicit allowlist of permitted paths | Medium |
+| Active debug code in `HibernateProviderScheduleDAO.java` printing provider schedule data to console (RI-14; issue #100) | Flagged by SonarQube; not yet addressed within sprint window | Remove `System.out.println` / guard with production log-level check | High |
+| Service-layer empty `@Authorized()` annotations — 7 methods in `AppointmentService.java` use `@Authorized()` with no privilege argument (e.g. line 999), checking only authentication rather than authorisation | Partially addressed (DWR + REST layers fully hardened); service-layer annotation cleanup deferred | Replace each empty `@Authorized()` with the specific privilege constant required for that operation | Medium |
+| Input validation — no whitelist-based input sanitisation; dynamic queries remain (RI-08, RI-20) | Significant implementation scope; missed sprint window | Implement whitelist-based validation on all user-controlled inputs; use parameterised queries consistently | High |
+| No penetration testing conducted | Module loading in OpenMRS 1.9.x not resolved until 18 June 2026; insufficient time for structured exploitation testing | Execute a targeted pentest against the top risks (RI-09, RI-03, RI-07) in the next sprint once the module runs reliably | High |
 
 ### 6.3 Recommended Next Steps
 
 **Short-term (next sprint):**
-- [ ] [action]
-- [ ] [action]
+- [ ] Fix hardcoded database password in `AppointmentActivator.java` (issue #98, RI-23)
+- [ ] Fix open redirect in `AppointmentBlockFormController.java` (issue #99)
+- [ ] Remove active debug code in `HibernateProviderScheduleDAO.java` (issue #100, RI-14)
+- [ ] Replace remaining empty `@Authorized()` annotations in `AppointmentService.java` with explicit privilege constants
+- [ ] Execute a penetration test against the live module targeting RI-09 (insufficient API protection), RI-03 (unauthorized data access), and RI-07 (privilege escalation via DWR)
+- [ ] Migrate PHI search operations from GET query parameters to POST JSON body (§5.14)
+- [ ] Add `Cache-Control: no-store` and `Strict-Transport-Security` headers to all REST responses
 
 **Medium-term:**
-- [ ] [action]
-- [ ] [action]
+- [ ] Implement whitelist-based input validation and parameterised queries throughout the module (RI-08, RI-20)
+- [ ] Implement per-user and per-IP rate limiting to mitigate brute force (RI-21) and DDoS exposure (RI-19)
+- [ ] Document the production deployment and approval gate process for the Production GitHub Environment
+- [ ] Configure CORS to allow only trusted origins and add `X-Frame-Options` / `X-Content-Type-Options` headers
+- [ ] Write automated log verification tests for: (1) successful actions logged, (2) failed actions logged, (3) PHI absent from log output (issue #36)
 
 **Long-term:**
-- [ ] [action]
+- [ ] Migrate the module platform dependency from OpenMRS 1.9.x to OpenMRS 2+; this resolves the majority of outstanding CVSS 9.8 CVEs in a single migration (RI-06, RI-15)
+- [ ] Implement three-layer audit logging: access logs (user actions), system logs (errors/status), admin logs (privilege changes) per §8.15 extended requirements
+- [ ] Integrate JaCoCo code coverage reporting as a standalone CI artifact with a documented target threshold (issue #21)
 
 ---
 
@@ -381,11 +401,11 @@ All GitHub Actions in the CI workflow are pinned to full-length SHA commit diges
 
 | Appendix | Content | Location |
 |----------|---------|----------|
-| A | Traceability Matrix | [link / inline] |
-| B | SBOM (CycloneDX JSON) | [CI artefact / attached file] |
-| C | SAST Output (CodeQL / Snyk / SonarQube) | [link / attached] |
-| D | Risicomatrix (volledig) | [link to risicoanalyse doc] |
-| E | Bow-tie Diagrams / Threat Models | [link to diagram files] |
-| F | Snyk Rapport | [link / screenshot] |
-| G | CRA-mapping | [link / inline] |
-| H | [Other evidence] | [link] |
+| A | Traceability Matrix — maps §8.15, §5.15, §5.14, §8.8, §8.31, §8.9 controls to implementation artefacts and test evidence | `content/500 Project/520 bewijslast/traceability_matrix.md` |
+| B | SBOM (CycloneDX JSON) | GitHub Actions artifact `sbom` from `anchore-syft.yml` workflow — downloadable from any `main`/`develop` workflow run in the Appointment-Scheduling-Audit repository |
+| C | SAST Output (CodeQL / Snyk / SonarQube) | `content/500 Project/500 Analyses/2026-06-16 SAST and SCA Analysis.md`; SonarCloud: https://sonarcloud.io/organizations/avans-2-4/projects |
+| D | Risicomatrix (volledig) | `content/500 Project/500 Analyses/2026-06-08 risicoanalyse.md` |
+| E | Bow-tie Diagrams / Threat Models | SVG diagram files in the Appointment-Scheduling-Audit repository (`/diagrams/`); referenced in `2026-06-08 risicoanalyse.md` |
+| F | Snyk Rapport | CVE table with CVSS scores and accept/fix decisions in `content/500 Project/500 Analyses/2026-06-16 SAST and SCA Analysis.md` §3 |
+| G | CRA-mapping — Cyber Resilience Act obligation mapping | `content/500 Project/520 bewijslast/cra_mapping.md` |
+| H | GitHub Organisatie Analyse / pipeline security evidence | `content/500 Project/500 Analyses/2026-06-02 Github Organizatie Analyse.md`; `content/500 Project/520 bewijslast/secrets.md` |
