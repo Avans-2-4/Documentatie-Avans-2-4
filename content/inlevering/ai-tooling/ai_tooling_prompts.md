@@ -1,5 +1,7 @@
 ## 17-06-2026
 
+### Sessie 1 — Initiële structuuranalyse
+
 [docs](./ai_tooling_verantwoording_june17_2026.md)
 
 ```
@@ -44,6 +46,8 @@ Format all responses with clear sections and use bullet points where possible.
 ```
 
 ## 18-06-2026
+
+### Sessie 2 — Voortgangsreview & taakidentificatie (ochtend)
 
 [docs](./ai_tooling_verantwoording_june18_2026.md)
 
@@ -147,6 +151,8 @@ SPECIAL NOTES:
 - Flag any critical issues that must be addressed before submission
 ```
 
+### Sessie 3 — Implementatie van geïdentificeerde taken (middag)
+
 ```
 You are assisting with a school project audit document. This is a continuation from the previous two sessions.
 
@@ -232,6 +238,8 @@ IMPORTANT:
 - The verantwoording should clearly show how Claude tools were used to improve project documentation
 - Be specific about which reviewer feedback influenced which changes
 ```
+
+### Sessie 4 — Teamimplementaties verwerken (einde dag)
 
 ```
 You are assisting with a school project audit document. This is a continuation from yesterday's work.
@@ -333,4 +341,24 @@ SPECIAL NOTES:
 - Prioritize completing the audit over perfecting individual components
 - Flag any critical issues that must be addressed before submission
 - Assume that we are going to do the pentest on the API part of the module.
+```
+
+### Sessie 5 — Penetratietest voorbereiding (laat)
+
+[docs](./ai_tooling_verantwoording_june18_2026.md)
+
+```
+knowing what you know (read folder 800 and inlevering if you forgot), and tell me what I need to do to do a simple pen test on the api (since the the frontend of the module gives HTTP Status 404 – Not Found / Apache Tomcat/9.0.109)
+
+give code examples with python (a markdown file mimicking the yupiter notebook structure, markdown -> codeblock -> empty codeblock for results -> next markdown _. etc)
+
+and Write an pen testing report that I just need to fill in
+```
+
+```
+on 2nd thought, make it an actual yupiter notebook.
+```
+
+```
+add our conv to ai_tooling_verantwoording_june18_2026.md
 ```

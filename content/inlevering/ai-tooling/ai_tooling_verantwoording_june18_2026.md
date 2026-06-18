@@ -14,7 +14,7 @@ created: 2026-06-18
 
 ---
 
-## Overzicht van de Vier Sessies
+## Overzicht van de Vijf Sessies
 
 | Sessie | Datum | Doel | Output |
 |--------|-------|------|--------|
@@ -22,6 +22,7 @@ created: 2026-06-18
 | 2 | 2026-06-18 ochtend | Voortgangsreview + taakidentificatie voor resterende 2 dagen | `audit-report-feedback.md`, `claude-can-do-this.md`, `implementation_risk_decision.md`, `progress_update.md` |
 | 3 | 2026-06-18 middag | Implementatie van geïdentificeerde taken; auditrapport completeren | Zie §3 hieronder |
 | 4 | 2026-06-18 einde dag | Verwerking van teamimplementaties (#98, #100, Developer README); update van alle documentatiebestanden | Zie §4 hieronder |
+| 5 | 2026-06-18 laat | Penetratietest voorbereiding: notebook + rapporttemplate aanmaken | `pentest/pentest_notebook.ipynb`, `pentest/pentest_report.md` |
 
 ---
 
@@ -160,9 +161,71 @@ Zonder sessie 4 zouden de documentatiebestanden (`audit-report.md`, `progress_up
 
 ---
 
+---
+
+## Sessie 5 — Wat is er gedaan (laat op 2026-06-18)
+
+### 5.1 Aanleiding
+
+De frontend van de module geeft HTTP 404 (Apache Tomcat/9.0.109) wegens een conflict met de Bahmni Appointment Scheduling module. De REST API is wél bereikbaar. Doel van deze sessie: een uitvoerbare penetratietest voorbereiden die:
+- de API als primair testoppervlak gebruikt (geen UI nodig);
+- de voor/ná-vergelijking toont (commit `bf6ab5b` versus huidige `develop`);
+- voldoet aan de rubriekeisen voor Criterion 5 (Penetration tests) en Criterion 6 (Mitigatie & validatie).
+
+### 5.2 Wat Claude deed
+
+| Stap | Actie | Output |
+|------|-------|--------|
+| 1 | Gelezen: `800 Audit Rapport/`, `inlevering/`, git history projectrepo | Inzicht in lopende staat |
+| 2 | Gelezen: alle controllers, REST resources en `DWRAppointmentService.java` in `Appointment-Scheduling-Audit/omod/` | Volledig endpointoverzicht |
+| 3 | Git log geanalyseerd om pre-hardening commit te vinden | Commit `bf6ab5b` geïdentificeerd als de staat vóór PR #97 |
+| 4 | Rubric + `sprints.md` gelezen; beoordeeld wat de rubric vereist voor pen tests | Advies gegeven: plan + uitvoering + voor/ná zijn alle drie vereist |
+| 5 | `pentest_notebook.ipynb` aangemaakt (34 cellen, Jupyter-formaat) | Uitvoerbaar notebook met FASE 1 (VOOR) + FASE 2 (NÁ) structuur |
+| 6 | `pentest_report.md` aangemaakt | Rapporttemplate met alle secties in te vullen door uitvoerder |
+| 7 | Deze verantwoording bijgewerkt + prompts gedocumenteerd | — |
+
+### 5.3 Inhoud van het Jupyter notebook
+
+Het notebook (`pentest/pentest_notebook.ipynb`) bevat 34 cellen in de volgende opbouw:
+
+| Cellen | Inhoud |
+|--------|--------|
+| 0–3 | Titel, voorbereiding (docker stack), setup & hulpfuncties |
+| 4–7 | Module health check, basis authenticatie baseline (geen voor/ná) |
+| 8–15 | **FASE 1 VÓÓR** — deploy-instructie voor `bf6ab5b`, VOOR-3 (statistieken), VOOR-4 (afspraak aanmaken), VOOR-7/8 (DWR patiëntdata) |
+| 16–23 | **FASE 2 NÁ** — redeploy-instructie voor `develop`, NA-3, NA-4, NA-7/8 |
+| 24–31 | Overige tests: PHI in GET URL (RI-12), open redirect (#99), SQL/HQL injection probes |
+| 32–33 | Eindoverzicht: voor/ná vergelijkingstabel |
+
+Elke VOOR/NÁ-testcel bevat:
+- de relevante Java-broncode (vóór vs. ná) als markdown ter referentie;
+- de Python HTTP-testcode;
+- een automatische uitspraak (`KWETSBAARHEID BEVESTIGD` / `MITIGATIE EFFECTIEF`).
+
+### 5.4 Keuzes en beperkingen
+
+| Item | Toelichting |
+|------|-------------|
+| Jupyter `.ipynb` boven Markdown | Gebruiker verzocht expliciet een echt Jupyter notebook zodat resultaten inline worden opgeslagen |
+| `input()` cellen als pauze | Laat toe om de `.omod` te wisselen tussen FASE 1 en FASE 2 zonder de kernel te herstarten — `dwr_call` en sessions blijven in scope |
+| Pre-hardening commit `bf6ab5b` | Dit is de laatste commit vóór PR #97 (RBAC-improvements) — bevat de ongepatchte controllers en DWRAppointmentService |
+| DWR endpoint pad | Standaard OpenMRS module DWR pad; kan afwijken afhankelijk van module-configuratie — te verifiëren bij uitvoer |
+| Tests niet uitgevoerd | Vereist live OpenMRS instantie met correcte module-deployment; resultatenblokken zijn leeg en moeten door uitvoerder worden ingevuld |
+| Open redirect (T-06) | Frontend geeft 404 — kwetsbaarheid aantoonbaar in broncode (`AppointmentBlockFormController.java:313`) maar niet testbaar via HTTP |
+
+### 5.5 Wat Claude niet deed
+
+| Item | Reden |
+|------|-------|
+| Pen tests daadwerkelijk uitvoeren | Vereist live OpenMRS instantie |
+| Resultaten invullen in het rapport | Uitvoerder moet de notebook draaien en output kopiëren |
+| DWR endpoint pad verifiëren | Kan alleen gecontroleerd worden bij een draaiende instantie |
+
+---
+
 ## Wat het team zelf nog moet doen
 
-1. **Penetratietests uitvoeren** (Liam) — target: REST API endpoints (RI-09, RI-03, RI-07). Minimaal: pentest plan + 1–2 uitgevoerde tests.
+1. **Penetratietests uitvoeren** (Liam/Martijn) — notebook is klaar in `Appointment-Scheduling-Audit/pentest/pentest_notebook.ipynb`. Uitvoervolgorde: `git checkout bf6ab5b` → deploy → FASE 1 cellen → `git checkout develop` → redeploy → FASE 2 cellen. Resultaten kopiëren naar `pentest_report.md`.
 2. **GitHub-issues sluiten** die al gedaan zijn — zie `claude-can-do-this.md §3.3` voor de volledige lijst.
 3. **Peer feedback** invullen in alle analysebestanden (of documenteren dat PR-reviews deze functie vervullen).
 4. **Final read-through** van `audit-report.md` — het team moet verifiëren dat de formulering hun eigen oordeel weerspiegelt.
