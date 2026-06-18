@@ -380,6 +380,9 @@ All GitHub Actions in the CI workflow are pinned to full-length SHA commit diges
 - [ ] Execute a penetration test against the live module targeting RI-09 (insufficient API protection), RI-03 (unauthorized data access), and RI-07 (privilege escalation via DWR)
 - [ ] Migrate PHI search operations from GET query parameters to POST JSON body (§5.14)
 - [ ] Add `Cache-Control: no-store` and `Strict-Transport-Security` headers to all REST responses
+- [ ] Merge Dependabot PR [#61](https://github.com/Avans-2-4/Appointment-Scheduling-Audit/pull/61) — `actions/upload-artifact` 4.6.2 → 7.0.1 (Node.js 24, ESM, direct upload support)
+- [ ] Merge Dependabot PR [#62](https://github.com/Avans-2-4/Appointment-Scheduling-Audit/pull/62) — `actions/download-artifact` 4.3.0 → 8.0.1 (Node.js 24, ESM; breaking: hash mismatches now error by default)
+- [ ] Merge Dependabot PR [#63](https://github.com/Avans-2-4/Appointment-Scheduling-Audit/pull/63) — `actions/dependency-review-action` 4.9.0 → 5.0.0 (Node.js 24, security fixes)
 
 **Medium-term:**
 - [ ] Implement whitelist-based input validation and parameterised queries throughout the module (RI-08, RI-20)

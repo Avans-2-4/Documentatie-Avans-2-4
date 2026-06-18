@@ -190,4 +190,31 @@ We are simply unable to add all issues to the github board. So we will only be l
 
 *Accepted betekent dat we erkennen dat het verbeterd zou moeten worden, maar dat we er niet aan toe gaan komen omdat het geen prioriteit is. Wanneer we dit doen geven we hiervoor een rede. Ook open we hiervoor nogsteeds een issue op github, die we direct weer sluiten.*
 
+### Dependabot
+
+Dependabot is configured and active on the repository. Below is a full overview of all Dependabot PRs, split by status.
+
+**Merged (completed):**
+
+| PR | Dependency | From | To | Type |
+|----|-----------|------|----|------|
+| #36 | `actions/setup-java` | 4.8.0 | 5.2.0 | GitHub Actions |
+| #38 | `github/codeql-action` | 3.36.2 | 4.36.2 | GitHub Actions |
+| #40 | `tsickert/discord-webhook` | 5.3.0 | 7.0.0 | GitHub Actions |
+| #43 | `actions/checkout` | 4 | 6 | GitHub Actions |
+| #44 | `appleboy/scp-action` | 0.1.7 | 1.0.0 | GitHub Actions |
+| #52 | `org.apache.maven.plugins:maven-release-plugin` | 2.5 | 3.3.1 | Maven |
+| #54 | `joda-time:joda-time` | 2.2 | 2.14.2 | Maven |
+| #64 | `appleboy/ssh-action` | 1.0.3 | 1.2.5 | GitHub Actions |
+
+**Open (not yet merged — found issues, pending fix):**
+
+| PR | Dependency | From | To | Type | Notes |
+|----|-----------|------|----|------|-------|
+| [#61](https://github.com/Avans-2-4/Appointment-Scheduling-Audit/pull/61) | `actions/upload-artifact` | 4.6.2 | 7.0.1 | GitHub Actions | Major bump; Node.js 24 runtime, ESM upgrade, new direct upload support. Requires runner ≥ v2.327.1. |
+| [#62](https://github.com/Avans-2-4/Appointment-Scheduling-Audit/pull/62) | `actions/download-artifact` | 4.3.0 | 8.0.1 | GitHub Actions | Major bump; Node.js 24 runtime, ESM upgrade. **Breaking:** hash mismatches now error by default. Requires runner ≥ v2.327.1. |
+| [#63](https://github.com/Avans-2-4/Appointment-Scheduling-Audit/pull/63) | `actions/dependency-review-action` | 4.9.0 | 5.0.0 | GitHub Actions | Major bump; Node.js 24 runtime, security finding fixes. Requires runner ≥ v2.327.1. |
+
+All three open PRs require GitHub Actions runner ≥ v2.327.1 for Node.js 24 support. GitHub-hosted runners satisfy this requirement automatically. These are low-risk CI/CD tooling updates with no impact on the application code or its security posture, and can be merged as-is.
+
 ### Algemene feedback klasgenoot
