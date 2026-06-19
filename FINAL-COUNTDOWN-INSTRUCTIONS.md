@@ -11,7 +11,7 @@ Schoolproject van Martijn (Avans) en Liam: security audit van de **OpenMRS Appoi
 | Bestand | Doel |
 |---------|------|
 | `actual-audit-report.md` | De Google Docs export — dit is het DOELBESTAND. Martijn update dit zelf. |
-| `proposed-edits.md` | Hier schrijf JIJ (Claude) de voorgestelde tekst neer, sectie voor sectie. |
+| `proposed-edits.md` | Hier schrijf JIJ (Claude) de voorgestelde tekst neer, sectie voor sectie. Deze wordt voor elke neiuwe sessie geleegd / verwijdert. |
 | `FINAL-COUNTDOWN-INSTRUCTIONS.md` | Dit bestand — workflow en regels. |
 | `FINAL-COUNTDOWN-MEMORY.md` | Jouw context-notities: bevindingen, nuances, bronnen per sectie. |
 

@@ -590,7 +590,7 @@ almost done, documentation is missing.
 
 ---
 - title: # C4 & Threat Modeling
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/.github/issues/14
 
 **Body:**
@@ -601,7 +601,7 @@ Map the system architecture using C4 Level 0 (Context) and Level 1 (Container) d
 
 ---
 - title: # Integrate SAST with Snyk
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/Appointment-Scheduling-Audit/issues/77
 
 **Body:**
@@ -612,7 +612,7 @@ Also take a look at the sonarqube issues
 
 ---
 - title: # NEN-7510-2 Gap Analysis
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/.github/issues/10
 
 **Body:**
@@ -623,7 +623,7 @@ Document the current implementation status of exactly three specific NEN-7510-2 
 
 ---
 - title: # OWASP dependency scanning
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/.github/issues/31
 
 **Body:**
@@ -636,7 +636,7 @@ Detects vulnerabilities (CVEs) in modules.
 
 ---
 - title: # Static code review for privilege checks
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/.github/issues/30
 
 **Body:**
@@ -959,7 +959,7 @@ fully implemented
 ---
 
 - title: # Pipeline Scanning & SBOM
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/.github/issues/15
 
 **Body:**
@@ -971,7 +971,7 @@ Integrate SAST and SCA tools into the CI/CD pipeline to automatically evaluate c
 ---
 
 - title: # Penetration Testing
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/.github/issues/16
 
 **Body:**
@@ -983,7 +983,7 @@ Execute a targeted penetration test focused on the highest risks identified in t
 ---
 
 - title: # Risk Assessment Report
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/.github/issues/17
 
 **Body:**
@@ -995,7 +995,7 @@ Deliver a comprehensive report containing the defined risk criteria, CI/CD risk 
 ---
 
 - title: # Attack Surface Mapping
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/.github/issues/18
 
 **Body:**
@@ -1007,7 +1007,7 @@ Een threat model, alleen gewoon iets meer ingezoomed op specefieke issues. (denk
 ---
 
 - title: # Logging Compliance Implementation
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/.github/issues/19
 
 **Body:**
@@ -1043,7 +1043,7 @@ Output an automated code coverage report as an artifact from the CI process, acc
 ---
 
 - title: # Traceability Matrix Verification
-- Status: Open
+- Status: Closed
 - link: https://github.com/Avans-2-4/.github/issues/22
 
 **Body:**
@@ -1078,4 +1078,303 @@ Attach all supporting evidence as appendices to the final report, explicitly inc
 
 ---
 
+- title: # SonarQube: Floating Point Increment
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwv8T0cOunanvHj-&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Increment operator (++) should not be used with floating point variables. Code quality issue affecting numeric precision.
+
+### Effected files:
+api/src/main/java/org/openmrs/module/appointmentscheduling/StudentT.java
+
+**Comments:**
+Accepted. Can in theory cause damage, but very unlikely. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Field Injection — HibernateSingleClassDAO
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwnRT0cOunanvHgx&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Remove this field injection and use constructor injection instead. Best practice improvement for dependency injection.
+
+### Effected files:
+api/src/main/java/org/openmrs/module/appointmentscheduling/api/db/hibernate/HibernateSingleClassDAO.java
+
+**Comments:**
+Accepted. Structural improvement, no direct security impact. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Transactional Requirement Incompatibility
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwpfT0cOunanvHiX&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+"getTimeLeftInTimeSlot's" @Transactional requirement is incompatible with the one for this method. Could cause runtime transaction issues.
+
+### Effected files:
+api/src/main/java/org/openmrs/module/appointmentscheduling/api/impl/AppointmentServiceImpl.java
+
+**Comments:**
+Accepted. Could cause runtime issues but has not manifested in practice. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Integer Division Precision
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwpfT0cOunanvHh4&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Cast one of the operands of this integer division to a "double". Integer division truncates the result which may cause precision errors.
+
+### Effected files:
+api/src/main/java/org/openmrs/module/appointmentscheduling/api/impl/AppointmentServiceImpl.java
+
+**Comments:**
+Accepted. Low impact. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Field Injection — AppointmentReadAccessAspect
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwvQT0cOunanvHjw&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Remove this field injection and use constructor injection instead. Best practice improvement for dependency injection.
+
+### Effected files:
+api/src/main/java/org/openmrs/module/appointmentscheduling/audit/AppointmentReadAccessAspect.java
+
+**Comments:**
+Accepted. Structural improvement, no direct security impact. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Static String Variable
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwvaT0cOunanvHjz&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Make "ISO8601" an instance variable. Code quality improvement — static mutable state is not thread-safe.
+
+### Effected files:
+api/src/main/java/org/openmrs/module/appointmentscheduling/audit/AppointmentReadAuditLogger.java
+
+**Comments:**
+Accepted. Code quality issue. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Field Injection — AppointmentPropertyDataEvaluator
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwqoT0cOunanvHjQ&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Remove this field injection and use constructor injection instead.
+
+### Effected files:
+api/src/main/java/org/openmrs/module/appointmentscheduling/reporting/data/evaluator/AppointmentPropertyDataEvaluator.java
+
+**Comments:**
+Accepted. Structural improvement, no direct security impact. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Field Injection — PatientToAppointmentDataEvaluator
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwqeT0cOunanvHjO&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Remove this field injection and use constructor injection instead.
+
+### Effected files:
+api/src/main/java/org/openmrs/module/appointmentscheduling/reporting/data/evaluator/PatientToAppointmentDataEvaluator.java
+
+**Comments:**
+Accepted. Structural improvement, no direct security impact. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Field Injection — PersonToAppointmentDataEvaluator
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwq0T0cOunanvHjU&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Remove this field injection and use constructor injection instead.
+
+### Effected files:
+api/src/main/java/org/openmrs/module/appointmentscheduling/reporting/data/evaluator/PersonToAppointmentDataEvaluator.java
+
+**Comments:**
+Accepted. Structural improvement, no direct security impact. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Field Injection — BasicAppointmentQueryEvaluator
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwr-T0cOunanvHjg&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Remove this field injection and use constructor injection instead.
+
+### Effected files:
+api/src/main/java/org/openmrs/module/appointmentscheduling/reporting/query/evaluator/BasicAppointmentQueryEvaluator.java
+
+**Comments:**
+Accepted. Structural improvement, no direct security impact. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Always True Condition
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwwjT0cOunanvHkO&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Change this condition so that it does not always evaluate to "true". Logic error that may indicate dead code or incorrect guard logic.
+
+### Effected files:
+api/src/main/java/org/openmrs/module/appointmentscheduling/task/AppointmentSchedulerSetup.java
+
+**Comments:**
+Accepted. Logic error with low runtime impact in current usage. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Field Injection — AppointmentTypeValidator
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwqKT0cOunanvHjI&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Remove this field injection and use constructor injection instead.
+
+### Effected files:
+api/src/main/java/org/openmrs/module/appointmentscheduling/validator/AppointmentTypeValidator.java
+
+**Comments:**
+Accepted. Structural improvement, no direct security impact. Planned for a future phase.
+
+---
+
+- title: # SonarQube: System Clock in Tests — AppointmentBlockServiceTest
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwy5T0cOunanvHlj&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Do not use the system clock in tests. Use a fixed time for reproducibility. Time-dependent tests may produce different results depending on when they run.
+
+### Effected files:
+api/src/test/java/org/openmrs/module/appointmentscheduling/api/AppointmentBlockServiceTest.java
+
+**Comments:**
+Accepted. Not a pressing matter. Planned for a future phase.
+
+---
+
+- title: # SonarQube: System Clock in Tests — AppointmentRequestServiceTest
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwylT0cOunanvHk2&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Do not use the system clock in tests. Use a fixed time for reproducibility.
+
+### Effected files:
+api/src/test/java/org/openmrs/module/appointmentscheduling/api/AppointmentRequestServiceTest.java
+
+**Comments:**
+Accepted. Not a pressing matter. Planned for a future phase.
+
+---
+
+- title: # SonarQube: System Clock in Tests — AppointmentServiceTest
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwzGT0cOunanvHmM&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Do not use the system clock in tests. Use a fixed time for reproducibility.
+
+### Effected files:
+api/src/test/java/org/openmrs/module/appointmentscheduling/api/AppointmentServiceTest.java
+
+**Comments:**
+Accepted. Not a pressing matter. Planned for a future phase.
+
+---
+
+- title: # SonarQube: System Clock in Tests — AppointmentStatusHistoryServiceTest
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwzZT0cOunanvHmt&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Do not use the system clock in tests. Use a fixed time for reproducibility.
+
+### Effected files:
+api/src/test/java/org/openmrs/module/appointmentscheduling/api/AppointmentStatusHistoryServiceTest.java
+
+**Comments:**
+Accepted. Not a pressing matter. Planned for a future phase.
+
+---
+
+- title: # SonarQube: System Clock in Tests — ProviderScheduleServiceTest
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwzPT0cOunanvHmk&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Do not use the system clock in tests. Use a fixed time for reproducibility.
+
+### Effected files:
+api/src/test/java/org/openmrs/module/appointmentscheduling/api/ProviderScheduleServiceTest.java
+
+**Comments:**
+Accepted. Not a pressing matter. Planned for a future phase.
+
+---
+
+- title: # SonarQube: System Clock in Tests — TimeSlotServiceTest
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwyvT0cOunanvHlB&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Do not use the system clock in tests. Use a fixed time for reproducibility.
+
+### Effected files:
+api/src/test/java/org/openmrs/module/appointmentscheduling/api/TimeSlotServiceTest.java
+
+**Comments:**
+Accepted. Not a pressing matter. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Missing Test Assertion
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwyaT0cOunanvHku&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+Add at least one assertion to this test case. Test verifies no exceptions but does not assert expected outcomes.
+
+### Effected files:
+api/src/test/java/org/openmrs/module/appointmentscheduling/reporting/dataset/evaluator/AppointmentDataSetEvaluatorTest.java
+
+**Comments:**
+Accepted. Test completeness issue, not a pressing security matter. Planned for a future phase.
+
+---
+
+- title: # SonarQube: Shadowed Field
+- Status: Closed as not planned
+- link: https://sonarcloud.io/project/issues?open=AZ7QYwg1T0cOunanvHd_&id=Avans-2-4_Appointment-Scheduling-Audit
+
+**Body:**
+"log" is the name of a field in "PortletController". The local field shadows the parent class field, which could cause naming confusion and subtle bugs.
+
+### Effected files:
+omod/src/main/java/org/openmrs/module/appointmentscheduling/web/controller/AppointmentsPortletController.java
+
+**Comments:**
+Accepted. Medium priority; could be a breaking issue in edge cases. Planned for a future phase.
+
+---
 
