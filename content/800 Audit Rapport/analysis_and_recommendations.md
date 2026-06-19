@@ -3,11 +3,13 @@ tags:
   - audit
   - analyse
 created: 2026-06-17
+updated: 2026-06-18
 ---
 
 # Audit Analysis and Recommendations
 
 > Based on review of: rubric.md, sprints.md, requirements.md, all 500 Project analyses, standups, and the audit repository's CI configuration and README.
+> **Updated 2026-06-18 (session 4):** Incorporates fix of #98 (hardcoded password, commit `8347679`), fix of #100 (debug code, commit `ad5128c`), and completion of Developer Onboarding README (issues #42/#13, commit `0a4c108`). RI-14 and RI-23 are now fully mitigated.
 
 ---
 
@@ -24,7 +26,7 @@ created: 2026-06-17
 | Non-compliance list prioritised by risk | ✅ Done | Linked to risk matrix scores |
 | Advice for improving compliancy included | ✅ Done | "Wat er moet gebeuren" section per control |
 | Analysis grounded in sources / norm text | ⚠️ Partial | References to norm controls exist; explicit norm text citations sparse |
-| Post-implementation re-evaluation of gaps | ❌ Missing | Gap analysis was written before improvements; not re-evaluated |
+| Post-implementation re-evaluation of gaps | ✅ Done | Added to GAP analyse (2026-06-18) — before/after table for §8.15, §5.15, §5.14 |
 
 **Estimated score: 11–16 / 20**
 
@@ -35,12 +37,12 @@ created: 2026-06-17
 | Sub-requirement | Status | Notes |
 |----------------|--------|-------|
 | Pipeline is securely configured | ✅ Done | CI/CD with CodeQL, SonarQube, Dependency Review, Syft |
-| Environments separated (OTAP) | ⚠️ Partial | `environment: test` in ci.yml; production environment undocumented |
-| Separated configuration and secrets | ⚠️ Partial | GitHub Secrets used; explicit separation doc missing |
+| Environments separated (OTAP) | ✅ Done | Acceptance + Production GitHub Environments confirmed in secrets.md; separate VPS secrets per environment |
+| Separated configuration and secrets | ✅ Done | secrets.md confirms VPS_HOST, VPS_SSH_KEY, VPS_USER scoped per environment; SONAR_TOKEN + Discord webhooks as repo secrets |
 | Documentation justifies security choices | ⚠️ Partial | GitHub Org Analyse (2026-06-02) covers org settings; CI choices not narrated |
 | Non-traceable data per environment (for Goed) | ❌ Missing | No documented decision about test-data isolation |
 
-**Estimated score: 8–11 / 15**
+**Estimated score: 11–14 / 15** *(updated: environment segregation confirmed done)*
 
 ---
 
@@ -101,17 +103,17 @@ created: 2026-06-17
 
 ### Security Rubric Score Estimate
 
-| Criterion | Estimated Score | Max |
-|-----------|----------------|-----|
-| Security audit (NEN-7510) | 11–16 | 20 |
-| Secure pipelines | 8–11 | 15 |
-| Advies updates (SBOM/CVE) | 8–12 | 15 |
-| Security code review | 9–12 | 15 |
-| **Penetration tests** | **0** | **15** |
-| Mitigatie & validatie | 5–14 | 20 |
-| **Total** | **41–65** | **100** |
+| Criterion | Estimated Score | Max | Notes (updated 2026-06-18 session 4) |
+|-----------|----------------|-----|--------------------------------------|
+| Security audit (NEN-7510) | 14–18 | 20 | Post-GAP re-evaluation added; #98 and #100 fixed improves audit completeness |
+| Secure pipelines | 11–14 | 15 | OTAP separation confirmed + documented; Developer README done |
+| Advies updates (SBOM/CVE) | 11–13 | 15 | CRA-mapping + concrete recommendations; #98 fix demonstrates follow-through |
+| Security code review | 11–13 | 15 | Attack Surface Mapping + NEN refs in SAST; RI-14 and RI-23 fully mitigated |
+| **Penetration tests** | **0–8** | **15** | 0 if no test; 4–8 if pentest plan written |
+| Mitigatie & validatie | 10–15 | 20 | Section 6 filled; #98/#100 fixed strengthens mitigation evidence |
+| **Total** | **57–81** | **100** | |
 
-> **Without a pentest, the score sits near the Voldoende boundary (55). With even a basic pentest document, it moves comfortably into Voldoende and potentially into Goed territory for some criteria.**
+> **Voldoende (55) is now secure even without a pentest. Goed (80+) requires the pentest.**
 
 ---
 
@@ -138,9 +140,9 @@ created: 2026-06-17
 | Deliverable | Requirement | Status |
 |-------------|------------|--------|
 | Gap analysis — 3 NEN-7510-2 controls | R-10 | ✅ Done (8.15, 5.15, 5.14) |
-| GitHub Environments (test + production) | R-11 | ⚠️ Partial (test env in CI; production undocumented) |
+| GitHub Environments (test + production) | R-11 | ✅ Done — Acceptance + Production environments confirmed in secrets.md |
 | Branch protection + approval gates | R-12 | ✅ Done (documented + implemented) |
-| Developer onboarding README.md | R-13 | ❌ Missing (original OpenMRS README unchanged) |
+| Developer onboarding README.md | R-13 | ✅ Done — `content/500 Project/520 bewijslast/onboarding-README.md`; also added to project repo (commit `0a4c108`) |
 
 ### Sprint 2 Deliverables
 
@@ -162,8 +164,8 @@ created: 2026-06-17
 
 | Deliverable | Requirement | Status |
 |-------------|------------|--------|
-| Attack Surface Mapping | R-18 | ❌ Missing |
-| Updated threat model (post-ASM) | R-18 | ❌ Missing |
+| Attack Surface Mapping | R-18 | ✅ Done — `2026-06-18 Attack Surface Mapping.md` (REST, MVC, DWR, trust boundaries) |
+| Updated threat model (post-ASM) | R-18 | ✅ Done — Dreigingsmodel update included in Attack Surface Mapping §5 |
 | Logging gap analysis | R-19 | ✅ Done (Logging analyse 2026-06-12) |
 | Logging implementation (NEN-7510 §8.15 compliant) | R-19 | ✅ Done (AOP aspect implemented) |
 | Logging tests (success, failure, no PHI) | R-20 | ✅ Done |
@@ -175,20 +177,20 @@ created: 2026-06-17
 
 | Deliverable | Requirement | Status |
 |-------------|------------|--------|
-| Traceability Matrix (≥3 NEN controls) | R-22 | ❌ Missing |
+| Traceability Matrix (≥3 NEN controls) | R-22 | ✅ Done — `content/500 Project/520 bewijslast/traceability_matrix.md` (8 controls) |
 | Final Audit Report — Executive Summary | R-23 | ✅ Written (audit_report_filled.md) |
 | Final Audit Report — Scope en Context | R-23 | ✅ Written |
 | Final Audit Report — Audit Methodologie | R-23 | ✅ Written |
 | Final Audit Report — Risico-analyse (≥4 findings) | R-23 | ✅ Written (4 findings) |
 | Final Audit Report — SBOM en Supply Chain | R-23 | ✅ Written |
-| Final Audit Report — Conclusie en Advies | R-23 | ✅ Written |
-| Appendix: Traceability Matrix | R-24 | ❌ Missing |
+| Final Audit Report — Conclusie en Advies | R-23 | ✅ Done — Section 6 filled (8 improvements, 8 remaining risks, short/medium/long-term steps) |
+| Appendix: Traceability Matrix | R-24 | ✅ Done — `traceability_matrix.md` (Appendix A) |
 | Appendix: SBOM (CycloneDX JSON) | R-24 | ✅ Available (CI artefact) |
 | Appendix: SAST output | R-24 | ✅ Available (SonarQube, Snyk, CodeQL) |
 | Appendix: Risicomatrix | R-24 | ✅ Available (risicoanalyse doc) |
 | Appendix: Bow-tie diagrams / threat models | R-24 | ✅ Available (SVG files) |
 | Appendix: Snyk rapport | R-24 | ✅ Available (SAST doc table) |
-| Appendix: CRA-mapping | R-24 | ❌ Missing |
+| Appendix: CRA-mapping | R-24 | ✅ Done — `cra_mapping.md` (Appendix G) |
 
 ---
 

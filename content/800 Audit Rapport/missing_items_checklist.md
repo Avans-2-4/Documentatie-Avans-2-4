@@ -3,6 +3,7 @@ tags:
   - audit
   - checklist
 created: 2026-06-17
+updated: 2026-06-18
 ---
 
 # Missing Items Checklist — Quick Reference
@@ -18,40 +19,38 @@ created: 2026-06-17
   - No pentest document exists anywhere — this is worth 15 pts on the security rubric
   - Even a basic manual test targeting the top 3 risks (RI-09, RI-03, RI-07) is sufficient
   - Required to validate the implemented mitigations (criterion 6)
+  - **Liam's task today** — depends on module loading in OpenMRS 1.9.x
 
-- [ ] **Traceability Matrix** (R-22)
-  - Maps ≥3 NEN-7510:2024 controls to verifiable artefacts
-  - All evidence already exists — this is assembly work, not new analysis
-  - Required appendix for the final audit report
+- [x] **Traceability Matrix** (R-22) *(completed 2026-06-18)*
+  - `content/500 Project/520 bewijslast/traceability_matrix.md` — 8 NEN-7510 controls mapped to artefacts and test evidence
 
-- [ ] **Final Audit Report** (R-23)
-  - `audit_report_filled.md` in this folder is a starting point — review and complete it
-  - Must include: Executive Summary, Scope, Methodology, ≥4 Findings, SBOM section, Conclusion
-  - Peer-review the filled template before submission
+- [x] **Final Audit Report — Section 6 + all placeholders** (R-23) *(completed 2026-06-18)*
+  - Section 6.1 Improvements: 8 items documented
+  - Section 6.2 Remaining Risks: 8 risks documented
+  - Section 6.3 Next Steps: short/medium/long-term filled
+  - Risk status column (§4.3): all 27 rows filled
+  - All placeholder strings resolved
+  - Appendix table: all 8 entries have concrete references
 
-- [ ] **CRA-mapping** (R-24 appendix)
-  - Map audit findings to Cyber Resilience Act obligations (vulnerability handling, SBOM, security updates)
-  - Referenced as a required appendix in sprints.md Sprint 4
+- [x] **CRA-mapping** (R-24 appendix) *(completed 2026-06-18)*
+  - `content/500 Project/520 bewijslast/cra_mapping.md` — 12 CRA obligations mapped
 
 ---
 
 ## HIGH — Required by sprint deliverables
 
-- [ ] **Attack Surface Mapping** (R-18)
-  - Document 100% of module entry points: REST endpoints, Spring MVC controllers, DWR methods
-  - Identify high-risk entry points and implicit trust boundaries
-  - Update threat model with new information
-  - Referenced in Sprint 3 requirements
+- [x] **Attack Surface Mapping** (R-18) *(completed 2026-06-18)*
+  - `content/500 Project/500 Analyses/2026-06-18 Attack Surface Mapping.md`
+  - Full inventory: REST (5 endpoints), Spring MVC (5 controllers), DWR (16+ methods), 5 trust boundaries
+  - High-risk entry points identified; dreigingsmodel update included
 
-- [ ] **Developer Onboarding README** (R-13)
-  - The current README.md in Appointment-Scheduling-Audit is the original OpenMRS README — unchanged
-  - Must add: environment architecture, how test data is prevented from reaching production, new developer setup steps
-  - Referenced in Sprint 1 requirements
+- [x] **Developer Onboarding README** (R-13) *(completed 2026-06-18)*
+  - `content/500 Project/520 bewijslast/onboarding-README.md` — environment architecture, separation mechanism, new developer setup (commit `0a4c108`, docs updated `d0e0ebf`)
 
 - [ ] **Code Coverage target + justification** (R-21)
   - SonarQube shows coverage but no written target % exists
-  - Write 1 paragraph: what % was chosen, why (context: security-critical code), which tool reports it
-  - SonarQube/JaCoCo integration issue noted in standup 2026-06-16 — confirm this is resolved
+  - Draft paragraph available in `claude-can-do-this.md §2.5`
+  - Add as a separate section in the SAST analysis or RBAC analyse document
 
 ---
 
@@ -66,11 +65,11 @@ created: 2026-06-17
   - Content is spread across risicoanalyse.md — needs to be compiled into one document
   - Must include: risk criteria, CI/CD risk evaluation, prioritised security backlog, cost estimation
   - **Cost estimation is completely missing** — add effort/time estimates per improvement
+  - The Section 6.3 Next Steps in audit-report.md covers short/medium/long-term but not cost estimates
 
-- [ ] **Production GitHub Environment documented**
-  - Only `environment: test` is visible in ci.yml
-  - Document whether a production environment exists; if not, create one with an approval gate
-  - Required for OTAP separation evidence (criterion 2 Secure Pipelines)
+- [x] **Production GitHub Environment** *(confirmed done 2026-06-18)*
+  - `secrets.md` confirms both Acceptance and Production environments exist with separate VPS credentials
+  - **Still needed:** Reference this explicitly in the audit report (Criterion 2 / Section 6.1)
 
 - [ ] **CodeQL findings discussed in SAST doc**
   - CodeQL runs in CI (ci.yml `codeql` job) but is not mentioned in the SAST analysis document
@@ -91,9 +90,8 @@ created: 2026-06-17
 
 ## LOW — Quality improvements (worth points for Goed)
 
-- [ ] **Post-implementation re-evaluation of GAP analyse**
-  - The gap analysis was written before logging + RBAC improvements were made
-  - Add a "Post-Implementation Status" subsection to each control showing the current state
+- [x] **Post-implementation re-evaluation of GAP analyse** *(completed 2026-06-18)*
+  - Added to `2026-06-09 GAP analyse NEN-7510-2.md` — before/after table for all 3 controls
 
 - [ ] **NEN-7510 control references in GitHub Org Analyse**
   - The "NEN7510 Related" column is blank for most entries in the org analysis improvements table
@@ -125,8 +123,8 @@ created: 2026-06-17
 - [x] Risk matrix (27 risks, RI-01–RI-27)
 - [x] Three bow-tie diagrams (leaked credentials, unauthorized access, API breach)
 - [x] AOP audit logging implementation + tests (AppointmentReadAccessAspect)
-- [x] RBAC: DWR layer PoLP enforcement + tests
-- [x] RBAC: Gatekeeper Pattern on REST controllers + tests
+- [x] RBAC: DWR layer PoLP enforcement + tests (PR #97 merged 2026-06-18)
+- [x] RBAC: Gatekeeper Pattern on REST controllers + tests (PR #97 merged 2026-06-18)
 - [x] RBAC: Configuration drift (typo) corrected
 - [x] Snyk SCA scan — full findings table with CVEs, CVSS, decisions
 - [x] SonarQube code analysis — security and reliability findings
@@ -134,6 +132,7 @@ created: 2026-06-17
 - [x] Anchore Syft SBOM pipeline
 - [x] GitHub Dependency Review Action (per PR)
 - [x] Dependabot alerts enabled
+- [x] Acceptance + Production GitHub Environments with separate secrets
 - [x] GitHub 2FA enforcement
 - [x] GitHub immutable releases
 - [x] Repository delete restrictions
@@ -142,3 +141,6 @@ created: 2026-06-17
 - [x] Proposed improvements table with justifications (risicoanalyse)
 - [x] Threat actors and controls documented
 - [x] Security backlog items with NEN references
+- [x] Hardcoded password removed from `AppointmentActivator.java` (issue #98, commit `8347679`)
+- [x] Active debug code removed from `HibernateProviderScheduleDAO.java` (issue #100, commit `ad5128c`)
+- [x] Developer Onboarding README written and merged (issues #42, #13; commit `0a4c108`)
