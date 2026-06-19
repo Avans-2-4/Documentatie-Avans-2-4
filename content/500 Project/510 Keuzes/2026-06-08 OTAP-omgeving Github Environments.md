@@ -27,7 +27,7 @@ Demonstration and validation of findings and patches. Used to present audit resu
 - Cannot be self-reviewed
 - Deployment restricted to `main` branch only
 
-Acceptance is a shared, stable environment. Requiring a reviewer ensure only validated work reaches this stage, preventing half-finished patches from being demonstrated to assessors. Branch restriction to `main` enforces that only merged, reviewed code is deployed here.
+Acceptance is a shared, stable environment. Requiring a reviewer ensures only validated work reaches this stage, preventing half-finished patches from being demonstrated to assessors. Branch restriction to `main` ensures only integrated code is deployed here — and because `main` is reachable only through `develop` (which requires 1 approving reviewer), all deployed code has passed a review, even though the review gate sits on `develop` rather than directly on `main`.
 
 ----
 ### Production
@@ -39,7 +39,7 @@ The final reference environment representing a compliant, hardened deployment of
 - Wait timer: 5 minutes before deployment proceeds
 - Hardened Docker Compose configuration
 
-Production represents the highest-risk environment. The wait timer introduces a forced pause, giving reviewers time to catch last-minute issues before deployment proceeds. Combined with required reviewers no self-review and branch restrictions. this satifies NEN-7510 A.8.3 (access control) and A.8.5 (authentication) by ensuring no single person can unilaterally deploy to production.
+Production represents the highest-risk environment. The wait timer introduces a forced pause, giving reviewers time to catch last-minute issues before deployment proceeds. Combined with required reviewers, no self-review, and branch restrictions, this satisfies NEN-7510 A.8.3 (access control) and A.8.5 (authentication) by ensuring no single person can unilaterally deploy to production. The `main` branch itself has no direct review requirement — review enforcement sits on `develop`, which is the only path into `main`.
 
 ## Docker Compose Structure
 Each environment has a corresponding Docker Compose override file. The base `docker-compose.yml` defines the shared service configuration (OpenMRS backend, MariaDB, nginx gateway). Environment-specific overrides are layered on top and only define what differs from the base.
