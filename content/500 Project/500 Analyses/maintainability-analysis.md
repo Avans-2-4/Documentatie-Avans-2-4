@@ -140,8 +140,14 @@ classDiagram
     }
 
     AppointmentServiceImpl ..> Function : uses keyExtractor
-    note for AppointmentServiceImpl "getAverageHistoryDurationByConditions calls\ncomputeAverageDurations(history -> history.getAppointment().getAppointmentType())\n\ngetAverageHistoryDurationByConditionsPerProvider calls\ncomputeAverageDurations(history -> history.getAppointment().getTimeSlot().getAppointmentBlock().getProvider())"
 ```
+
+Each public method becomes a one-liner delegating with its own lambda:
+
+| Public method | keyExtractor lambda |
+|---|---|
+| `getAverageHistoryDurationByConditions` | `h -> h.getAppointment().getAppointmentType()` |
+| `getAverageHistoryDurationByConditionsPerProvider` | `h -> h.getAppointment().getTimeSlot().getAppointmentBlock().getProvider()` |
 
 **Refactoring target** — the private template method signature:
 
@@ -189,11 +195,14 @@ classDiagram
     AppointmentTimingPredicate <|.. EarlyArrivalPredicate
     AppointmentTimingPredicate <|.. LateArrivalPredicate
     AppointmentServiceImpl ..> AppointmentTimingPredicate : uses
-    note for EarlyArrivalPredicate "visit.getStartDatetime().before(slot.getEndDate())"
-    note for LateArrivalPredicate "visit.getStartDatetime().after(slot.getEndDate())"
 ```
 
-Since Java 8+ lambdas are available, `AppointmentTimingPredicate` can simply be `Predicate<Appointment>`.
+Since Java 8+ lambdas are available, `AppointmentTimingPredicate` can simply be `Predicate<Appointment>`. The two predicate implementations differ by a single comparison:
+
+| Class | Predicate expression |
+|---|---|
+| `EarlyArrivalPredicate` | `visit.getStartDatetime().before(slot.getEndDate())` |
+| `LateArrivalPredicate` | `visit.getStartDatetime().after(slot.getEndDate())` |
 
 **Alternatives considered:**
 
@@ -229,11 +238,18 @@ classDiagram
 
     AbstractToAppointmentDataEvaluator <|-- PatientToAppointmentDataEvaluator
     AbstractToAppointmentDataEvaluator <|-- PersonToAppointmentDataEvaluator
-
-    note for AbstractToAppointmentDataEvaluator "evaluate() = template:\n1. buildAppointmentIdMap (shared)\n2. filterConfidential (shared)\n3. evaluateJoinedData (abstract)"
-    note for PatientToAppointmentDataEvaluator "Creates PatientEvaluationContext,\ncalls PatientDataService"
-    note for PersonToAppointmentDataEvaluator "Creates PersonEvaluationContext,\ncalls PersonDataService"
 ```
+
+`evaluate()` follows a fixed three-step template in the base class; only step 3 is abstract:
+
+1. `buildAppointmentIdMap` — shared HQL query
+2. `filterConfidential` — shared confidentiality logic
+3. `evaluateJoinedData` — abstract; each subclass provides its own context and data service
+
+| Subclass | Context created | Service called |
+|---|---|---|
+| `PatientToAppointmentDataEvaluator` | `PatientEvaluationContext` | `PatientDataService` |
+| `PersonToAppointmentDataEvaluator` | `PersonEvaluationContext` | `PersonDataService` |
 
 **Alternatives considered:**
 
@@ -286,9 +302,9 @@ classDiagram
     AppointmentServiceImpl --> AppointmentSchedulingDomainService
     AppointmentServiceImpl --> AppointmentAnalyticsService
     AppointmentServiceImpl --> AppointmentCrudService
-
-    note for AppointmentServiceImpl "Public API unchanged.\nInternal logic factored into\npackage-private domain services.\nEliminates self-proxy calls."
 ```
+
+`AppointmentServiceImpl` becomes a thin facade: the public API is unchanged, all logic moves into package-private domain services injected via Spring, which eliminates the self-proxy (`Context.getService()`) calls.
 
 This resolves the S6809 self-proxy issues: `AppointmentSchedulingDomainService.bookAppointment()` would call `AppointmentCrudService.saveAppointment()` via injection — no `Context.getService()` needed.
 
@@ -350,16 +366,16 @@ This resolves all 49 `S1192` violations in one sweep and prevents divergence if 
 
 **Prioritization criteria:** Each improvement is scored by its *metric impact* (number of SonarQube violations resolved, or reduction in complexity) weighted against *implementation effort*. P1 items have high metric impact at low effort (best ratio). P4 items have architectural impact but carry the highest effort and risk, making them suitable for a longer-term roadmap. All items are directly traceable to SonarQube findings in section 1 and structural findings in sections 2–3.
 
-| Priority | Issue | Files | Effort | Metric impact |
-|---|---|---|---|---|
-| **P1** | Extract template method for duplicate analytics methods (see §4a) | `AppointmentServiceImpl.java:1008–1137` | Low | Removes ~65 lines of cloned logic; S3776 count ↓; cognitive complexity ↓ |
-| **P1** | Define field name constants in domain classes (see §4e) | `Appointment`, `AppointmentBlock`, all Hibernate DAOs, all REST resources | Low | Resolves all 49 S1192 violations at once; duplicated_lines_density ↓ |
-| **P2** | Extract shared base class for evaluators (see §4c) | `PatientToAppointmentDataEvaluator.java`, `PersonToAppointmentDataEvaluator.java` | Low | Eliminates ~60 lines of duplicated HQL + confidentiality logic |
-| **P2** | Strategy-extract `getEarlyAppointments`/`getLateAppointments` (see §4b) | `AppointmentServiceImpl.java:1314–1348` | Low | 35 lines → ~12 lines |
-| **P2** | Replace deprecated `new Date(int,int,int,int,int,int)` with `Calendar`-based `setupDate` (already exists in same file) | `AppointmentServiceImpl.java:1307` | Trivial | Removes a deprecated API call flagged in static analysis |
-| **P3** | Reduce `AppointmentBlockValidator` complexity (S3776: cognitive 20) | `AppointmentBlockValidator.java:59` | Low | Extract type-validation loop to private method; S3776 count ↓ |
-| **P3** | Reduce `HibernateAppointmentDAO.getAppointmentsByConstraints` complexity (cognitive 37, worst single method) | `HibernateAppointmentDAO.java` | Medium | Extract each filter branch to private method; largest single S3776 violation resolved |
-| **P4** | Facade decomposition of `AppointmentServiceImpl` (see §4d) | `AppointmentServiceImpl.java` | High | Resolves self-proxy anti-pattern (S6809), reduces god-class complexity; public API unchanged |
+| Priority | Issue                                                                                                                  | Files                                                                             | Effort  | Metric impact                                                                                |
+| -------- | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------- | -------------------------------------------------------------------------------------------- |
+| **P1**   | Extract template method for duplicate analytics methods (see §4a)                                                      | `AppointmentServiceImpl.java:1008–1137`                                           | Low     | Removes ~65 lines of cloned logic; S3776 count ↓; cognitive complexity ↓                     |
+| **P1**   | Define field name constants in domain classes (see §4e)                                                                | `Appointment`, `AppointmentBlock`, all Hibernate DAOs, all REST resources         | Low     | Resolves all 49 S1192 violations at once; duplicated_lines_density ↓                         |
+| **P2**   | Extract shared base class for evaluators (see §4c)                                                                     | `PatientToAppointmentDataEvaluator.java`, `PersonToAppointmentDataEvaluator.java` | Low     | Eliminates ~60 lines of duplicated HQL + confidentiality logic                               |
+| **P2**   | Strategy-extract `getEarlyAppointments`/`getLateAppointments` (see §4b)                                                | `AppointmentServiceImpl.java:1314–1348`                                           | Low     | 35 lines → ~12 lines                                                                         |
+| **P2**   | Replace deprecated `new Date(int,int,int,int,int,int)` with `Calendar`-based `setupDate` (already exists in same file) | `AppointmentServiceImpl.java:1307`                                                | Trivial | Removes a deprecated API call flagged in static analysis                                     |
+| **P3**   | Reduce `AppointmentBlockValidator` complexity (S3776: cognitive 20)                                                    | `AppointmentBlockValidator.java:59`                                               | Low     | Extract type-validation loop to private method; S3776 count ↓                                |
+| **P3**   | Reduce `HibernateAppointmentDAO.getAppointmentsByConstraints` complexity (cognitive 37, worst single method)           | `HibernateAppointmentDAO.java`                                                    | Medium  | Extract each filter branch to private method; largest single S3776 violation resolved        |
+| **P4**   | Facade decomposition of `AppointmentServiceImpl` (see §4d)                                                             | `AppointmentServiceImpl.java`                                                     | High    | Resolves self-proxy anti-pattern (S6809), reduces god-class complexity; public API unchanged |
 
 ---
 
