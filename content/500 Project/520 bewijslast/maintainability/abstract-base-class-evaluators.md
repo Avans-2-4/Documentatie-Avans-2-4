@@ -94,14 +94,13 @@ public abstract class AbstractToAppointmentDataEvaluator implements AppointmentD
         }
 
         if (!convertedIds.isEmpty()) {
-            evaluateJoinedData(definition, convertedIds, context, result);
+            evaluateJoinedData(definition, convertedIds, result);
         }
         return result;
     }
 
     protected abstract void evaluateJoinedData(AppointmentDataDefinition definition,
                                                Map<Integer, Integer> convertedIds,
-                                               EvaluationContext context,
                                                EvaluatedAppointmentData result) throws EvaluationException;
 }
 
@@ -111,7 +110,7 @@ public class PatientToAppointmentDataEvaluator extends AbstractToAppointmentData
 
     @Override
     protected void evaluateJoinedData(AppointmentDataDefinition definition, Map<Integer, Integer> convertedIds,
-                                      EvaluationContext context, EvaluatedAppointmentData result) throws EvaluationException {
+                                      EvaluatedAppointmentData result) throws EvaluationException {
         EvaluationContext patientEvaluationContext = new EvaluationContext();
         patientEvaluationContext.setBaseCohort(new Cohort(convertedIds.values()));
         PatientToAppointmentDataDefinition def = (PatientToAppointmentDataDefinition) definition;
@@ -129,7 +128,7 @@ public class PersonToAppointmentDataEvaluator extends AbstractToAppointmentDataE
 
     @Override
     protected void evaluateJoinedData(AppointmentDataDefinition definition, Map<Integer, Integer> convertedIds,
-                                      EvaluationContext context, EvaluatedAppointmentData result) throws EvaluationException {
+                                      EvaluatedAppointmentData result) throws EvaluationException {
         PersonEvaluationContext personEvaluationContext = new PersonEvaluationContext();
         personEvaluationContext.setBaseCohort(new Cohort(convertedIds.values()));
         personEvaluationContext.setBasePersons(new PersonIdSet(new HashSet<Integer>(convertedIds.values())));
@@ -153,15 +152,15 @@ classDiagram
         <<abstract>>
         #evaluationService EvaluationService
         +evaluate(definition, context) EvaluatedAppointmentData
-        #evaluateJoinedData(definition, convertedIds, context, result) void
+        #evaluateJoinedData(definition, convertedIds, result) void
     }
 
     class PatientToAppointmentDataEvaluator {
-        #evaluateJoinedData(definition, convertedIds, context, result) void
+        #evaluateJoinedData(definition, convertedIds, result) void
     }
 
     class PersonToAppointmentDataEvaluator {
-        #evaluateJoinedData(definition, convertedIds, context, result) void
+        #evaluateJoinedData(definition, convertedIds, result) void
     }
 
     AppointmentDataEvaluator <|.. AbstractToAppointmentDataEvaluator
