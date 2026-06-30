@@ -1,6 +1,6 @@
 # ![][image1]
 
-# Security Audit Rapport
+# Security & Maintainability Audit Rapport
 
 ## OPENMRS APPOINTMENT SCHEDULING MODULE
 
@@ -8,269 +8,279 @@ Liam Willis | 2232263
 
 Martijn van Houwelingen | 2225486
 
-[**Samenvatting	4**](#samenvatting)
+[**1\. Samenvatting	5**](#1.-samenvatting)
 
-[Doel van de audit	4](#doel-van-de-audit)
+[1.1 Doel van de audit	5](#1.1-doel-van-de-audit)
 
-[Belangrijkste bevindingen	4](#belangrijkste-bevindingen)
+[1.2 Belangrijkste bevindingen	5](#1.2-belangrijkste-bevindingen)
 
-[Beperkingen	4](#beperkingen)
+[1.3 Beperkingen	5](#1.3-beperkingen)
 
-[**Scope en Context	5**](#scope-en-context)
+[**2\. Scope en Context	6**](#2.-scope-en-context)
 
-[Projectscope	5](#projectscope)
+[2.1 Projectscope	6](#2.1-projectscope)
 
-[Binnen scope	5](#binnen-scope)
+[2.2 Binnen en Buiten scope	6](#2.2-binnen-en-buiten-scope)
 
-[Buiten scope	5](#buiten-scope)
+[2.3 Relevante wet- en regelgeving	7](#2.3-relevante-wet--en-regelgeving)
 
-[Relevante wet- en regelgeving	6](#relevante-wet--en-regelgeving)
+[2.4 AI-tooling verantwoording	7](#2.4-ai-tooling-verantwoording)
 
-[AI-tooling verantwoording	6](#ai-tooling-verantwoording)
+[**3\. Audit Methodologie	8**](#3.-audit-methodologie)
 
-[**Audit Methodologie	7**](#audit-methodologie)
+[3.1 Aanpak & tooling	8](#3.1-aanpak-&-tooling)
 
-[Aanpak	7](#aanpak)
+[3.2 Beperkingen en afwijkingen	9](#3.2-beperkingen-en-afwijkingen)
 
-[Methoden en tooling	7](#methoden-en-tooling)
+[Geprobeerde oplossingen	9](#geprobeerde-oplossingen)
 
-[Beperkingen en afwijkingen	8](#beperkingen-en-afwijkingen)
-
-[Geprobeerde oplossingen	8](#geprobeerde-oplossingen)
-
-[Architectuur & Docker Configuratie	8](#architectuur-&-docker-configuratie)
+[Architectuur & Docker Configuratie	9](#architectuur-&-docker-configuratie)
 
 [Dependency Management & Maven	9](#dependency-management-&-maven)
 
-[Spring Context & AOP Proxy Fouten	9](#spring-context-&-aop-proxy-fouten)
+[Spring Context & AOP Proxy Fouten	10](#spring-context-&-aop-proxy-fouten)
 
-[Bestandssysteem & Caching in Tomcat	9](#bestandssysteem-&-caching-in-tomcat)
+[Bestandssysteem & Caching in Tomcat	10](#bestandssysteem-&-caching-in-tomcat)
 
-[XML Validatie & Database Migraties	9](#xml-validatie-&-database-migraties)
+[XML Validatie & Database Migraties	10](#xml-validatie-&-database-migraties)
 
-[**Risico-analyse	10**](#risico-analyse)
+[**4\. Risico Analyse	11**](#4.-risico-analyse)
 
-[Risicobeoordeling criteria	10](#risicobeoordeling-criteria)
+[4.1 Risicobeoordeling criteria	11](#4.1-risicobeoordeling-criteria)
 
-[Geïdentificeerde risico's	10](#geïdentificeerde-risico's)
+[4.2 Geïdentificeerde risico's	11](#4.2-geïdentificeerde-risico's)
 
-[RI-09: Toegang tot patiëntgegevens zonder de juiste rechten (score 20\)	10](#ri-09:-toegang-tot-patiëntgegevens-zonder-de-juiste-rechten-\(score-20\))
+[RI-09: Toegang tot patiëntgegevens zonder de juiste rechten (score 20\)	11](#ri-09:-toegang-tot-patiëntgegevens-zonder-de-juiste-rechten-\(score-20\))
 
-[RI-11: Menselijke fout met inloggegevens (score 20\)	11](#ri-11:-menselijke-fout-met-inloggegevens-\(score-20\))
+[RI-11: Menselijke fout met inloggegevens (score 20\)	12](#ri-11:-menselijke-fout-met-inloggegevens-\(score-20\))
 
-[RI-06 / RI-15: Bekende beveiligingsproblemen in gebruikte softwarecomponenten (score 16\)	11](#ri-06-/-ri-15:-bekende-beveiligingsproblemen-in-gebruikte-softwarecomponenten-\(score-16\))
+[RI-06 / RI-15: Bekende beveiligingsproblemen in gebruikte softwarecomponenten (score 16\)	12](#ri-06-/-ri-15:-bekende-beveiligingsproblemen-in-gebruikte-softwarecomponenten-\(score-16\))
 
-[RI-21: Geautomatiseerde inlogpogingen (score 16\)	11](#ri-21:-geautomatiseerde-inlogpogingen-\(score-16\))
+[RI-21: Geautomatiseerde inlogpogingen (score 16\)	12](#ri-21:-geautomatiseerde-inlogpogingen-\(score-16\))
 
-[Risicomatrix	11](#risicomatrix)
+[4.3 Risicomatrix	12](#4.3-risicomatrix)
 
-[**Security Audit: Wetgeving & Normen (NEN-7510-2)	13**](#security-audit:-wetgeving-&-normen-\(nen-7510-2\))
+[**5\. Security Audit: Wetgeving & Normen (NEN-7510-2)	14**](#5.-security-audit:-wetgeving-&-normen-\(nen-7510-2\))
 
-[GAP-analyse 8.15 — Logging	13](#gap-analyse-8.15-—-logging)
+[5.1 GAP-analyse 8.15 — Logging	14](#5.1-gap-analyse-8.15-—-logging)
 
-[Normdoel	13](#normdoel)
+[Normdoel	14](#normdoel)
 
-[Bevinding vóór implementatie	13](#bevinding-vóór-implementatie)
+[Bevinding vóór implementatie	14](#bevinding-vóór-implementatie)
 
-[Maatregel	13](#maatregel)
+[Maatregel	14](#maatregel)
 
-[Resultaat na implementatie	13](#resultaat-na-implementatie)
+[Resultaat na implementatie	14](#resultaat-na-implementatie)
 
-[GAP-analyse 5.15 — Toegangsbeheer	15](#gap-analyse-5.15-—-toegangsbeheer)
+[5.2 GAP-analyse 5.15 — Toegangsbeheer	16](#5.2-gap-analyse-5.15-—-toegangsbeheer)
 
-[Normdoel	15](#normdoel-1)
+[Normdoel	16](#normdoel-1)
 
-[Bevinding vóór implementatie	15](#bevinding-vóór-implementatie-1)
+[Bevinding vóór implementatie	16](#bevinding-vóór-implementatie-1)
 
-[Maatregel	15](#maatregel-1)
+[Maatregel	16](#maatregel-1)
 
-[Resultaat na implementatie	15](#resultaat-na-implementatie-1)
+[Resultaat na implementatie	16](#resultaat-na-implementatie-1)
 
-[GAP-analyse 5.14 — Informatieoverdracht	17](#gap-analyse-5.14-—-informatieoverdracht)
+[5.3 GAP-analyse 5.14 — Informatieoverdracht	18](#5.3-gap-analyse-5.14-—-informatieoverdracht)
 
-[Normdoel	17](#normdoel-2)
+[Normdoel	18](#normdoel-2)
 
-[Bevinding	17](#bevinding)
+[Bevinding	18](#bevinding)
 
-[Maatregel Status	17](#maatregel-status)
+[Maatregel Status	18](#maatregel-status)
 
-[Benodigde vervolgstappen	17](#benodigde-vervolgstappen)
+[Benodigde vervolgstappen	18](#benodigde-vervolgstappen)
 
-[Conclusie	18](#conclusie)
+[Conclusie	19](#conclusie)
 
-[Geprioriteerde non-compliances	19](#geprioriteerde-non-compliances)
+[5.4 Geprioriteerde non-compliances	20](#5.4-geprioriteerde-non-compliances)
 
-[Compliance-advies	19](#compliance-advies)
+[5.4 Compliance-advies	20](#5.4-compliance-advies)
 
-[Korte termijn	19](#korte-termijn)
+[Korte termijn	20](#korte-termijn)
 
-[Middellange termijn	19](#middellange-termijn)
+[Middellange termijn	20](#middellange-termijn)
 
-[Lange termijn	19](#lange-termijn)
+[Lange termijn	20](#lange-termijn)
 
-[**SBOM en Supply Chain Security	20**](#sbom-en-supply-chain-security)
+[**6\. SBOM en Supply Chain Security	21**](#6.-sbom-en-supply-chain-security)
 
-[Doel en aanpak	20](#doel-en-aanpak)
+[6.1 Doel en aanpak	21](#6.1-doel-en-aanpak)
 
-[SBOM generatie	20](#sbom-generatie)
+[6.2 SBOM generatie	21](#6.2-sbom-generatie)
 
-[SAST/SCA en kwetsbaarheden beheer	21](#sast/sca-en-kwetsbaarheden-beheer)
+[6.3 SAST/SCA en kwetsbaarheden beheer	22](#6.3-sast/sca-en-kwetsbaarheden-beheer)
 
-[Belangrijkste bevindingen en besluiten	21](#belangrijkste-bevindingen-en-besluiten)
+[Belangrijkste bevindingen en besluiten	22](#belangrijkste-bevindingen-en-besluiten)
 
-[Supply-chain hardening status	22](#supply-chain-hardening-status)
+[6.4 Supply-chain hardening status	23](#6.4-supply-chain-hardening-status)
 
-[Conclusie voor dit hoofdstuk	22](#conclusie-voor-dit-hoofdstuk)
+[6.5 Conclusie voor dit hoofdstuk	23](#6.5-conclusie-voor-dit-hoofdstuk)
 
-[**Security Code Review & Kwetsbaarheden	23**](#security-code-review-&-kwetsbaarheden)
+[**7\. Security Code Review & Kwetsbaarheden	24**](#7.-security-code-review-&-kwetsbaarheden)
 
-[Aanpak van de security code review	23](#aanpak-van-de-security-code-review)
+[7.1 Aanpak van de security code review	24](#7.1-aanpak-van-de-security-code-review)
 
-[Samenvatting van gevonden kwetsbaarheden	23](#samenvatting-van-gevonden-kwetsbaarheden)
+[7.2 Samenvatting van gevonden kwetsbaarheden	24](#7.2-samenvatting-van-gevonden-kwetsbaarheden)
 
-[Kritieke dependency-kwetsbaarheden (SCA)	23](#kritieke-dependency-kwetsbaarheden-\(sca\))
+[Kritieke dependency-kwetsbaarheden (SCA)	24](#kritieke-dependency-kwetsbaarheden-\(sca\))
 
-[Code-level security issues (SAST)	23](#code-level-security-issues-\(sast\))
+[Code-level security issues (SAST)	24](#code-level-security-issues-\(sast\))
 
-[Autorisatie- en toegangspaden (handmatige review \+ tests)	23](#autorisatie--en-toegangspaden-\(handmatige-review-+-tests\))
+[Autorisatie- en toegangspaden (handmatige review \+ tests)	24](#autorisatie--en-toegangspaden-\(handmatige-review-+-tests\))
 
-[Prioritering en risico-inschatting	24](#prioritering-en-risico-inschatting)
+[7.3 Prioritering en risico-inschatting	25](#7.3-prioritering-en-risico-inschatting)
 
-[Status per kwetsbaarheidscategorie	24](#status-per-kwetsbaarheidscategorie)
+[7.4 Status per kwetsbaarheidscategorie	25](#7.4-status-per-kwetsbaarheidscategorie)
 
-[Opgelost binnen projectperiode	24](#opgelost-binnen-projectperiode)
+[Opgelost binnen projectperiode	25](#opgelost-binnen-projectperiode)
 
-[Geaccepteerd	24](#geaccepteerd)
+[Geaccepteerd	25](#geaccepteerd)
 
-[Conclusie van de code review	24](#conclusie-van-de-code-review)
+[7.5 Conclusie van de code review	25](#7.5-conclusie-van-de-code-review)
 
-[**Secure Pipelines	25**](#secure-pipelines)
+[**8\. Analyse Onderhoudbaarheid	26**](#8.-analyse-onderhoudbaarheid)
 
-[OTAP-omgevingen en scheiding	25](#otap-omgevingen-en-scheiding)
+[8.1 Nulmeting metrieken (Cognitive Complexity, Code Smells, Technical Debt)	26](#8.1-nulmeting-metrieken-\(cognitive-complexity,-code-smells,-technical-debt\))
 
-[CI/CD-beveiligingsmaatregelen	25](#ci/cd-beveiligingsmaatregelen)
+[8.2 Identificatie van knelpunten in de codebase	26](#8.2-identificatie-van-knelpunten-in-de-codebase)
 
-[Secrets management	26](#secrets-management)
+[**9\. Aangepast Ontwerp & Architectuur	27**](#9.-aangepast-ontwerp-&-architectuur)
 
-[**Testing en Testrapportage	28**](#testing-en-testrapportage)
+[9.1 Toegepaste ontwerp patronen (bijv. AOP/Proxy patroon voor logging)	27](#9.1-toegepaste-ontwerp-patronen-\(bijv.-aop/proxy-patroon-voor-logging\))
 
-[Teststrategie	28](#teststrategie)
+[9.2 Refactoring-patronen en afgewogen alternatieven	27](#9.2-refactoring-patronen-en-afgewogen-alternatieven)
 
-[Unit tests: opzet, uitvoering en resultaten	28](#penetratietests:-opzet,-uitvoering-en-resultaten)
+[**10\. Secure Pipelines	29**](#10.-secure-pipelines)
 
-[Integratietests: opzet, uitvoering en resultaten	29](#penetratietests:-opzet,-uitvoering-en-resultaten)
+[10.1 OTAP-omgevingen en scheiding	29](#10.1-otap-omgevingen-en-scheiding)
 
-[Penetratietests: opzet, uitvoering en resultaten	29](#penetratietests:-opzet,-uitvoering-en-resultaten)
+[10.2 CI/CD-beveiligingsmaatregelen	29](#10.2-ci/cd-beveiligingsmaatregelen)
 
-[Uitvoering en resultaten	30](#uitvoering-en-resultaten)
+[10.3 Secrets management	30](#10.3-secrets-management)
 
-[Samenvatting van de penetratietest	31](#samenvatting-van-de-penetratietest)
+[**11\. Testing en Testrapportage	32**](#11.-testing-en-testrapportage)
 
-[**Mitigatie & Validatie van Verbeteringen	32**](#mitigatie-&-validatie-van-verbeteringen)
+[11.1 Teststrategie	32](#11.1-teststrategie)
 
-[Geïmplementeerde mitigaties	32](#geïmplementeerde-mitigaties)
+[11.2 Unit tests: opzet, uitvoering en resultaten	32](#11.5-penetratietests:-opzet,-uitvoering-en-resultaten)
 
-[Validatie van de verbeteringen	32](#validatie-van-de-verbeteringen)
+[11.3 Integratietests: opzet, uitvoering en resultaten	33](#11.5-penetratietests:-opzet,-uitvoering-en-resultaten)
 
-[Beperkingen in validatie	33](#beperkingen-in-validatie)
+[11.4 \[TOEVOEGEN SUBKOP\]: Aantonen van regressie-preventie (Eis: 20pt Validatie \- Leg uit dat door het succesvol draaien van de 48 bestaande unit/integratietests is aangetoond dat de bestaande code niet kapot is gegaan door jullie fixes).	33](#11.4-[toevoegen-subkop]:-aantonen-van-regressie-preventie-\(eis:-20pt-validatie---leg-uit-dat-door-het-succesvol-draaien-van-de-48-bestaande-unit/integratietests-is-aangetoond-dat-de-bestaande-code-niet-kapot-is-gegaan-door-jullie-fixes\).)
 
-[Resterende risico’s na mitigatie	33](#resterende-risico’s-na-mitigatie)
+[11.5 Penetratietests: opzet, uitvoering en resultaten	33](#11.5-penetratietests:-opzet,-uitvoering-en-resultaten)
 
-[Conclusie	33](#conclusie-1)
+[Uitvoering en resultaten	34](#uitvoering-en-resultaten)
 
-[**Conclusie en Advies	34**](#conclusie-en-advies)
+[Samenvatting van de penetratietest	35](#samenvatting-van-de-penetratietest)
 
-[Advies	34](#advies)
+[**12\. Mitigatie & Validatie van Verbeteringen	36**](#12.-mitigatie-&-validatie-van-verbeteringen)
 
-[Prioriteit 1: direct uitvoeren (korte termijn)	34](#prioriteit-1:-direct-uitvoeren-\(korte-termijn\))
+[12.1 Geïmplementeerde mitigaties	36](#12.1-geïmplementeerde-mitigaties)
 
-[Prioriteit 2: hardening en borging (middellange termijn)	34](#prioriteit-2:-hardening-en-borging-\(middellange-termijn\))
+[12.2 Validatie van de verbeteringen	36](#12.2-validatie-van-de-verbeteringen)
 
-[Prioriteit 3: structurele risicoreductie (lange termijn)	35](#prioriteit-3:-structurele-risicoreductie-\(lange-termijn\))
+[12.3 Beperkingen in validatie	37](#12.3-beperkingen-in-validatie)
 
-[Vervolgstappen en besluit	35](#vervolgstappen-en-besluit)
+[12.4 Resterende risico’s na mitigatie	37](#12.4-resterende-risico’s-na-mitigatie)
 
-[**Bijlagen	36**](#bijlagen)
+[12.5 Conclusie	37](#12.5-conclusie)
 
-[Traceability Matrix: NEN-7510-2:2024 Controls	36](#traceability-matrix:-nen-7510-2:2024-controls)
+[**13\. Conclusie en Advies	38**](#13.-conclusie-en-advies)
 
-[Legenda Status:	36](#legenda-status:)
+[13.1 Advies	38](#13.1-advies)
 
-[1\. 8.15 — Logging	36](#1.-8.15-—-logging)
+[Prioriteit 1: direct uitvoeren (korte termijn)	38](#prioriteit-1:-direct-uitvoeren-\(korte-termijn\))
 
-[2\. 5.15 — Toegangsbeveiliging (Access Control)	36](#2.-5.15-—-toegangsbeveiliging-\(access-control\))
+[Prioriteit 2: hardening en borging (middellange termijn)	38](#prioriteit-2:-hardening-en-borging-\(middellange-termijn\))
 
-[3\. 5.14 — Overdragen van informatie (Information Transfer)	37](#3.-5.14-—-overdragen-van-informatie-\(information-transfer\))
+[Prioriteit 3: structurele risicoreductie (lange termijn)	39](#prioriteit-3:-structurele-risicoreductie-\(lange-termijn\))
 
-[4\. 8.8 — Beheer van technische kwetsbaarheden	37](#4.-8.8-—-beheer-van-technische-kwetsbaarheden)
+[13.2 Vervolgstappen en besluit	39](#13.2-vervolgstappen-en-besluit)
 
-[5\. 8.31 — Scheiding van ontwikkel-, test- en productieomgevingen	37](#5.-8.31-—-scheiding-van-ontwikkel-,-test--en-productieomgevingen)
+[**14\. Bijlagen	40**](#14.-bijlagen)
 
-[6\. 8.9 — Configuratiebeheer (Configuration Management)	38](#6.-8.9-—-configuratiebeheer-\(configuration-management\))
+[Traceability Matrix: NEN-7510-2:2024 Controls	40](#traceability-matrix:-nen-7510-2:2024-controls)
 
-[7\. 8.28 — Veilig coderen (Secure Coding)	38](#7.-8.28-—-veilig-coderen-\(secure-coding\))
+[Legenda Status:	40](#legenda-status:)
 
-[8\. 8.29 — Testen van de beveiliging tijdens ontwikkeling en acceptatie	38](#8.-8.29-—-testen-van-de-beveiliging-tijdens-ontwikkeling-en-acceptatie)
+[1\. 8.15 — Logging	40](#1.-8.15-—-logging)
 
-[SBOM	39](#sbom)
+[2\. 5.15 — Toegangsbeveiliging (Access Control)	40](#2.-5.15-—-toegangsbeveiliging-\(access-control\))
 
-[SAST-uitvoer & SCA	39](#sast-uitvoer-&-sca)
+[3\. 5.14 — Overdragen van informatie (Information Transfer)	41](#3.-5.14-—-overdragen-van-informatie-\(information-transfer\))
 
-[Snyk Samenvatting	39](#snyk-samenvatting)
+[4\. 8.8 — Beheer van technische kwetsbaarheden	41](#4.-8.8-—-beheer-van-technische-kwetsbaarheden)
 
-[Volledige Tabel Snyk	40](#volledige-tabel-snyk)
+[5\. 8.31 — Scheiding van ontwikkel-, test- en productieomgevingen	41](#5.-8.31-—-scheiding-van-ontwikkel-,-test--en-productieomgevingen)
 
-[Volledige Tabel Sonarqube	45](#volledige-tabel-sonarqube)
+[6\. 8.9 — Configuratiebeheer (Configuration Management)	42](#6.-8.9-—-configuratiebeheer-\(configuration-management\))
 
-[Risicomatrix	49](#risicomatrix-1)
+[7\. 8.28 — Veilig coderen (Secure Coding)	42](#7.-8.28-—-veilig-coderen-\(secure-coding\))
 
-[Bow-tie diagrammen / Threat Model	53](#bow-tie-diagrammen-/-threat-model)
+[8\. 8.29 — Testen van de beveiliging tijdens ontwikkeling en acceptatie	42](#8.-8.29-—-testen-van-de-beveiliging-tijdens-ontwikkeling-en-acceptatie)
 
-[Threat Model	53](#threat-model)
+[SBOM	43](#sbom)
 
-[Bow-tie diagrammen	54](#bow-tie-diagrammen)
+[SAST-uitvoer & SCA	43](#sast-uitvoer-&-sca)
 
-[Snyk-rapport	55](#snyk-rapport)
+[Snyk Samenvatting	43](#snyk-samenvatting)
 
-[CRA-mapping	55](#cra-mapping)
+[Volledige Tabel Snyk	44](#volledige-tabel-snyk)
 
-[Evaluatie per CRA-verplichting	55](#evaluatie-per-cra-verplichting)
+[Volledige Tabel Sonarqube	49](#volledige-tabel-sonarqube)
 
-[Samenvatting van de resultaten	57](#samenvatting-van-de-resultaten)
+[Risicomatrix	53](#risicomatrix)
 
-[Aansluiting bij de NEN-7510	58](#aansluiting-bij-de-nen-7510)
+[Bow-tie diagrammen / Threat Model	57](#bow-tie-diagrammen-/-threat-model)
 
-[Overige bewijsvoering	58](#overige-bewijsvoering)
+[Threat Model	57](#threat-model)
 
-[Pentesting Jupyter Notebook	58](#pentesting-jupyter-notebook)
+[Bow-tie diagrammen	58](#bow-tie-diagrammen)
 
-[Developer Onboarding Readme	58](#developer-onboarding-readme)
+[Snyk-rapport	59](#snyk-rapport)
 
-[Github link	58](#github-link)
+[CRA-mapping	59](#cra-mapping)
+
+[Evaluatie per CRA-verplichting	59](#evaluatie-per-cra-verplichting)
+
+[Samenvatting van de resultaten	61](#samenvatting-van-de-resultaten)
+
+[Aansluiting bij de NEN-7510	62](#aansluiting-bij-de-nen-7510)
+
+[Overige bewijsvoering	62](#overige-bewijsvoering)
+
+[Pentesting Jupyter Notebook	62](#pentesting-jupyter-notebook)
+
+[Developer Onboarding Readme	62](#developer-onboarding-readme)
+
+[Github link	62](#github-link)
 
 # 
 
-# Samenvatting  {#samenvatting}
+# 1\. Samenvatting  {#1.-samenvatting}
 
-## Doel van de audit {#doel-van-de-audit}
+## 1.1 Doel van de audit {#1.1-doel-van-de-audit}
 
 Dit auditrapport beoordeelt de OpenMRS Appointment Scheduling Module op informatiebeveiliging, met NEN-7510-2:2024 als normatief uitgangspunt. De module verwerkt afspraken, patiëntgegevens en medische contextinformatie en bevindt zich daarmee in een domein waarin vertrouwelijkheid, integriteit en traceerbaarheid aantoonbaar geborgd moeten zijn. Binnen de beschikbare projecttijd is gekozen voor een gerichte audit op de onderdelen met de hoogste beveiligingsrelevantie voor deze module: logging van toegang tot patiëntgegevens, toegangsbeveiliging, veilige informatieoverdracht, afhankelijkhedenbeheer en de beveiliging van de ontwikkel- en deploystraat.
 
-## Belangrijkste bevindingen {#belangrijkste-bevindingen}
+## 1.2 Belangrijkste bevindingen {#1.2-belangrijkste-bevindingen}
 
 Uit de audit kwam naar voren dat de grootste tekortkomingen op drie gebieden lagen. Ten eerste ontbrak een volledige audit trail voor leesacties op patiëntgegevens. Hierdoor was niet herleidbaar welke gebruiker welke patiëntinformatie had ingezien, terwijl dit juist een kernvereiste is binnen NEN-7510-2. Ten tweede bleek de bestaande autorisatiestructuur op meerdere plekken te zwak of inconsistent te zijn toegepast, met name in de DWR-laag en in de REST-laag. Hierdoor bestond het risico dat geauthenticeerde gebruikers meer gegevens konden benaderen dan vanuit het principe van least privilege wenselijk is. Ten derde liet de dependency-analyse zien dat de module sterk afhankelijk is van een verouderde OpenMRS 1.9.x stack, waardoor een groot aantal bekende kwetsbaarheden aanwezig blijft in transitive dependencies die niet eenvoudig binnen de projectscope konden worden opgelost.
 
 Naast deze kernbevindingen is vastgesteld dat patiëntidentificatoren via queryparameters in GET-verzoeken worden doorgegeven, wat spanning oplevert met de eisen rondom veilige informatieoverdracht. Ook bleek dat de securitykwaliteit van de module niet alleen afhangt van de applicatiecode zelf, maar ook van de bredere CI/CD-inrichting, dependency monitoring en OTAP-scheiding.
 
-## Beperkingen {#beperkingen}
+## 1.3 Beperkingen {#1.3-beperkingen}
 
 Niet alle risico’s konden binnen de beschikbare tijd en technische randvoorwaarden volledig worden opgelost. De belangrijkste beperking was dat het laden van de module in een werkende OpenMRS-instantie helaas niet is gelukt. Daardoor konden de geplande integratie- en penetratietests niet worden uitgevoerd in een live of representatieve runtime-omgeving. De testscenario’s en testopzet zijn wel uitgewerkt, maar de feitelijke uitvoering bleef geblokkeerd.
 
 Daarnaast geldt dat een groot deel van de gevonden CVE’s niet veroorzaakt wordt door eigen modulecode, maar door de verouderde OpenMRS 1.9.x afhankelijkheidsketen. Deze kwetsbaarheden zijn daarom wel gedocumenteerd, geanalyseerd en meegenomen in de risicobeoordeling, maar niet allemaal technisch te verhelpen zonder een bredere platformmigratie. De conclusies in dit rapport zijn daardoor gebaseerd op een combinatie van broncode-analyse, risicoanalyse, security scans, pipeline-validatie en de tests die binnen de projectomgeving wel reproduceerbaar konden worden uitgevoerd.
 
-# Scope en Context  {#scope-en-context}
+# 2\. Scope en Context  {#2.-scope-en-context}
 
-## Projectscope {#projectscope}
+## 2.1 Projectscope {#2.1-projectscope}
 
 Deze audit richt zich op de beveiliging van de OpenMRS Appointment Scheduling Module binnen de projectcontext van Avans 2-4. De focus ligt op de vraag in hoeverre de module, de bijbehorende ontwikkelstraat en de gekozen verbeteringen aansluiten op de relevante eisen uit NEN-7510-2:2024.
 
@@ -278,7 +288,7 @@ De audit is uitgevoerd in een beperkte tijdsperiode (drie weken) en onder toenem
 
 *Let op: Het rapport refereert aan OpenMRS 1.9.x als dependency-baseline (gezien de broncode-structuur), terwijl in de pentest-fase de runtime-omgeving 2.7.x werd gebruikt. Dit verklaart de verschillen in gedrag bij bijvoorbeeld annotatie-detectie.*
 
-## Binnen scope  {#binnen-scope}
+## 2.2 Binnen en Buiten scope  {#2.2-binnen-en-buiten-scope}
 
 Binnen deze audit vallen:
 
@@ -292,8 +302,6 @@ Binnen deze audit vallen:
 * CI/CD- en supply-chain-beveiliging (workflow hardening, dependency review, omgevingsscheiding).  
 * Testopzet en beschikbare testresultaten (unit/integratie/pentest waar uitvoerbaar).
 
-## Buiten scope {#buiten-scope}
-
 Buiten scope van deze audit vallen:
 
 * Het volledige OpenMRS-platform als geheel (de audit betreft primair de module).  
@@ -301,7 +309,7 @@ Buiten scope van deze audit vallen:
 * Een volledige platform migratie van OpenMRS 1.9.x naar OpenMRS 2+ (wel strategisch advies).  
 * Volledige productie validatie via live OpenMRS-end-to-end tests; dit is deels geblokkeerd geweest door module-loading problemen.
 
-##  Relevante wet- en regelgeving {#relevante-wet--en-regelgeving}
+##  2.3 Relevante wet- en regelgeving {#2.3-relevante-wet--en-regelgeving}
 
 Voor deze audit zijn de volgende kaders leidend geweest:
 
@@ -314,46 +322,32 @@ Voor deze audit zijn de volgende kaders leidend geweest:
   * 8.28/8.29 Veilig coderen en security testen.  
 * AVG/GDPR, vanwege verwerking van patiëntgegevens en de vereisten rond dataminimalisatie en beveiligde verwerking.
 
-## AI-tooling verantwoording {#ai-tooling-verantwoording}
+## 2.4 AI-tooling verantwoording {#2.4-ai-tooling-verantwoording}
 
-Tijdens dit project is AI-tooling ondersteunend ingezet voor analyse, structurering en versnelling van documentatiewerk. Richting het einde van het traject is het gebruik van AI nadrukkelijk toegenomen. De reden daarvoor was tweeledig: de werkdruk steeg in de afrondingsfase, en het project werd uiteindelijk met twee actieve groepsleden voortgezet.
+Tijdens dit project is AI-tooling (Claude, Gemini, GitHub Copilot) en security-tooling (SonarQube, Snyk) ondersteunend ingezet om het ontwikkel- en documentatie proces te versnellen, mede door de oplopende werkdruk en beperkte actieve team capaciteit in de afrondende fase. Hoewel deze tools waardevol bleken voor het structureren van rapportages en het genereren van code-aanpassingen, bracht het gebruik ervan aanzienlijke valkuilen met zich mee die kritische validatie vereisten.
 
-De belangrijkste gebruikte tools waren Claude, Gemini en GitHub Copilot. Deze tools zijn vooral gebruikt voor:
+* **AI-hallucinaties bij legacy code:** De Appointment Scheduling Module draait op een sterk verouderde OpenMRS 1.9.x baseline met een legacy, XML-gedreven Spring-architectuur. De AI-assistenten genereerden veelvuldig oplossingen op basis van moderne Spring Boot conventies en headless OpenMRS 3.x standaarden. Deze suggesties leken syntactisch correct, maar bleken in de praktijk incompatibel en veroorzaakten onverwachte runtime-fouten en gebroken routeringen. Dit vereiste een handmatige validatie van elke AI-suggestie tegen de verouderde documentatie.  
+* **Contextblindheid van scanners:** Geautomatiseerde tooling zoals Snyk signaleerde meer dan 50 CVE's in transitieve afhankelijkheden. Hoewel accuraat, gaven deze tools geen inzicht in de haalbaarheid van een oplossing in de huidige architectuur. Een blinde toepassing van de voorgestelde Snyk-updates zou de runtime-compatibiliteit van de module volledig hebben gebroken. AI en scanners kunnen de technische staat identificeren, maar het uiteindelijke acceptatie besluit vereist menselijk inzicht.
 
-* Structureren en herschrijven van rapportonderdelen.  
-* Samenvatten en kruisen van bevindingen uit meerdere documenten.  
-* Opstellen van conceptteksten en checklists.  
-* Verifiëren van consistentie tussen risico’s, bevindingen, acties en bijlagen.  
-* Voorstellen en implementeren van concrete code aanpassingen
+# 3\. Audit Methodologie {#3.-audit-methodologie}
 
-AI is nadrukkelijk niet als vervanging van inhoudelijke besluitvorming gebruikt. De technische keuzes, prioritering, implementaties en uiteindelijke acceptatie van risico’s zijn door het team zelf bepaald en gevalideerd. Waar AI-output onzeker of niet direct verifieerbaar was, is die alleen gebruikt als concept en niet als eind bewijs. Hierdoor bleef AI een hulpmiddel voor snelheid en overzicht, terwijl de inhoudelijke verantwoordelijkheid bij het projectteam lag.
+## 3.1 Aanpak & tooling {#3.1-aanpak-&-tooling}
 
-#  
+De audit is uitgevoerd middels een gecombineerde iteratieve aanpak: risicogestuurd voor het security-domein (op basis van NEN-7510-2:2024) en metriekgestuurd voor de software-onderhoudbaarheid. We doorlopen hierbij een vaste cyclus:
 
-# Audit Methodologie {#audit-methodologie}
-
-## Aanpak {#aanpak}
-
-De audit is uitgevoerd met een norm gedreven en risicogestuurde aanpak. We zijn gestart vanuit NEN-7510-2:2024 en hebben eerst bepaald welke controls het meest relevant waren voor de Appointment Scheduling Module. Op basis van een eerste code verkenning en dreigingsinschatting zijn drie controls als kern gekozen: logging (8.15), toegangsbeveiliging (5.15) en informatieoverdracht (5.14).
-
-Daarna is de audit in fasen uitgevoerd. Eerst is de huidige situatie in kaart gebracht via GAP-analyse en risicoanalyse. Vervolgens is de aanvalsoppervlakte uitgewerkt (REST, MVC, DWR en trust boundaries), waarna geautomatiseerde scans zijn ingezet voor broncode- en dependency-risico’s. De bevindingen zijn geprioriteerd op basis van kans × impact en vertaald naar concrete verbeteringen die binnen de sprintduur uitvoerbaar waren. Tot slot zijn de gerealiseerde verbeteringen gevalideerd met geautomatiseerde tests en herbeoordeling van de relevante controls.
-
-Deze volgorde was bewust gekozen: eerst begrijpen waar het risico daadwerkelijk zit, daarna gericht verbeteren, en pas daarna valideren of de gekozen mitigaties het beoogde effect hebben.
-
-##  Methoden en tooling {#methoden-en-tooling}
+* **Analyse:** Voor de security-kant zijn we gestart met Threat Modeling en een GAP-analyse om de meest kritieke NEN-controls af te bakenen. Parallel daaraan is voor de onderhoudbaarheid een kwantitatieve nulmeting uitgevoerd met behulp van SonarQube, gericht op de huidige *Cognitive Complexity*, *Code Smells* en *Technical Debt*.  
+* **Ontwerp & Prioritering:** Op basis van een Impact/Effort-matrix zijn de bevindingen geprioriteerd. Voor de mitigaties is nadrukkelijk gebruikgemaakt van gerichte refactoring en ontwerppatronen (zoals Aspect-Oriented Programming / het Proxy-patroon) om de code veiliger en beter onderhoudbaar te maken.  
+* **Realisatie:** Aanpassingen zijn doorgevoerd via een geïsoleerde OTAP-straat, waarbij bewust gebruik is gemaakt van geanonimiseerde dummy-data in testomgevingen om herleidbaarheid van patiëntgegevens te voorkomen.  
+* **Validatie:** Tot slot zijn de verbeteringen gekwantificeerd via een hernieuwde SonarQube-meting en zijn Unit- en Integratietesten ingezet om kwantitatief aan te tonen dat de mitigaties geen onbedoelde *regressie* hebben veroorzaakt.
 
 | Fase | Methode | Tooling | Primair resultaat |
 | :---- | :---- | :---- | :---- |
-| Fase 1: Norm- en scopebepaling | Selectie van relevante NEN-controls en afbakening van auditgrenzen | Handmatige analyse | Scope, normkader en auditdoelen |
-| Fase 2: GAP-analyse | Vergelijking gewenste normtoestand vs. huidige implementatie | Handmatige code- en documentanalyse | GAP’s op 8.15, 5.15 en 5.14 |
-| Fase 3: Risicoanalyse | CIA-benadering, risicoscore (kans × impact), prioritering | Risicomatrix, C4-diagrammen, dataflow, bow-tie | 27 risico’s (RI-01 t/m RI-27) |
-| Fase 4: Attack surface mapping | Inventarisatie van entry points en trust boundaries | Broncode-analyse van REST/MVC/DWR | Concreet aanval oppervlak en prioritaire test targets |
-| Fase 5: SAST/SCA en supply chain analyse | Detectie van kwetsbaarheden en afhankelijkheden risico's | Snyk, SonarQube, CodeQL, Dependabot, Dependency Review | Kwetsbaarheden Overzicht, CVE/CVD-prioritering, geaccepteerde risico’s |
-| Fase 6: Ontwerp en implementatie mitigaties | Security-by-design verbeteringen op basis van bevindingen | Spring AOP, Spring Security, Java, CI-workflows | AOP-audit logging, RBAC-hardening, pipeline-versterking |
-| Fase 7: Validatie | Functionele en security gerichte test validatie | JUnit, CI-runs, SonarQube rescan | Aantoonbare werking van kern motivaties en regressie controle |
-| Fase 8: Traceability en rapportage | Koppeling control → maatregel → bewijs | Traceability matrix, auditrapport, appendices | Herleidbare onderbouwing van keuzes en rest-risico’s |
+| 1\. Nulmeting & GAP-analyse | Scopebepaling NEN-7510 en baseline meting van onderhoudbaarheid. | Handmatige analyse, SonarQube | GAPs op 8.15, 5.15 en 5.14. Startwaarden voor Technical Debt en Complexity.  |
+| 2\. Risico- & Kwetsbaarhedenanalyse | Inventarisatie CIA-risico's, detectie van kwetsbaarheden (SAST/SCA). | Snyk, CodeQL, Dependabot, Threat Modeling | gescoorde risico's en een traceerbare SBOM.  |
+| 3\. Ontwerp & Prioritering | Impact/Effort weging, selectie van ontwerppatronen (o.a. AOP) en refactoring. | Impact/Effort Matrix | Onderbouwde keuzes voor refactoring en architectuur (scheiding van concerns). |
+| 4\. Realisatie & Validatie | Secure-by-design implementatie, regressietesten en kwantitatieve herbeoordeling. | Spring AOP, Java, JUnit, CI-workflows, SonarQube | Aantoonbare werking mitigaties, afgevangen regressie en verlaagde Technical Debt. |
 
-## Beperkingen en afwijkingen  {#beperkingen-en-afwijkingen}
+## 3.2 Beperkingen en afwijkingen  {#3.2-beperkingen-en-afwijkingen}
 
 De audit is uitgevoerd onder duidelijke beperkingen die impact hadden op uitvoer en diepte van bepaalde testonderdelen:
 
@@ -392,11 +386,11 @@ De audit is uitgevoerd onder duidelijke beperkingen die impact hadden op uitvoer
 * DWR Configuratie Hersteld: Foutieve plaatsing van attributen (moduleId) en incorrecte nestings in dwr.xml blokkeerden de opstart. Deze bestanden zijn herschreven naar de verplichte (init?,allow?,signatures?) structuur.  
 * Liquibase Infinite Loop: Na een context-crash weigerde OpenMRS op te starten omdat de database "gelocked" was. Dit hebben we handmatig opgelost door in de MariaDB shell de liquibasechangeloglock tabel leeg te gooien (DELETE FROM liquibasechangeloglock;), wat de boot loop direct brak.
 
-# Risico-analyse  {#risico-analyse}
+# 4\. Risico Analyse {#4.-risico-analyse}
 
 Deze risicoanalyse is gebaseerd op een Threat Model, en hieruit zijn 3 Bow-tie diagrammen van gemaakt. Deze 4 diagrammen zijn bijgeleverd in de bijlage.
 
-## Risicobeoordeling criteria  {#risicobeoordeling-criteria}
+## 4.1 Risicobeoordeling criteria  {#4.1-risicobeoordeling-criteria}
 
 De criteria van een risicobeoordeling zijn de maatstaven die je gebruikt om te bepalen of een risico acceptabel is of behandeld moet worden.  
 Bij ons project gebruiken wij de volgende formule:
@@ -417,7 +411,7 @@ Waarbij we per niveau de volgende acties ondernemen:
 * **Gemiddeld:** We houden deze risico’s bij, en worden binnen de sprint scope aangepakt waar mogelijk  
 * **Laag:** We noteren het risico en accepteren het.
 
-## Geïdentificeerde risico's {#geïdentificeerde-risico's}
+## 4.2 Geïdentificeerde risico's {#4.2-geïdentificeerde-risico's}
 
 Uit de risicoanalyse zijn 27 risico's gedocumenteerd en gescoord. Hieronder staan de vier risico's met de hoogste prioriteit beschreven. De volledige lijst van alle 27 risico's is opgenomen in de Bijlagen.
 
@@ -439,7 +433,7 @@ De module maakt gebruik van een onderliggend platform (OpenMRS versie 1.9) dat o
 
 Een kwaadwillende kan proberen toegang te krijgen door automatisch veel combinaties van gebruikersnamen en wachtwoorden te proberen. De module heeft hiertegen op dit moment geen eigen beveiliging. Bescherming tegen dit soort aanvallen moet worden ingesteld op het niveau van de webserver of het ziekenhuis systeem. Vanuit de module is wel bijgedragen aan het verbeteren van de log registratie, waardoor verdachte activiteit eerder zichtbaar wordt.
 
-## Risicomatrix  {#risicomatrix}
+## 4.3 Risicomatrix  {#4.3-risicomatrix}
 
 | Impact / Kans | 1 | 2 | 3 | 4 | 5 |
 | :---- | :---- | :---- | :---- | :---- | :---- |
@@ -453,9 +447,9 @@ Een kwaadwillende kan proberen toegang te krijgen door automatisch veel combinat
 * **Oranje / Gemiddeld:** We houden deze risico’s bij, en worden binnen de sprint scope aangepakt waar mogelijk  
 * **Groen / Laag:** We noteren het risico en accepteren het.
 
-# Security Audit: Wetgeving & Normen (NEN-7510-2) {#security-audit:-wetgeving-&-normen-(nen-7510-2)}
+# 5\. Security Audit: Wetgeving & Normen (NEN-7510-2) {#5.-security-audit:-wetgeving-&-normen-(nen-7510-2)}
 
-## GAP-analyse 8.15 — Logging {#gap-analyse-8.15-—-logging}
+## 5.1 GAP-analyse 8.15 — Logging {#5.1-gap-analyse-8.15-—-logging}
 
 ### Normdoel {#normdoel}
 
@@ -481,7 +475,7 @@ De logging bevat nu uitsluitend noodzakelijke audit metadata (o.a. user UUID, pa
 ![][image5]  
 *Resultaten van unit tests*
 
-## GAP-analyse 5.15 — Toegangsbeheer {#gap-analyse-5.15-—-toegangsbeheer}
+## 5.2 GAP-analyse 5.15 — Toegangsbeheer {#5.2-gap-analyse-5.15-—-toegangsbeheer}
 
 ### Normdoel {#normdoel-1}
 
@@ -520,7 +514,7 @@ De prioritaire kwetsbaarheden op endpoint- en DWR-niveau zijn opgelost. De contr
 *![][image10]*  
 *Test resultaten*
 
-## GAP-analyse 5.14 — Informatieoverdracht {#gap-analyse-5.14-—-informatieoverdracht}
+## 5.3 GAP-analyse 5.14 — Informatieoverdracht {#5.3-gap-analyse-5.14-—-informatieoverdracht}
 
 ### Normdoel {#normdoel-2}
 
@@ -546,7 +540,7 @@ Deze gap blijft open en is als bewust geprioriteerd rest-risico opgenomen.
 
 ## 
 
-## Geprioriteerde non-compliances {#geprioriteerde-non-compliances}
+## 5.4 Geprioriteerde non-compliances {#5.4-geprioriteerde-non-compliances}
 
 | ID | Non-compliance | Control | Risico | Status |
 | :---- | :---- | :---- | :---- | :---- |
@@ -555,7 +549,7 @@ Deze gap blijft open en is als bewust geprioriteerd rest-risico opgenomen.
 | NC-03 | Verouderde transitive dependency stack (OpenMRS 1.9.x) | 8.8 (gerelateerd aan audit context) | Hoog | Geaccepteerd met migratiepad |
 | NC-04 | Logging Volwassenheid nog niet 3-laags uitgewerkt | 8.15 | Middel | Verbeterkans |
 
-## Compliance-advies {#compliance-advies}
+## 5.4 Compliance-advies {#5.4-compliance-advies}
 
 ### Korte termijn {#korte-termijn}
 
@@ -573,9 +567,9 @@ Deze gap blijft open en is als bewust geprioriteerd rest-risico opgenomen.
 
 #  
 
-# SBOM en Supply Chain Security  {#sbom-en-supply-chain-security}
+# 6\. SBOM en Supply Chain Security  {#6.-sbom-en-supply-chain-security}
 
-## Doel en aanpak {#doel-en-aanpak}
+## 6.1 Doel en aanpak {#6.1-doel-en-aanpak}
 
 Voor dit onderdeel is gekeken naar de beveiliging van de software keten: welke afhankelijkheden gebruiken we, hoe krijgen we daar inzicht in, welke kwetsbaarheden zitten daarin, en hoe borgen we dat in de CI/CD-straat. De aanpak bestond uit vier sporen die parallel zijn ingezet:
 
@@ -584,7 +578,7 @@ Voor dit onderdeel is gekeken naar de beveiliging van de software keten: welke a
 * Continue dependency monitoring en updatevoorstellen.  
 * Documentatie van acceptatiebesluiten voor risico’s die binnen de projectscope niet oplosbaar waren.
 
-## SBOM generatie {#sbom-generatie}
+## 6.2 SBOM generatie {#6.2-sbom-generatie}
 
 De SBOM wordt geautomatiseerd gegenereerd met Anchore Syft in een aparte workflow. Die workflow draait op:
 
@@ -598,7 +592,7 @@ Het resultaat hiervan is dat er structureel een machine-leesbaar afhankelijkhede
 ![][image11]  
 *SBOM generatie uitgevoerd in CI pipeline*
 
-## SAST/SCA en kwetsbaarheden beheer {#sast/sca-en-kwetsbaarheden-beheer}
+## 6.3 SAST/SCA en kwetsbaarheden beheer {#6.3-sast/sca-en-kwetsbaarheden-beheer}
 
 Naast SBOM-generatie is de keten op meerdere lagen afgedekt:
 
@@ -628,7 +622,7 @@ Concreet zijn enkele hoog-prioritaire issues in de projectperiode wel opgelost, 
 
 Dependabot laat daarnaast zien dat een reeks updates al is gemerged en dat een kleine set major workflow-updates nog open staat. Die open updates zijn vooral CI-runtime gerelateerd en hebben beperkt functioneel risico, maar vereisen wel gecontroleerde doorvoering.
 
-## Supply-chain hardening status {#supply-chain-hardening-status}
+## 6.4 Supply-chain hardening status {#6.4-supply-chain-hardening-status}
 
 De keten is aantoonbaar volwassener geworden ten opzichte van de startsituatie:
 
@@ -638,15 +632,15 @@ De keten is aantoonbaar volwassener geworden ten opzichte van de startsituatie:
 
 Tegelijk is de status nog niet “volledig opgelost”: de grootste restrisico’s zitten in niet direct upgradebare transitive dependencies. Dat restrisico is bewust geaccepteerd binnen de huidige scope, met als structureel advies een gefaseerde migratie naar een nieuwere OpenMRS-baseline.
 
-## Conclusie voor dit hoofdstuk {#conclusie-voor-dit-hoofdstuk}
+## 6.5 Conclusie voor dit hoofdstuk {#6.5-conclusie-voor-dit-hoofdstuk}
 
 Op SBOM- en supply-chain vlak is de auditdoelstelling grotendeels gehaald: er is inzicht, proces en traceerbaarheid. De resterende kwetsbaarheid exposure is niet genegeerd, maar expliciet onderbouwd als technisch schuldpunt dat buiten de sprintgrenzen valt.
 
 # 
 
-# Security Code Review & Kwetsbaarheden  {#security-code-review-&-kwetsbaarheden}
+# 7\. Security Code Review & Kwetsbaarheden  {#7.-security-code-review-&-kwetsbaarheden}
 
-## Aanpak van de security code review {#aanpak-van-de-security-code-review}
+## 7.1 Aanpak van de security code review {#7.1-aanpak-van-de-security-code-review}
 
 De security code review is uitgevoerd als combinatie van geautomatiseerde analyse en handmatige broncode-review. De geautomatiseerde laag bestond uit Snyk, SonarQube en CodeQL in de CI/CD-pipeline, aangevuld met Dependabot en Dependency Review voor supply-chain signalering. De handmatige laag is gebruikt om de technische context en exploitbaarheid van findings te beoordelen, zodat we niet alleen een lijst met meldingen hadden, maar ook onderbouwde prioritering.
 
@@ -657,7 +651,7 @@ Bij de beoordeling is steeds gekeken naar:
 * herstelbaarheid binnen de projectscope van drie weken,  
 * relatie met de gekozen NEN-7510-2 controls.
 
-## Samenvatting van gevonden kwetsbaarheden {#samenvatting-van-gevonden-kwetsbaarheden}
+## 7.2 Samenvatting van gevonden kwetsbaarheden {#7.2-samenvatting-van-gevonden-kwetsbaarheden}
 
 De code review liet drie categorieën kwetsbaarheden zien.
 
@@ -680,7 +674,7 @@ Hiervan zijn de hardcoded credentials en debug-output tijdens de projectperiode 
 
 In eerdere analyses kwam naar voren dat de grootste operationele risico’s zaten in autorisatie op de DWR- en REST-laag. Die zijn grotendeels gemitigeerd met expliciete privilege checks en gatekeeper-annotaties, maar in de servicelaag blijven nog lege @Authorized()-annotaties over als resterend risico.
 
-## Prioritering en risico-inschatting {#prioritering-en-risico-inschatting}
+## 7.3 Prioritering en risico-inschatting {#7.3-prioritering-en-risico-inschatting}
 
 De prioritering is niet alleen op severity-score gedaan, maar op combinatie van impact, exploitability en haalbaarheid binnen scope:
 
@@ -689,7 +683,7 @@ De prioritering is niet alleen op severity-score gedaan, maar op combinatie van 
 * Middel/laag (doorgeschoven): code quality/reliability issues met beperkte directe security-impact of hoge implementatie-inspanning binnen de resterende projecttijd.  
 * Deze prioritering sluit aan op de risicomatrix en de gekozen sprint strategie: eerst de kwetsbaarheden die direct PHI-toegang en autorisatie beïnvloeden.
 
-## Status per kwetsbaarheidscategorie {#status-per-kwetsbaarheidscategorie}
+## 7.4 Status per kwetsbaarheidscategorie {#7.4-status-per-kwetsbaarheidscategorie}
 
 ### Opgelost binnen projectperiode {#opgelost-binnen-projectperiode}
 
@@ -706,17 +700,29 @@ De prioritering is niet alleen op severity-score gedaan, maar op combinatie van 
 
 De zwaarste restrisico’s blijven gekoppeld aan de legacy platformstack. Daardoor is de conclusie van deze code review dat verdere risicoreductie op dependency-niveau vooral afhankelijk is van een platform migratie naar OpenMRS 2+.
 
-## Conclusie van de code review {#conclusie-van-de-code-review}
+## 7.5 Conclusie van de code review {#7.5-conclusie-van-de-code-review}
 
 De security code review heeft aantoonbaar geleid tot concrete mitigaties op de meest direct misbruikbare kwetsbaarheden in de eigen modulecode en toegangsarchitectuur. Tegelijk laat de review zien dat een aanzienlijk deel van het resterende risico buiten module-niveau ligt, in de onderliggende OpenMRS 1.9.x afhankelijkheidsketen. Daarmee is de review niet alleen een inventarisatie van kwetsbaarheden, maar ook een onderbouwde scheiding tussen wat binnen deze projectscope oplosbaar was en wat een strategische vervolgstap vraagt.
 
-# 
+# 8\. Analyse Onderhoudbaarheid {#8.-analyse-onderhoudbaarheid}
 
-# Secure Pipelines  {#secure-pipelines}
+## 8.1 Nulmeting metrieken (Cognitive Complexity, Code Smells, Technical Debt) {#8.1-nulmeting-metrieken-(cognitive-complexity,-code-smells,-technical-debt)}
+
+## 8.2 Identificatie van knelpunten in de codebase {#8.2-identificatie-van-knelpunten-in-de-codebase}
+
+# 9\. Aangepast Ontwerp & Architectuur {#9.-aangepast-ontwerp-&-architectuur}
+
+## 9.1 Toegepaste ontwerp patronen (bijv. AOP/Proxy patroon voor logging) {#9.1-toegepaste-ontwerp-patronen-(bijv.-aop/proxy-patroon-voor-logging)}
+
+## 9.2 Refactoring-patronen en afgewogen alternatieven {#9.2-refactoring-patronen-en-afgewogen-alternatieven}
+
+## 
+
+# 10\. Secure Pipelines  {#10.-secure-pipelines}
 
 Een **pipeline** (ook wel CI/CD-pipeline genoemd) is de geautomatiseerde keten van stappen die broncode omzet naar een draaiende toepassing: bouwen, testen, scannen en uitrollen. Als een aanvaller de pipeline kan manipuleren, kan hij kwaadaardige code in productie brengen zonder dat iemand dat opmerkt (Dit zou kunnen met / door RI-01 en RI-22). Dit hoofdstuk beschrijft hoe de pipeline van dit project is ingericht om dat te voorkomen.
 
-## OTAP-omgevingen en scheiding  {#otap-omgevingen-en-scheiding}
+## 10.1 OTAP-omgevingen en scheiding  {#10.1-otap-omgevingen-en-scheiding}
 
 OTAP staat voor **Ontwikkeling, Test, Acceptatie en Productie**, vier aparte omgevingen die voorkomen dat ongekeurde of niet-geteste software rechtstreeks in de productieomgeving terechtkomt.
 
@@ -730,7 +736,7 @@ Binnen dit project zijn twee formele omgevingen ingericht via GitHub Environment
 
 Directe pushes naar main of develop zijn geblokkeerd. Force pushes (waarbij geschiedenis overschreven kan worden) zijn eveneens geblokkeerd. Zo is er altijd een beoordelingsmoment vóór elke wijziging in een gedeelde omgeving.
 
-## CI/CD-beveiligingsmaatregelen  {#ci/cd-beveiligingsmaatregelen}
+## 10.2 CI/CD-beveiligingsmaatregelen  {#10.2-ci/cd-beveiligingsmaatregelen}
 
 De pipeline bevat de volgende beveiligingsmaatregelen:
 
@@ -748,7 +754,7 @@ De pipeline bevat de volgende beveiligingsmaatregelen:
 
 **Alleen merge via develop.** Een technische controle blokkeert elke poging om een andere branch dan develop samen te voegen in main. Zo kan niemand de testfase omzeilen.
 
-## Secrets management  {#secrets-management}
+## 10.3 Secrets management  {#10.3-secrets-management}
 
 *Secrets* zijn gevoelige gegevens zoals wachtwoorden, API-sleutels en SSH-sleutels die een toepassing nodig heeft maar die nooit zichtbaar mogen zijn in de broncode.
 
@@ -769,9 +775,9 @@ De pipeline bevat de volgende beveiligingsmaatregelen:
 
 Door de VPS-gegevens per omgeving op te slaan (en niet als gedeelde repository-secrets), is de acceptatieomgeving volledig geïsoleerd van de productieomgeving. Een pipeline die draait op een feature-branch heeft nooit toegang tot de productiegegevens.
 
-# Testing en Testrapportage  {#testing-en-testrapportage}
+# 11\. Testing en Testrapportage  {#11.-testing-en-testrapportage}
 
-## Teststrategie {#teststrategie}
+## 11.1 Teststrategie {#11.1-teststrategie}
 
 De teststrategie is opgebouwd in drie complementaire lagen: unit tests, integratietests en penetratietests.  
 Het doel is om zowel de technische correctheid van afzonderlijke beveiligingsmaatregelen als het gedrag in ketencontext en de praktische uitbuitbaarheid van kwetsbaarheden aan te tonen.
@@ -782,7 +788,7 @@ Het doel is om zowel de technische correctheid van afzonderlijke beveiligingsmaa
 
 Voor de penetratietests was een volledig werkende OpenMRS-runtime met geïmplementeerde plugin vereist. Door eerder beschreven technische module-/deployproblemen is die omgeving niet volledig stabiel beschikbaar gekomen. Daardoor is de pentestscope beperkt gebleven. Deze beperking is expliciet meegenomen in de interpretatie van resultaten en in de risicobeoordeling.
 
-## Unit tests: opzet, uitvoering en resultaten {#penetratietests:-opzet,-uitvoering-en-resultaten}
+## 11.2 Unit tests: opzet, uitvoering en resultaten {#11.5-penetratietests:-opzet,-uitvoering-en-resultaten}
 
 De unit tests zijn gericht opgezet rond de beveiligingskritieke wijzigingen:
 
@@ -807,7 +813,7 @@ Before:
 After:  
 ![][image15]
 
-## Integratietests: opzet, uitvoering en resultaten {#penetratietests:-opzet,-uitvoering-en-resultaten}
+## 11.3 Integratietests: opzet, uitvoering en resultaten {#11.5-penetratietests:-opzet,-uitvoering-en-resultaten}
 
 De integratietests zijn gericht op REST-controllergedrag in de OMOD-laag, omdat deze laag het best laat zien of beveiligingscontroles in samenhang werken binnen de applicatiecontext.
 
@@ -823,7 +829,9 @@ Resultaten integratietests:
 
 Totaal integratieniveau: 35 tests uitgevoerd, zonder failures of errors, met build success op OMOD.
 
-## Penetratietests: opzet, uitvoering en resultaten {#penetratietests:-opzet,-uitvoering-en-resultaten}
+## *11.4 \[TOEVOEGEN SUBKOP\]: Aantonen van regressie-preventie* *(Eis: 20pt Validatie \- Leg uit dat door het succesvol draaien van de 48 bestaande unit/integratietests is aangetoond dat de bestaande code niet kapot is gegaan door jullie fixes).* {#11.4-[toevoegen-subkop]:-aantonen-van-regressie-preventie-(eis:-20pt-validatie---leg-uit-dat-door-het-succesvol-draaien-van-de-48-bestaande-unit/integratietests-is-aangetoond-dat-de-bestaande-code-niet-kapot-is-gegaan-door-jullie-fixes).}
+
+## 11.5 Penetratietests: opzet, uitvoering en resultaten {#11.5-penetratietests:-opzet,-uitvoering-en-resultaten}
 
 De penetratietesten wilden we uitvoeren op de hele plugin, dat betekent dus dat hij geïmplementeerd moest worden in een live OpenMRS omgeving. Maar door de eerder vernoemde technische problemen hebben we de website hiervan nooit werkend gekregen. Dat betekent dat onze penetratietest heel gelimiteerd is. Daarom zijn deze testen ook pas op de laatste dag gebeurd, en was het niet meer mogelijk om iets te doen met de resultaten van de penetratietest.
 
@@ -866,9 +874,9 @@ Alle tests zijn geautomatiseerd uitgevoerd via een Python-script (Jupyter Notebo
 
 **Kernbevinding:** De mitigatie voor T-03 heeft het beoogde effect niet bereikt. De @Authorized\-annotatie op de controller-laag wordt niet onderschept door het beveiligingsmechanisme van OpenMRS 2.7.x. De kwetsbaarheid — waarbij een beperkte gebruiker statistieken kan opvragen — bestaat nog steeds na de verbeteringen. Dit risico is gedocumenteerd, en het risico is geaccpeteerd.
 
-# Mitigatie & Validatie van Verbeteringen  {#mitigatie-&-validatie-van-verbeteringen}
+# 12\. Mitigatie & Validatie van Verbeteringen  {#12.-mitigatie-&-validatie-van-verbeteringen}
 
-## Geïmplementeerde mitigaties {#geïmplementeerde-mitigaties}
+## 12.1 Geïmplementeerde mitigaties {#12.1-geïmplementeerde-mitigaties}
 
 Op basis van de risicoanalyse en GAP-analyse zijn de belangrijkste verbeteringen doorgevoerd op de risico’s met de hoogste impact op patiëntgegevens en toegangsbeveiliging.
 
@@ -882,7 +890,7 @@ De belangrijkste gerealiseerde mitigaties zijn:
 * Supply-chain mitigaties: SAST/SCA, dependency review, SBOM-generatie en Dependabot zijn in de pipeline geborgd.  
 * Github omgeving met regels rond mergen en pier reviews is ingericht, dit draagt bij aan een veiligere workflow
 
-## Validatie van de verbeteringen {#validatie-van-de-verbeteringen}
+## 12.2 Validatie van de verbeteringen {#12.2-validatie-van-de-verbeteringen}
 
 De validatie is uitgevoerd met een combinatie van geautomatiseerde tests en herhaalde scanresultaten.
 
@@ -896,7 +904,9 @@ Uitgevoerde validatie:
 * Pipeline-validatie via CI-runs met Snyk, SonarQube en CodeQL.  
 * Herbeoordeling van controls in de post-implementatie GAP-check: 8.15 en prioritaire onderdelen van 5.15 zijn aantoonbaar verbeterd; 5.14 blijft open.
 
-## Beperkingen in validatie {#beperkingen-in-validatie}
+*\+ \[TOEVOEGEN SUBKOP\]: Kwantitatieve validatie onderhoudbaarheid* *(Eis: 20pt Validatie \- Toon hier met SonarQube data aan dat de metrieken uit je nulmeting daadwerkelijk zijn verbeterd, bijv. "Voor/Na" tabel van Technical Debt of Code Smells).*
+
+## 12.3 Beperkingen in validatie {#12.3-beperkingen-in-validatie}
 
 Niet alle validatie stappen konden volledig volgens planning worden uitgevoerd.
 
@@ -906,7 +916,7 @@ Niet alle validatie stappen konden volledig volgens planning worden uitgevoerd.
 
 Deze beperking is expliciet meegenomen in de interpretatie van de resultaten: uitgevoerde validatie is hard bewijs, niet-uitvoerbare validatie is als restrisico en vervolgactie gedocumenteerd.
 
-## Resterende risico’s na mitigatie {#resterende-risico’s-na-mitigatie}
+## 12.4 Resterende risico’s na mitigatie {#12.4-resterende-risico’s-na-mitigatie}
 
 Na implementatie blijven de volgende hoofdgroepen over:
 
@@ -916,19 +926,19 @@ Na implementatie blijven de volgende hoofdgroepen over:
 
 De gekozen aanpak was om deze risico’s niet te verbergen, maar expliciet te prioriteren en te koppelen aan concrete vervolgmaatregelen.
 
-## Conclusie {#conclusie-1}
+## 12.5 Conclusie {#12.5-conclusie}
 
 De uitgevoerde mitigaties hebben de belangrijkste direct exploiteerbare risico’s in logging en toegangsbeveiliging aantoonbaar verlaagd. De validatie is sterk op code- en pipeline-niveau, met duidelijke testevidence op kritieke paden. De resterende risico’s zijn transparant gedocumenteerd en gekoppeld aan een realistisch vervolgpad, inclusief de noodzakelijke strategische stap: migratie weg van de legacy dependency-baseline.
 
 # 
 
-# Conclusie en Advies  {#conclusie-en-advies}
+# 13\. Conclusie en Advies  {#13.-conclusie-en-advies}
 
 Deze audit laat zien dat de OpenMRS Appointment Scheduling Module binnen de projectperiode aantoonbaar veiliger is geworden op de onderdelen met de hoogste directe impact op patiëntgegevens. Met name op logging en toegangsbeveiliging zijn concrete verbeteringen gerealiseerd die de herleidbaarheid en beheersing van toegang significant hebben versterkt. De implementatie van centrale auditlogging voor leesacties en de RBAC-hardening op DWR- en REST-niveau hebben de grootste functionele gaten uit de initiële GAP-analyse effectief verkleind.
 
 Tegelijkertijd is duidelijk geworden dat niet alle geïdentificeerde risico’s binnen de scope en tijd van dit project volledig oplosbaar waren. De zwaarste resterende kwetsbaarheden zitten grotendeels in de legacy dependency-keten van OpenMRS 1.9.x. Die kwetsbaarheden zijn wel expliciet in kaart gebracht, geprioriteerd en onderbouwd geaccepteerd waar directe mitigatie binnen module-niveau niet realistisch was. Ook de validatie kende een praktische beperking: door instabiliteit bij het laden van de module in een live OpenMRS-instantie konden niet alle geplande integratie- en penetratietests volledig worden uitgevoerd, ondanks dat de opzet en scenario’s wel zijn uitgewerkt.
 
-## Advies {#advies}
+## 13.1 Advies {#13.1-advies}
 
 Op basis van de uitgevoerde audit adviseren wij om het vervolg in drie prioriteitslagen aan te pakken.
 
@@ -952,13 +962,13 @@ Op basis van de uitgevoerde audit adviseren wij om het vervolg in drie prioritei
 * Ontwikkel het loggingmodel door naar een volledig gelaagde aanpak (toegang, systeem, beheer) met heldere retentie- en reviewafspraken.  
 * Breng de security-architectuur in lijn met een vaste secure-by-default standaard, inclusief periodieke her-audits.
 
-## Vervolgstappen en besluit {#vervolgstappen-en-besluit}
+## 13.2 Vervolgstappen en besluit {#13.2-vervolgstappen-en-besluit}
 
 Ons team heeft binnen beperkte capaciteit en hoge werkdruk de juiste focus gelegd op maatregelen met de hoogste security-opbrengst. Voor het vervolg adviseren wij om dit momentum vast te houden met een kort verbetertraject op de open high-impact punten, gevolgd door een strategisch traject op dependency- en platformniveau.
 
 # 
 
-# Bijlagen  {#bijlagen}
+# 14\. Bijlagen  {#14.-bijlagen}
 
 ## Traceability Matrix: NEN-7510-2:2024 Controls {#traceability-matrix:-nen-7510-2:2024-controls}
 
@@ -1160,7 +1170,7 @@ Hieronder hebben we een volledige tabel staan van Sonarqube.
 | Add at least one assertion to this test case. | [https://sonarcloud.io/project/issues?open=AZ7QYwyaT0cOunanvHku\&id=Avans-2-4\_Appointment-Scheduling-Audit](https://sonarcloud.io/project/issues?open=AZ7QYwyaT0cOunanvHku&id=Avans-2-4_Appointment-Scheduling-Audit) | api/src/test/java/org/openmrs/module/appointmentscheduling/reporting/dataset/evaluator/AppointmentDataSetEvaluatorTest.java |
 | "log" is the name of a field in "PortletController". | [https://sonarcloud.io/project/issues?open=AZ7QYwg1T0cOunanvHd\_\&id=Avans-2-4\_Appointment-Scheduling-Audit](https://sonarcloud.io/project/issues?open=AZ7QYwg1T0cOunanvHd_&id=Avans-2-4_Appointment-Scheduling-Audit) | omod/src/main/java/org/openmrs/module/appointmentscheduling/web/controller/AppointmentsPortletController.java |
 
-## Risicomatrix  {#risicomatrix-1}
+## Risicomatrix  {#risicomatrix}
 
 Onderstaand is de volledige risicomatrix, dit zijn de gevonden mogelijke risico’s in onze plugin. Dat betekent niet dat ze allemaal voorkomen, maar dat betekent dat ze voor zouden kunnen komen. Het is gemitigeerd als het of gemonitord wordt en we zeker kunnen zijn dat het niet gebeurt, of als het tegengehouden wordt. Het is geaccepteerd wanneer het niet binnen de scope valt van ons project om dit op te lossen.
 
