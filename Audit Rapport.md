@@ -148,7 +148,7 @@ Martijn van Houwelingen | 2225486
 
 [**9\. Aangepast Ontwerp & Architectuur	27**](#9.-aangepast-ontwerp-&-architectuur)
 
-[9.1 Toegepaste ontwerp patronen (bijv. AOP/Proxy patroon voor logging)	27](#9.1-toegepaste-ontwerp-patronen-\(bijv.-aop/proxy-patroon-voor-logging\))
+[9.1 Toegepaste ontwerp patronen (bijv. AOP/Proxy patroon voor logging)	27](#9.1-toegepaste-ontwerp-patronen)
 
 [9.2 Refactoring-patronen en afgewogen alternatieven	27](#9.2-refactoring-patronen-en-afgewogen-alternatieven)
 
@@ -708,11 +708,89 @@ De security code review heeft aantoonbaar geleid tot concrete mitigaties op de m
 
 ## 8.1 Nulmeting metrieken (Cognitive Complexity, Code Smells, Technical Debt) {#8.1-nulmeting-metrieken-(cognitive-complexity,-code-smells,-technical-debt)}
 
+De nulmeting is uitgevoerd via SonarQube op 2026-06-29 bij commit [d30fff0](https://github.com/Avans-2-4/Appointment-Scheduling-Audit/tree/d30fff0001a3aaf5310a71761bc0f64ee05a3b2e). Dit is de status van de applicatie waar we vanaf gaan werken. Hierbij nemen we de security informatie niet mee van Sonarqube omdat we daar van te voren al aan hebben gewerkt en het niks te maken heeft met onderhoudbaarheid.
+
+| Metriek | Waarde |
+| :---- | :---- |
+| Code Smells | 523 |
+| Technical Debt | 88 uur |
+| Cognitive Complexity | 1.080 |
+| Cyclomatic Complexity | 1.346 |
+| Duplicated Lines | 4,2% (554 regels) |
+| Test Coverage | 46,7% |
+
+Onze grootste violation is **S1192** (herhaalde string literals), het komt 49 keer voor dat er meerdere keren dezelfde tekst gedefinieerd is.
+
+Wat betekent dit? In een ideale wereld zou je alles perfect willen hebben, 100% test coverage, 0 uur aan Technical Debt, maar dat is niet haalbaar. Net zoals security is onderhoudbaarheid een afweging. Als je alles 100% perfect wilt hebben qua onderhoudbaarheid kost het veel langer om functionaliteit in te bouwen. Daarom werken we met een **Quality Gate**, dit een een baseline van hoeveel je in je project toestaat. Wij gebruiken hier de “Sonar way” Quality Gate, dat is de standaard instelling van Sonarqube gebaseerd op de “best practices” in de industrie volgens Sonarqube. En dit is ook niet aanpasbaar zonder de premium versie van Sonarqube.  
+In praktijk houdt dit in dat CI/CD het niet toestaat voor ons om nieuwe code in main te introduceren waar:
+
+* Nieuwe bugs worden geïntroduceerd.  
+* Nieuwe vulnerabilities worden geïntroduceerd.  
+* Er nieuwe Technical Debt bij komt. (meer dan 5%)  
+* Nieuwe nog niet 100% gereviewde security hotspots zijn.  
+* Nieuwe code minder dan 80% test coverage heeft.  
+* Nieuwe code meer dan 3% duplicatie heeft.
+
+Ook willen we natuurlijk dat onze applicatie onder deze voorwaarden valt voor al bestaande code, dat betekent dat in een perfect scenario:
+
+* We 1.2% of meer aan code duplicatie moeten verwijderen.  
+* We 33.3% aan code coverage zouden moeten toevoegen.
+
+Maar dat betekent zeker niet dat we geen verbeteringen zullen toepassen op andere plekken.
+
 ## 8.2 Identificatie van knelpunten in de codebase {#8.2-identificatie-van-knelpunten-in-de-codebase}
+
+### Sonarqube tabel
+
+Hieronder is een tabel weergegeven met de 5 meest voorkomende problemen in Sonarqube.
+
+| Regel | Aantal | Beschrijving |
+| :---- | :---- | :---- |
+| S1192 | 49 Gevallen | Strings (stukken tekst) die vaker dan 3 keer herhaald worden. |
+| S3776 | 5 Methodes | Cyclomatic Complexity hoger dan de threshold van 15 |
+| S6809 | 3 Plekken | Transactionele methodes aangeroepen via *this* in plaats van via de geïnjecteerde proxy |
+| S1948 | 3 Velden | Niet-serialiseerbare velden in de *Appointment* klasse |
+| S8346 | 2 Gevallen | *\++* gebruikt op *float/double* in *StudentT* |
+
+Als we dan kijken naar **S1192** zijn dat 49 gevallen die relatief snel opgelost kunnen worden, maar ook goed kunnen bijdragen aan onderhoudbaarheid. 
+
+Individuele knelpunten  
+Sonarqube is degene die aan ons kan laten weten dat er ergens duplicatie is, en dat kunnen wij dan op een mooie manier een oplossing voor verzinnen, dit doen we aan de hand van diagrammen om het voor onszelf makkelijker te maken.
+
+#### String Duplicatie
+
+SonarQube heeft 49 gevallen (regel **S1192**) gevonden waarbij dezelfde tekst letterlijk op meerdere plekken in de code herhaald wordt, zonder dat deze als constant gedefinieerd is. De ergste gevallen:
+
+| Bestand | Herhaalde teksten |
+| :---- | :---- |
+| HibernateAppointmentDAO.java | "patient" ×4, "timeSlot" ×4, "status" ×3, "voided" ×3 |
+| HibernateAppointmentBlockDAO.java | "startDate" ×5, "endDate" ×3 |
+| HibernateProviderScheduleDAO.java | "HH:mm:ss" ×4 |
+| AppointmentResource1\_9.java | "visit" ×6, "patient" ×5, "status" ×5 |
+| AppointmentRequestResource1\_9.java | "patient" ×6, "provider" ×6, "appointmentType" ×6, "status" ×6 |
+
+Het risico: als een veldnaam ooit verandert, moet een ontwikkelaar op alle losse plekken zoeken en handmatig aanpassen. Wordt één plek gemist, dan bevat de applicatie een fout en mogelijk zonder dat iemand het doorheeft.
+
+#### Structurele Kopieën
+
+* In *AppointmentServiceImpl.java:1008–1137* zijn er 2 methodes die 65 lijnen lang zijn, en delen ongeveer 95% van de code.   
+  * Het enige verschil is of ze *AppointmentType* of *Provider* gebruiken, en hoe de key wordt opgehaald.  
+* *PatientToAppointmentDataEvaluator.java* en *PersonToAppointmentDataEvaluator.java* zijn 80% het zelfde.  
+  * Verschillen alleen in evaluatie context en welke data  service wordt aangeroepen.  
+* *AppointmentServiceImpl.java:1314–1348* zijn 2 methodes vrijwel identiek  
+  * Verschillen alleen in eerder of later dan geplande tijdstip.
+
+Kopieën zorgen er voor dat er een kans is dat bugfixes maar in 1 van de implementaties wordt doorgevoerd.
+
+#### Monolith Klasse
+
+*AppointmentServiceImpl.java* is een bestand van **1.433 regels** met **7 gekoppelde datalagen** dat zes verschillende verantwoordelijkheden combineert: afsprakenbeheer (CRUD), boekingslogica, beschikbaarheidsberekening, analytics, statistische berekeningen en hulpfuncties voor patiënten en zorgverleners.  
+Dit noemen we een God Class: één klasse die te veel weet en te veel doet. Gevolg hiervan is dat elke andere component in de module afhankelijk is van precies deze klasse. Een wijziging in de analyticslogica kan daardoor onbedoeld de boekingslogica beïnvloeden, en omgekeerd.  
+Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6809**): de klasse moet zichzelf aanroepen via een omweg (*Context.getService(AppointmentService.class)*) om zijn eigen transactiebeveiliging te activeren. Dit is een teken dat functionaliteit die eigenlijk in aparte componenten thuishoort, nu samengepropt zit in één grote klasse.
 
 # 9\. Aangepast Ontwerp & Architectuur {#9.-aangepast-ontwerp-&-architectuur}
 
-## 9.1 Toegepaste ontwerp patronen (bijv. AOP/Proxy patroon voor logging) {#9.1-toegepaste-ontwerp-patronen-(bijv.-aop/proxy-patroon-voor-logging)}
+## 9.1 Toegepaste ontwerp patronen {#9.1-toegepaste-ontwerp-patronen}
 
 ## 9.2 Refactoring-patronen en afgewogen alternatieven {#9.2-refactoring-patronen-en-afgewogen-alternatieven}
 
