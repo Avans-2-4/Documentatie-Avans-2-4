@@ -788,10 +788,22 @@ Kopieën zorgen ervoor dat er een kans is dat bugfixes maar in 1 van de implemen
 Dit noemen we een God Class: één klasse die te veel weet en te veel doet. Gevolg hiervan is dat elke andere component in de module afhankelijk is van precies deze klasse. Een wijziging in de analyticslogica kan daardoor onbedoeld de boekingslogica beïnvloeden, en omgekeerd.  
 Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6809**): de klasse moet zichzelf aanroepen via een omweg (*Context.getService(AppointmentService.class)*) om zijn eigen transactiebeveiliging te activeren. Dit is een teken dat functionaliteit die eigenlijk in aparte componenten thuishoort, nu samengepropt zit in één grote klasse.
 
+## 8.1 Eindmeting metrieken
+
+| Metriek | Waarde Voor | Waarde Na | Verschil |
+| :---- | :---- | :---- | :---- |
+| Code Smells | 523 |  |  |
+| Technical Debt | 88 uur |  |  |
+| Cognitive Complexity | 1.080 |  |  |
+| Cyclomatic Complexity | 1.346 |  |  |
+| Duplicated Lines | 4,2% (554 regels) |  |  |
+| Test Coverage | 46,7% |  |  |
+
 # 9\. Aangepast Ontwerp & Architectuur {#9.-aangepast-ontwerp-&-architectuur}
 
 ## 9.1 Duplicate analytische methodes {#9.1-duplicate-analytische-methodes}
 
+* **Identifier:** MA-01  
 * **Status:** Gerealiseerd in commit *ace3cb0*  
 * **Probleem:** In *AppointmentServiceImpl.java* (regels 1008–1137) deelden de methodes *getAverageHistoryDurationByConditions* en *getAverageHistoryDurationByConditionsPerProvider* \~95% van hun implementatie. Het enige verschil was hoe de groepering werd bepaald: op *AppointmentType* of op *Provider*. Dit leidde tot \~65 regels gedupliceerde logica die dubbel onderhouden moest worden.  
 * **Aanpak:** De gedeelde logica is verplaatst naar een nieuwe private methode *computeAverageDurations\<K\>*. De twee originele methodes roepen deze methode nu aan en geven elk een eigen *keyExtractor* lambda mee die bepaalt op welke sleutel er gegroepeerd wordt.  
@@ -803,6 +815,7 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
 
 ## 9.2 Duplicate evaluators {#9.2-duplicate-evaluators}
 
+* **Identifier:** MA-02  
 * **Status:** Gerealiseerd in commit *b3fe509*  
 * **Probleem:** *PatientToAppointmentDataEvaluator.java* en *PersonToAppointmentDataEvaluator.java* waren voor \~80% identiek. Beide bevatten dezelfde HQL-query voor de *appointmentId* \--\> *patientId*\-koppeling en dezelfde vertrouwelijkheidsfilteringslogica. Een bugfix in de HQL moest op twee plekken doorgevoerd worden; werd één plek vergeten, dan gedroegen de twee evaluators zich anders zonder dat dit direct zichtbaar was.  
 * **Aanpak:** We hebben de gedeelde logica verplaatst naar een nieuwe abstracte basisklasse: *AbstractToAppointmentDataEvaluator*. Deze klasse doet altijd drie dingen: (1) de HQL-mapping opbouwen, (2) de vertrouwelijkheidsfiltering toepassen, en (3) *evaluateJoinedData* aanroepen. Die laatste stap is abstract, elke subklasse vult die zelf in met zijn eigen context en dataservice.  
@@ -828,6 +841,7 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
 
 ### Appointment en AppointmentBlock
 
+* **Identifier:** MA-03  
 * **Aanpak:** We hebben vijf constanten toegevoegd aan *Appointment.java* (*FIELD\_PATIENT*, *FIELD\_TIME\_SLOT*, *FIELD\_STATUS*, *FIELD\_VOIDED*, *FIELD\_APPOINTMENT\_TYPE*) en zes aan *AppointmentBlock.java* (*FIELD\_START\_DATE*, *FIELD\_END\_DATE*, *FIELD\_PROVIDER*, *FIELD\_LOCATION*, *FIELD\_TYPES*, *FIELD\_VOIDED*). De vier bestanden die deze literals gebruikten verwijzen nu naar die constanten:  
   * *HibernateAppointmentDAO.java* — verwijst nu naar *Appointment.FIELD\_\**  
   * *HibernateAppointmentBlockDAO.java* — verwijst nu naar *AppointmentBlock.FIELD\_\**  
@@ -837,6 +851,7 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
 
 ### AppointmentRequest en AppointmentRequestResource1\_9
 
+* **Identifier:** MA-04  
 * **Aanpak:** We hebben elf constanten toegevoegd aan *AppointmentRequest.java* voor alle velden die in de REST-laag herhaald werden (*FIELD\_PATIENT*, *FIELD\_APPOINTMENT\_TYPE,* *FIELD\_PROVIDER*, *FIELD\_STATUS*, *FIELD\_NOTES*, *FIELD\_REQUESTED\_BY*, *FIELD\_REQUESTED\_ON*, *FIELD\_MIN\_TIME\_FRAME\_VALUE*, *FIELD\_MIN\_TIME\_FRAME\_UNITS*, *FIELD\_MAX\_TIME\_FRAME\_VALUE*, *FIELD\_MAX\_TIME\_FRAME\_UNITS*). *AppointmentRequestResource1\_9.java* gebruikte elk van deze literals vier tot zes keer verspreid over vier methodes. Al deze plekken verwijzen nu naar *AppointmentRequest.FIELD\_\**.  
   * Bij het doorvoeren troffen we twee gevallen van bestaande duplicatie aan die we meteen hebben opgelost:  
     * *getCreatableProperties* en *getUpdatableProperties* hadden een identiek lichaam van 11 regels. Beide methodes roepen nu een gedeelde private methode *buildWriteDescription()* aan.  
@@ -845,11 +860,13 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
 
 ### HibernateProviderScheduleDAO
 
+* **Identifier:** MA-05  
 * **Aanpak:** De opmaakstring *"HH:mm:ss"* werd vier keer herhaald in twee methodes. We hebben een private constante *TIME\_FORMAT* toegevoegd en alle vier de plekken vervangen. Daarnaast zijn twee geneste if-statements samengevoegd (S1066), en de tijdconditie is geëxtraheerd naar een private methode *isSpecificTime(Date date)*.  
 * **Resultaat:** De S1192-schending voor *"HH:mm:ss"* is opgelost. De cognitieve complexiteit van *getProviderScheduleByConstraints* daalde van 16 naar 14 (drempel: 15).
 
 ## 9.4 Strategy Pattern: Vroege en late afspraken
 
+* **Identifier:** MA-06  
 * **Status:** Aanbevolen  
 * **Probleem:** In *AppointmentServiceImpl.java* (regels 1314–1348) zijn *getEarlyAppointments* en *getLateAppointments* vrijwel identiek. Het enige verschil zit in één predicaat: *.before(slot.getEndDate())* versus *.after(slot.getEndDate())*. Net als bij [§9.1](#9.1-duplicate-analytische-methodes) betekent dit dat een bugfix in de gedeelde iteratielogica op twee plekken doorgevoerd moet worden.  
 * **Aanpak:** Het idee is om een gedeelde private methode *getAppointmentsByTiming* te maken die de iteratielogica bevat. De twee publieke methodes roepen die dan aan met een eigen *Predicate\<Appointment\>* die het tijdstipcriterium bepaalt.  
@@ -861,6 +878,7 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
 
 ## 9.5 Facade Decomposition: AppointmentServiceImpl
 
+* **Identifier:** MA-07  
 * **Status:** Aanbevolen  
 * **Probleem:** *AppointmentServiceImpl.java* is een God Class van 1.433 regels met zeven gekoppelde datalagen en zes verantwoordelijkheden: afsprakenbeheer (CRUD), boekingslogica, beschikbaarheidsberekening, analytics, statistische berekeningen en hulpfuncties voor patiënten en zorgverleners. Elke andere component in de module is afhankelijk van precies deze klasse. Een concreet symptoom hiervan is zichtbaar op drie plekken (S6809): de klasse roept zichzelf aan via *Context.getService(AppointmentService.class)* om zijn eigen transactiebeveiliging te activeren — een anti-patroon dat ontstaat doordat logica die in aparte componenten thuishoort, samengepropt zit in één klasse.  
 * **Aanpak:** *AppointmentServiceImpl* zou een dunne facade worden die doorverwijst naar kleinere, package-private domeinservices. De publieke interface *AppointmentService* blijft ongewijzigd, maar alle logica verhuist naar aparte services die via Spring worden geïnjecteerd.  
@@ -869,6 +887,8 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
 * **Afgewogen alternatieven:**  
   * Volledige interface-splitsing (aparte sub-interfaces voor *AppointmentService*). Dit is ideaal voor testbaarheid, maar breekt de publieke OpenMRS-module-API en vereist een major version bump. Dit is niet realistisch zonder afstemming met de bredere OpenMRS-gemeenschap.  
   * Alleen de drie S6809-plekken fixen via *@Autowired self*. Dit lost de directe SonarQube-schendingen op zonder herstructurering. Zinvol als tussenoplossing, maar pakt de onderliggende God Class-koppeling niet aan.
+
+## 9.x Veranderingen Matrix
 
 ## 
 
