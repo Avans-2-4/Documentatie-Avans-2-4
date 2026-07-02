@@ -836,7 +836,7 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
 * **Status:** Gerealiseerd in meerdere commits  
 * **Probleem:** SonarQube-regel S1192 wees 49 gevallen aan waarbij veldnamen zoals *"patient"*, *"timeSlot"* en *"startDate"* letterlijk op meerdere plekken herhaald werden in DAO- en REST-bestanden, zonder dat deze als constante gedefinieerd waren. Elke herbenoeming van een Hibernate-veld vereiste een handmatige zoek-en-vervang over meerdere bestanden waarbij één vergeten plek een stille fout introduceert.  
 * **Afgewogen alternatieven:**  
-  * Aparte constanten-interface of \-class (*AppointmentFields*) centraliseert alle constanten, maar breekt het principe dat elke domeinclass zijn eigen veldcontract bezit. Als *Appointment.java* hernoemd wordt, zijn de constanten in een los bestand niet meer vanzelfsprekend gerelateerd.  
+  * Aparte constanten-interface of \-class (*AppointmentFields*) centraliseert alle constanten, maar breekt het principe dat elke domein class zijn eigen veld contract bezit. Als *Appointment.java* hernoemd wordt, zijn de constanten in een los bestand niet meer vanzelfsprekend gerelateerd.  
   * *@SuppressWarnings("java:S1192")* dempt de waarschuwing zonder het onderliggende risico van divergentie op te lossen.
 
 ### Appointment en AppointmentBlock
@@ -861,15 +861,15 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
 ### HibernateProviderScheduleDAO
 
 * **Identifier:** MA-05  
-* **Aanpak:** De opmaakstring *"HH:mm:ss"* werd vier keer herhaald in twee methodes. We hebben een private constante *TIME\_FORMAT* toegevoegd en alle vier de plekken vervangen. Daarnaast zijn twee geneste if-statements samengevoegd (S1066), en de tijdconditie is geëxtraheerd naar een private methode *isSpecificTime(Date date)*.  
+* **Aanpak:** De opmaak string *"HH:mm:ss"* werd vier keer herhaald in twee methodes. We hebben een private constante *TIME\_FORMAT* toegevoegd en alle vier de plekken vervangen. Daarnaast zijn twee geneste if-statements samengevoegd (S1066), en de tijd conditie is geëxtraheerd naar een private methode *isSpecificTime(Date date)*.  
 * **Resultaat:** De S1192-schending voor *"HH:mm:ss"* is opgelost. De cognitieve complexiteit van *getProviderScheduleByConstraints* daalde van 16 naar 14 (drempel: 15).
 
 ## 9.4 Strategy Pattern: Vroege en late afspraken
 
 * **Identifier:** MA-06  
-* **Status:** Aanbevolen  
-* **Probleem:** In *AppointmentServiceImpl.java* (regels 1314–1348) zijn *getEarlyAppointments* en *getLateAppointments* vrijwel identiek. Het enige verschil zit in één predicaat: *.before(slot.getEndDate())* versus *.after(slot.getEndDate())*. Net als bij [§9.1](#9.1-duplicate-analytische-methodes) betekent dit dat een bugfix in de gedeelde iteratielogica op twee plekken doorgevoerd moet worden.  
-* **Aanpak:** Het idee is om een gedeelde private methode *getAppointmentsByTiming* te maken die de iteratielogica bevat. De twee publieke methodes roepen die dan aan met een eigen *Predicate\<Appointment\>* die het tijdstipcriterium bepaalt.  
+* **Status:** Gerealiseerd in commit *38527db*  
+* **Probleem:** In *AppointmentServiceImpl.java* (regels 1314–1348) zijn *getEarlyAppointments* en *getLateAppointments* vrijwel identiek. Het enige verschil zit in één predicaat: *.before(slot.getEndDate())* versus *.after(slot.getEndDate())*. Net als bij [§9.1](#9.1-duplicate-analytische-methodes) betekent dit dat een bugfix in de gedeelde integratie logica op twee plekken doorgevoerd moet worden.  
+* **Aanpak:** Het idee is om een gedeelde private methode *getAppointmentsByTiming* te maken die de integratie logica bevat. De twee publieke methodes roepen die dan aan met een eigen *Predicate\<Appointment\>* die het tijdstipcriterium bepaalt.  
   ![][image16]  
 * **Resultaat:** De twee methodes samen (\~35 regels) worden teruggebracht naar \~12 regels. Het toevoegen van een derde variant (bijv. *getOnTimeAppointments*) vereist alleen een nieuw predicaat, geen nieuwe gedupliceerde methode.  
 * **Afgewogen alternatieven:**  
@@ -889,6 +889,16 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
   * Alleen de drie S6809-plekken fixen via *@Autowired self*. Dit lost de directe SonarQube-schendingen op zonder herstructurering. Zinvol als tussenoplossing, maar pakt de onderliggende God Class-koppeling niet aan.
 
 ## 9.x Veranderingen Matrix
+
+| Identifier | Implementatie Snelheid | Impact | Totaal | Opmerking |
+| :---- | :---- | :---- | :---- | :---- |
+| MA-01 | 4 | 3 | 12 |  |
+| MA-02 | 3 | 3 | 9 |  |
+| MA-03 | 5 | 2 | 10 |  |
+| MA-04 | 5 | 2 | 10 |  |
+| MA-05 | 5 | 2 | 10 |  |
+| MA-06 | 3 | 3 | 9 |  |
+| MA-07 | 1 | 5 | 5 |  |
 
 ## 
 
