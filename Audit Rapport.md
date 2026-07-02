@@ -142,121 +142,149 @@ Martijn van Houwelingen | 2225486
 
 [**8\. Analyse Onderhoudbaarheid	26**](#8.-analyse-onderhoudbaarheid)
 
-[8.1 Nulmeting metrieken (Cognitive Complexity, Code Smells, Technical Debt)	26](#8.1-nulmeting-metrieken-\(cognitive-complexity,-code-smells,-technical-debt\))
+[8.1 Non functional requirements	26](#8.1-non-functional-requirements)
 
-[8.2 Identificatie van knelpunten in de codebase	26](#8.2-identificatie-van-knelpunten-in-de-codebase)
+[8.2 Nulmeting metrieken (Cognitive Complexity, Code Smells, Technical Debt)	26](#8.2-nulmeting-metrieken-\(cognitive-complexity,-code-smells,-technical-debt\))
 
-[**9\. Aangepast Ontwerp & Architectuur	27**](#9.-aangepast-ontwerp-&-architectuur)
+[8.3 Identificatie van knelpunten in de codebase	27](#8.3-identificatie-van-knelpunten-in-de-codebase)
 
-[9.1 Toegepaste ontwerp patronen (bijv. AOP/Proxy patroon voor logging)	27](#9.1-duplicate-analytische-methodes)
+[Sonarqube tabel	27](#sonarqube-tabel)
 
-[9.2 Refactoring-patronen en afgewogen alternatieven	27](#9.2-duplicate-evaluators)
+[String Duplicatie	27](#string-duplicatie)
 
-[**10\. Secure Pipelines	29**](#10.-secure-pipelines)
+[Structurele Kopieën	28](#structurele-kopieën)
 
-[10.1 OTAP-omgevingen en scheiding	29](#10.1-otap-omgevingen-en-scheiding)
+[Monolith Klasse	28](#monolith-klasse)
 
-[10.2 CI/CD-beveiligingsmaatregelen	29](#10.2-ci/cd-beveiligingsmaatregelen)
+[8.4 Eindmeting metrieken	29](#8.4-eindmeting-metrieken)
 
-[10.3 Secrets management	30](#10.3-secrets-management)
+[**9\. Aangepast Ontwerp & Architectuur	29**](#9.-aangepast-ontwerp-&-architectuur)
 
-[**11\. Testing en Testrapportage	32**](#11.-testing-en-testrapportage)
+[9.1 Duplicate analytische methodes	29](#9.1-duplicate-analytische-methodes)
 
-[11.1 Teststrategie	32](#11.1-teststrategie)
+[9.2 Duplicate evaluators	30](#9.2-duplicate-evaluators)
 
-[11.2 Unit tests: opzet, uitvoering en resultaten	32](#11.5-penetratietests:-opzet,-uitvoering-en-resultaten)
+[9.3 Herhaalde string literals	31](#9.3-herhaalde-string-literals)
 
-[11.3 Integratietests: opzet, uitvoering en resultaten	33](#11.5-penetratietests:-opzet,-uitvoering-en-resultaten)
+[Appointment en AppointmentBlock	31](#appointment-en-appointmentblock)
 
-[11.4 \[TOEVOEGEN SUBKOP\]: Aantonen van regressie-preventie (Eis: 20pt Validatie \- Leg uit dat door het succesvol draaien van de 48 bestaande unit/integratietests is aangetoond dat de bestaande code niet kapot is gegaan door jullie fixes).	33](#11.4-[toevoegen-subkop]:-aantonen-van-regressie-preventie-\(eis:-20pt-validatie---leg-uit-dat-door-het-succesvol-draaien-van-de-48-bestaande-unit/integratietests-is-aangetoond-dat-de-bestaande-code-niet-kapot-is-gegaan-door-jullie-fixes\).)
+[AppointmentRequest en AppointmentRequestResource1\_9	32](#appointmentrequest-en-appointmentrequestresource1_9)
 
-[11.5 Penetratietests: opzet, uitvoering en resultaten	33](#11.5-penetratietests:-opzet,-uitvoering-en-resultaten)
+[HibernateProviderScheduleDAO	32](#hibernateproviderscheduledao)
 
-[Uitvoering en resultaten	34](#uitvoering-en-resultaten)
+[9.4 Strategy Pattern: Vroege en late afspraken	32](#9.4-strategy-pattern:-vroege-en-late-afspraken)
 
-[Samenvatting van de penetratietest	35](#samenvatting-van-de-penetratietest)
+[9.5 Facade Decomposition: AppointmentServiceImpl	33](#9.5-facade-decomposition:-appointmentserviceimpl)
 
-[**12\. Mitigatie & Validatie van Verbeteringen	36**](#12.-mitigatie-&-validatie-van-verbeteringen)
+[9.x Veranderingen Matrix	34](#9.x-veranderingen-matrix)
 
-[12.1 Geïmplementeerde mitigaties	36](#12.1-geïmplementeerde-mitigaties)
+[**10\. Secure Pipelines	36**](#10.-secure-pipelines)
 
-[12.2 Validatie van de verbeteringen	36](#12.2-validatie-van-de-verbeteringen)
+[10.1 OTAP-omgevingen en scheiding	36](#10.1-otap-omgevingen-en-scheiding)
 
-[12.3 Beperkingen in validatie	37](#12.3-beperkingen-in-validatie)
+[10.2 CI/CD-beveiligingsmaatregelen	36](#10.2-ci/cd-beveiligingsmaatregelen)
 
-[12.4 Resterende risico’s na mitigatie	37](#12.4-resterende-risico’s-na-mitigatie)
+[10.3 Secrets management	37](#10.3-secrets-management)
 
-[12.5 Conclusie	37](#12.5-conclusie)
+[**11\. Testing en Testrapportage	39**](#11.-testing-en-testrapportage)
 
-[**13\. Conclusie en Advies	38**](#13.-conclusie-en-advies)
+[11.1 Teststrategie	39](#11.1-teststrategie)
 
-[13.1 Advies	38](#13.1-advies)
+[11.2 Unit tests: opzet, uitvoering en resultaten	39](#11.5-penetratietests:-opzet,-uitvoering-en-resultaten)
 
-[Prioriteit 1: direct uitvoeren (korte termijn)	38](#prioriteit-1:-direct-uitvoeren-\(korte-termijn\))
+[Extra testen	40](#extra-testen)
 
-[Prioriteit 2: hardening en borging (middellange termijn)	38](#prioriteit-2:-hardening-en-borging-\(middellange-termijn\))
+[11.3 Integratietests: opzet, uitvoering en resultaten	40](#11.5-penetratietests:-opzet,-uitvoering-en-resultaten)
 
-[Prioriteit 3: structurele risicoreductie (lange termijn)	39](#prioriteit-3:-structurele-risicoreductie-\(lange-termijn\))
+[11.4 \[TOEVOEGEN SUBKOP\]: Aantonen van regressie-preventie (Eis: 20pt Validatie \- Leg uit dat door het succesvol draaien van de 48 bestaande unit/integratietests is aangetoond dat de bestaande code niet kapot is gegaan door jullie fixes).	41](#11.4-[toevoegen-subkop]:-aantonen-van-regressie-preventie-\(eis:-20pt-validatie---leg-uit-dat-door-het-succesvol-draaien-van-de-48-bestaande-unit/integratietests-is-aangetoond-dat-de-bestaande-code-niet-kapot-is-gegaan-door-jullie-fixes\).)
 
-[13.2 Vervolgstappen en besluit	39](#13.2-vervolgstappen-en-besluit)
+[11.5 Penetratietests: opzet, uitvoering en resultaten	41](#11.5-penetratietests:-opzet,-uitvoering-en-resultaten)
 
-[**14\. Bijlagen	40**](#14.-bijlagen)
+[Uitvoering en resultaten	41](#uitvoering-en-resultaten)
 
-[Traceability Matrix: NEN-7510-2:2024 Controls	40](#traceability-matrix:-nen-7510-2:2024-controls)
+[Samenvatting van de penetratietest	42](#samenvatting-van-de-penetratietest)
 
-[Legenda Status:	40](#legenda-status:)
+[**12\. Mitigatie & Validatie van Verbeteringen	43**](#12.-mitigatie-&-validatie-van-verbeteringen)
 
-[1\. 8.15 — Logging	40](#1.-8.15-—-logging)
+[12.1 Geïmplementeerde mitigaties	43](#12.1-geïmplementeerde-mitigaties)
 
-[2\. 5.15 — Toegangsbeveiliging (Access Control)	40](#2.-5.15-—-toegangsbeveiliging-\(access-control\))
+[12.2 Validatie van de verbeteringen	43](#12.2-validatie-van-de-verbeteringen)
 
-[3\. 5.14 — Overdragen van informatie (Information Transfer)	41](#3.-5.14-—-overdragen-van-informatie-\(information-transfer\))
+[12.3 Beperkingen in validatie	44](#12.3-beperkingen-in-validatie)
 
-[4\. 8.8 — Beheer van technische kwetsbaarheden	41](#4.-8.8-—-beheer-van-technische-kwetsbaarheden)
+[12.4 Resterende risico’s na mitigatie	44](#12.4-resterende-risico’s-na-mitigatie)
 
-[5\. 8.31 — Scheiding van ontwikkel-, test- en productieomgevingen	41](#5.-8.31-—-scheiding-van-ontwikkel-,-test--en-productieomgevingen)
+[12.5 Conclusie	44](#12.5-conclusie)
 
-[6\. 8.9 — Configuratiebeheer (Configuration Management)	42](#6.-8.9-—-configuratiebeheer-\(configuration-management\))
+[**13\. Conclusie en Advies	45**](#13.-conclusie-en-advies)
 
-[7\. 8.28 — Veilig coderen (Secure Coding)	42](#7.-8.28-—-veilig-coderen-\(secure-coding\))
+[13.1 Advies	45](#13.1-advies)
 
-[8\. 8.29 — Testen van de beveiliging tijdens ontwikkeling en acceptatie	42](#8.-8.29-—-testen-van-de-beveiliging-tijdens-ontwikkeling-en-acceptatie)
+[Prioriteit 1: direct uitvoeren (korte termijn)	45](#prioriteit-1:-direct-uitvoeren-\(korte-termijn\))
 
-[SBOM	43](#sbom)
+[Prioriteit 2: hardening en borging (middellange termijn)	45](#prioriteit-2:-hardening-en-borging-\(middellange-termijn\))
 
-[SAST-uitvoer & SCA	43](#sast-uitvoer-&-sca)
+[Prioriteit 3: structurele risicoreductie (lange termijn)	46](#prioriteit-3:-structurele-risicoreductie-\(lange-termijn\))
 
-[Snyk Samenvatting	43](#snyk-samenvatting)
+[13.2 Vervolgstappen en besluit	46](#13.2-vervolgstappen-en-besluit)
 
-[Volledige Tabel Snyk	44](#volledige-tabel-snyk)
+[**14\. Bijlagen	47**](#14.-bijlagen)
 
-[Volledige Tabel Sonarqube	49](#volledige-tabel-sonarqube)
+[Traceability Matrix: NEN-7510-2:2024 Controls	47](#traceability-matrix:-nen-7510-2:2024-controls)
 
-[Risicomatrix	53](#risicomatrix)
+[Legenda Status:	47](#legenda-status:)
 
-[Bow-tie diagrammen / Threat Model	57](#bow-tie-diagrammen-/-threat-model)
+[1\. 8.15 — Logging	47](#1.-8.15-—-logging)
 
-[Threat Model	57](#threat-model)
+[2\. 5.15 — Toegangsbeveiliging (Access Control)	47](#2.-5.15-—-toegangsbeveiliging-\(access-control\))
 
-[Bow-tie diagrammen	58](#bow-tie-diagrammen)
+[3\. 5.14 — Overdragen van informatie (Information Transfer)	48](#3.-5.14-—-overdragen-van-informatie-\(information-transfer\))
 
-[Snyk-rapport	59](#snyk-rapport)
+[4\. 8.8 — Beheer van technische kwetsbaarheden	48](#4.-8.8-—-beheer-van-technische-kwetsbaarheden)
 
-[CRA-mapping	59](#cra-mapping)
+[5\. 8.31 — Scheiding van ontwikkel-, test- en productieomgevingen	48](#5.-8.31-—-scheiding-van-ontwikkel-,-test--en-productieomgevingen)
 
-[Evaluatie per CRA-verplichting	59](#evaluatie-per-cra-verplichting)
+[6\. 8.9 — Configuratiebeheer (Configuration Management)	49](#6.-8.9-—-configuratiebeheer-\(configuration-management\))
 
-[Samenvatting van de resultaten	61](#samenvatting-van-de-resultaten)
+[7\. 8.28 — Veilig coderen (Secure Coding)	49](#7.-8.28-—-veilig-coderen-\(secure-coding\))
 
-[Aansluiting bij de NEN-7510	62](#aansluiting-bij-de-nen-7510)
+[8\. 8.29 — Testen van de beveiliging tijdens ontwikkeling en acceptatie	49](#8.-8.29-—-testen-van-de-beveiliging-tijdens-ontwikkeling-en-acceptatie)
 
-[Overige bewijsvoering	62](#overige-bewijsvoering)
+[SBOM	50](#sbom)
 
-[Pentesting Jupyter Notebook	62](#pentesting-jupyter-notebook)
+[SAST-uitvoer & SCA	50](#sast-uitvoer-&-sca)
 
-[Developer Onboarding Readme	62](#developer-onboarding-readme)
+[Snyk Samenvatting	50](#snyk-samenvatting)
 
-[Github link	62](#github-link)
+[Volledige Tabel Snyk	51](#volledige-tabel-snyk)
+
+[Volledige Tabel Sonarqube	56](#volledige-tabel-sonarqube)
+
+[Risicomatrix	60](#risicomatrix)
+
+[Bow-tie diagrammen / Threat Model	64](#bow-tie-diagrammen-/-threat-model)
+
+[Threat Model	64](#threat-model)
+
+[Bow-tie diagrammen	65](#bow-tie-diagrammen)
+
+[Snyk-rapport	66](#snyk-rapport)
+
+[CRA-mapping	66](#cra-mapping)
+
+[Evaluatie per CRA-verplichting	66](#evaluatie-per-cra-verplichting)
+
+[Samenvatting van de resultaten	68](#samenvatting-van-de-resultaten)
+
+[Aansluiting bij de NEN-7510	69](#aansluiting-bij-de-nen-7510)
+
+[Overige bewijsvoering	69](#overige-bewijsvoering)
+
+[Pentesting Jupyter Notebook	69](#pentesting-jupyter-notebook)
+
+[Developer Onboarding Readme	69](#developer-onboarding-readme)
+
+[Github link	69](#github-link)
 
 # 
 
@@ -706,7 +734,11 @@ De security code review heeft aantoonbaar geleid tot concrete mitigaties op de m
 
 # 8\. Analyse Onderhoudbaarheid {#8.-analyse-onderhoudbaarheid}
 
-## 8.1 Nulmeting metrieken (Cognitive Complexity, Code Smells, Technical Debt) {#8.1-nulmeting-metrieken-(cognitive-complexity,-code-smells,-technical-debt)}
+## 8.1 Non functional requirements {#8.1-non-functional-requirements}
+
+Voordat je begint met een analyse is het goed om vast te stellen wat je requirements zijn. Deze kunnen we dan gebruiken om andere maatregelen te vinden.
+
+## 8.2 Nulmeting metrieken (Cognitive Complexity, Code Smells, Technical Debt) {#8.2-nulmeting-metrieken-(cognitive-complexity,-code-smells,-technical-debt)}
 
 De nulmeting is uitgevoerd via SonarQube op 2026-06-29 bij commit [d30fff0](https://github.com/Avans-2-4/Appointment-Scheduling-Audit/tree/d30fff0001a3aaf5310a71761bc0f64ee05a3b2e). Dit is de status van de applicatie waar we vanaf gaan werken. Hierbij nemen we de security informatie niet mee van Sonarqube omdat we daar van te voren al aan hebben gewerkt en het niks te maken heeft met onderhoudbaarheid.
 
@@ -738,9 +770,9 @@ Ook willen we natuurlijk dat onze applicatie onder deze voorwaarden valt voor al
 
 Maar dat betekent zeker niet dat we geen verbeteringen zullen toepassen op andere plekken.
 
-## 8.2 Identificatie van knelpunten in de codebase {#8.2-identificatie-van-knelpunten-in-de-codebase}
+## 8.3 Identificatie van knelpunten in de codebase {#8.3-identificatie-van-knelpunten-in-de-codebase}
 
-### Sonarqube tabel
+### Sonarqube tabel {#sonarqube-tabel}
 
 Hieronder is een tabel weergegeven met de 5 meest voorkomende problemen in Sonarqube.
 
@@ -757,7 +789,7 @@ Als we dan kijken naar **S1192** zijn dat 49 gevallen die relatief snel opgelost
 Individuele knelpunten  
 Sonarqube is degene die aan ons kan laten weten dat er ergens duplicatie is, en dat kunnen wij dan op een mooie manier een oplossing voor verzinnen, dit doen we aan de hand van diagrammen om het voor onszelf makkelijker te maken.
 
-#### String Duplicatie
+#### String Duplicatie {#string-duplicatie}
 
 SonarQube heeft 49 gevallen (regel **S1192**) gevonden waarbij dezelfde tekst letterlijk op meerdere plekken in de code herhaald wordt, zonder dat deze als constante gedefinieerd is. De ergste gevallen:
 
@@ -771,7 +803,7 @@ SonarQube heeft 49 gevallen (regel **S1192**) gevonden waarbij dezelfde tekst le
 
 Het risico: als een veldnaam ooit verandert, moet een ontwikkelaar op alle losse plekken zoeken en handmatig aanpassen. Wordt één plek gemist, dan bevat de applicatie een fout en mogelijk zonder dat iemand het doorheeft.
 
-#### Structurele Kopieën
+#### Structurele Kopieën {#structurele-kopieën}
 
 * In *AppointmentServiceImpl.java:1008–1137* zijn er 2 methodes die 65 lijnen lang zijn, en delen ongeveer 95% van de code.   
   * Het enige verschil is of ze *AppointmentType* of *Provider* gebruiken, en hoe de key wordt opgehaald.  
@@ -782,13 +814,13 @@ Het risico: als een veldnaam ooit verandert, moet een ontwikkelaar op alle losse
 
 Kopieën zorgen ervoor dat er een kans is dat bugfixes maar in 1 van de implementaties worden doorgevoerd.
 
-#### Monolith Klasse
+#### Monolith Klasse {#monolith-klasse}
 
 *AppointmentServiceImpl.java* is een bestand van **1.433 regels** met **7 gekoppelde datalagen** dat zes verschillende verantwoordelijkheden combineert: afsprakenbeheer (CRUD), boekingslogica, beschikbaarheidsberekening, analytics, statistische berekeningen en hulpfuncties voor patiënten en zorgverleners.  
 Dit noemen we een God Class: één klasse die te veel weet en te veel doet. Gevolg hiervan is dat elke andere component in de module afhankelijk is van precies deze klasse. Een wijziging in de analyticslogica kan daardoor onbedoeld de boekingslogica beïnvloeden, en omgekeerd.  
 Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6809**): de klasse moet zichzelf aanroepen via een omweg (*Context.getService(AppointmentService.class)*) om zijn eigen transactiebeveiliging te activeren. Dit is een teken dat functionaliteit die eigenlijk in aparte componenten thuishoort, nu samengepropt zit in één grote klasse.
 
-## 8.1 Eindmeting metrieken
+## 8.4 Eindmeting metrieken {#8.4-eindmeting-metrieken}
 
 | Metriek | Waarde Voor | Waarde Na | Verschil |
 | :---- | :---- | :---- | :---- |
@@ -826,12 +858,12 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
 | PatientToAppointmentDataEvaluator | PatientEvaluationContext | PatientDataService |
 | PersonToAppointmentDataEvaluator | PersonEvaluationContext | PersonDataService |
 
-* **Resultaat:** \~60 regels gedupliceerde HQL- en vertrouwelijkheidslogica zijn geëlimineerd. Bugfixes in de gedeelde logica hoeven voortaan nog maar op één plek doorgevoerd te worden.  
+* **Resultaat:** \~60 regels gedupliceerde HQL- en vertrouwelijkheidslogica zijn geëlimineerd. Bugfixes in de gedeelde logica hoeven voortaan nog maar op één plek doorgevoerd te worden. Van tevoren hadden we de test coverage van dit gedeelte verhoogt naar 100% om te zorgen dat we konden testen of dat onze aanpassingen werkten. Hiervoor hebben we 2 testen moeten toevoegen.  
 * **Afgewogen alternatieven:**  
   * Gedeelde helper class (*AppointmentDataEvaluatorHelper*), Maar de gedeelde logica is nauw gekoppeld aan de evaluatielifecycle (*evaluate()*\-signatuur). In een helper moeten de volledige context als parameters worden doorgegeven — meer boilerplate dan protected overerving.  
   * Default interface methodes (Java 8), maar dat kan geen instance-velden zoals *evaluationService* bevatten; vereist extra parameters per gedeelde methode. Voegt meer boilerplate toe dan het oplost.
 
-## 9.3 Herhaalde string literals
+## 9.3 Herhaalde string literals {#9.3-herhaalde-string-literals}
 
 * **Status:** Gerealiseerd in meerdere commits  
 * **Probleem:** SonarQube-regel S1192 wees 49 gevallen aan waarbij veldnamen zoals *"patient"*, *"timeSlot"* en *"startDate"* letterlijk op meerdere plekken herhaald werden in DAO- en REST-bestanden, zonder dat deze als constante gedefinieerd waren. Elke herbenoeming van een Hibernate-veld vereiste een handmatige zoek-en-vervang over meerdere bestanden waarbij één vergeten plek een stille fout introduceert.  
@@ -839,7 +871,7 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
   * Aparte constanten-interface of \-class (*AppointmentFields*) centraliseert alle constanten, maar breekt het principe dat elke domein class zijn eigen veld contract bezit. Als *Appointment.java* hernoemd wordt, zijn de constanten in een los bestand niet meer vanzelfsprekend gerelateerd.  
   * *@SuppressWarnings("java:S1192")* dempt de waarschuwing zonder het onderliggende risico van divergentie op te lossen.
 
-### Appointment en AppointmentBlock
+### Appointment en AppointmentBlock {#appointment-en-appointmentblock}
 
 * **Identifier:** MA-03  
 * **Aanpak:** We hebben vijf constanten toegevoegd aan *Appointment.java* (*FIELD\_PATIENT*, *FIELD\_TIME\_SLOT*, *FIELD\_STATUS*, *FIELD\_VOIDED*, *FIELD\_APPOINTMENT\_TYPE*) en zes aan *AppointmentBlock.java* (*FIELD\_START\_DATE*, *FIELD\_END\_DATE*, *FIELD\_PROVIDER*, *FIELD\_LOCATION*, *FIELD\_TYPES*, *FIELD\_VOIDED*). De vier bestanden die deze literals gebruikten verwijzen nu naar die constanten:  
@@ -849,7 +881,7 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
   * *AppointmentBlockResource1\_9.java* — verwijst nu naar *AppointmentBlock.FIELD\_\**  
 * **Resultaat:** 37 van de 49 S1192-schendingen opgelost.
 
-### AppointmentRequest en AppointmentRequestResource1\_9
+### AppointmentRequest en AppointmentRequestResource1\_9 {#appointmentrequest-en-appointmentrequestresource1_9}
 
 * **Identifier:** MA-04  
 * **Aanpak:** We hebben elf constanten toegevoegd aan *AppointmentRequest.java* voor alle velden die in de REST-laag herhaald werden (*FIELD\_PATIENT*, *FIELD\_APPOINTMENT\_TYPE,* *FIELD\_PROVIDER*, *FIELD\_STATUS*, *FIELD\_NOTES*, *FIELD\_REQUESTED\_BY*, *FIELD\_REQUESTED\_ON*, *FIELD\_MIN\_TIME\_FRAME\_VALUE*, *FIELD\_MIN\_TIME\_FRAME\_UNITS*, *FIELD\_MAX\_TIME\_FRAME\_VALUE*, *FIELD\_MAX\_TIME\_FRAME\_UNITS*). *AppointmentRequestResource1\_9.java* gebruikte elk van deze literals vier tot zes keer verspreid over vier methodes. Al deze plekken verwijzen nu naar *AppointmentRequest.FIELD\_\**.  
@@ -858,25 +890,25 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
     * De acht scalaire eigenschappen (*requestedOn*, *status*, de tijdveld-velden, *notes*, *voided*) kwamen identiek voor in zowel de Default- als de Full-representatie. Beide roepen nu een private methode *addSharedProperties(description)* aan.  
 * **Resultaat:** De overgebleven 12 S1192-schendingen opgelost. Alle 49 zijn nu opgelost.
 
-### HibernateProviderScheduleDAO
+### HibernateProviderScheduleDAO {#hibernateproviderscheduledao}
 
 * **Identifier:** MA-05  
 * **Aanpak:** De opmaak string *"HH:mm:ss"* werd vier keer herhaald in twee methodes. We hebben een private constante *TIME\_FORMAT* toegevoegd en alle vier de plekken vervangen. Daarnaast zijn twee geneste if-statements samengevoegd (S1066), en de tijd conditie is geëxtraheerd naar een private methode *isSpecificTime(Date date)*.  
 * **Resultaat:** De S1192-schending voor *"HH:mm:ss"* is opgelost. De cognitieve complexiteit van *getProviderScheduleByConstraints* daalde van 16 naar 14 (drempel: 15).
 
-## 9.4 Strategy Pattern: Vroege en late afspraken
+## 9.4 Strategy Pattern: Vroege en late afspraken {#9.4-strategy-pattern:-vroege-en-late-afspraken}
 
 * **Identifier:** MA-06  
 * **Status:** Gerealiseerd in commit *38527db*  
 * **Probleem:** In *AppointmentServiceImpl.java* (regels 1314–1348) zijn *getEarlyAppointments* en *getLateAppointments* vrijwel identiek. Het enige verschil zit in één predicaat: *.before(slot.getEndDate())* versus *.after(slot.getEndDate())*. Net als bij [§9.1](#9.1-duplicate-analytische-methodes) betekent dit dat een bugfix in de gedeelde integratie logica op twee plekken doorgevoerd moet worden.  
-* **Aanpak:** Het idee is om een gedeelde private methode *getAppointmentsByTiming* te maken die de integratie logica bevat. De twee publieke methodes roepen die dan aan met een eigen *Predicate\<Appointment\>* die het tijdstipcriterium bepaalt.  
+* **Aanpak:** Het idee is om een gedeelde private methode *getAppointmentsByTiming* te maken die de integratie logica bevat. De twee publieke methodes roepen die dan aan met een eigen *Predicate\<Appointment\>* die het tijdstip criterium bepaalt.  
   ![][image16]  
-* **Resultaat:** De twee methodes samen (\~35 regels) worden teruggebracht naar \~12 regels. Het toevoegen van een derde variant (bijv. *getOnTimeAppointments*) vereist alleen een nieuw predicaat, geen nieuwe gedupliceerde methode.  
+* **Resultaat:** De twee methodes samen (\~35 regels) worden teruggebracht naar \~12 regels. Het toevoegen van een derde variant (bijv. *getOnTimeAppointments*) vereist alleen een nieuw predicaat, geen nieuwe gedupliceerde methode. Van tevoren hadden we de test coverage van dit gedeelte verhoogt naar 100% om te zorgen dat we konden testen of dat onze aanpassingen werkten. Hiervoor hebben we 5 testen moeten toevoegen.  
 * **Afgewogen alternatieven:**  
   * Enkelvoudige methode met boolean vlag (genaamd “isEarly”). Dit is technisch eenvoudig, maar een boolean als gedragsschakelaar is een bekend leesbaarheidsantipatroon: op de aanroepplaats is niet direct duidelijk wat *true* of *false* betekent. En niet uitbereidbaar.  
   * Enum-gebaseerde dispatch (*TimingMode.EARLY / LATE*). Dit voegt een enum-class en een switch-statement toe voor wat een binaire keuze is; meer code dan het wegneemt.
 
-## 9.5 Facade Decomposition: AppointmentServiceImpl
+## 9.5 Facade Decomposition: AppointmentServiceImpl {#9.5-facade-decomposition:-appointmentserviceimpl}
 
 * **Identifier:** MA-07  
 * **Status:** Aanbevolen  
@@ -888,7 +920,7 @@ Een concreet symptoom hiervan is zichtbaar op drie plekken (SonarQube regel **S6
   * Volledige interface-splitsing (aparte sub-interfaces voor *AppointmentService*). Dit is ideaal voor testbaarheid, maar breekt de publieke OpenMRS-module-API en vereist een major version bump. Dit is niet realistisch zonder afstemming met de bredere OpenMRS-gemeenschap.  
   * Alleen de drie S6809-plekken fixen via *@Autowired self*. Dit lost de directe SonarQube-schendingen op zonder herstructurering. Zinvol als tussenoplossing, maar pakt de onderliggende God Class-koppeling niet aan.
 
-## 9.x Veranderingen Matrix
+## 9.x Veranderingen Matrix {#9.x-veranderingen-matrix}
 
 | Identifier | Implementatie Snelheid | Impact | Totaal | Opmerking |
 | :---- | :---- | :---- | :---- | :---- |
@@ -993,9 +1025,9 @@ Conclusie: de beoogde beveiligingslogica functioneert correct op componentniveau
 
 In Sonarqube kunnen we zien (dankzij Jacoco) hoeveel test coverage onze plugin heeft, dat wil zeggen hoeveel % van alle mogelijke paden bewandeld worden in onze testen, dit is 46.7%. Deze score is niet aangepast omdat onze focus niet lag op het toevoegen van nieuwe unit testen. Wat ons wel is opgevallen is dat het % van de test coverage per file exponentieel toenemen, dit wil zeggen dat de meeste bestanden (vrijwel) helemaal gecoverd zijn, of (vrijwel) helemaal niet. Dit wijst er op dat de makers hetzelfde idee hadden als wij, namelijk: Cover de belangrijkste processen zo volledig mogelijk, en de rest is minder belangrijk. Dat is waarom die 46.7% een misleidend nummer is, het geeft niet aan wat je test. 
 
-### Extra testen
+### Extra testen {#extra-testen}
 
-Om te zorgen dat een groter gedeelte van onze applicatie getest wordt, hebben we meer unit testen toegevoegd. Hieronder is een screenshot van Sonarqube waarbij je de verhoging van de Test Coverage kan zien.  
+Voordat wij een aanpassing maken willen we eerst dat onze code getest wordt. Zo kunnen wij bij onze aanpassingen direct weten of we een fout hebben gemaakt. Zo hebben we voor MA-02 twee testen toegevoegd voor we te werk gingen, en bij MA-06 vijf testen toegevoegd. Na het maken van onze aanpassingen was het soms ook nodig om nieuwe testen toe te voegen, bij alle nieuwe methodes en klassen die we hebben toegevoegd hebben we ook testen toegevoegd om te zorgen dat alles wat wij aanraken direct te voorzien van alle benodigde maatregelen die een applicatie goed maakt.  
 Before:  
 ![][image18]  
 After:  
